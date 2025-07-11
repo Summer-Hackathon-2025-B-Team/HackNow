@@ -10,7 +10,7 @@ Collaborative task management for hackathon teams.
 ### ディレクトリ構造（初期）
 ```
 hacknest-teamb/  
-| app/  
+|--- app/  
 |    |--- manage.py/  
 |--- docker/  
 |    |--- Dockerfile
@@ -47,7 +47,7 @@ DJANGO_DEBUG=True                    # デバッグするならTrue、本番や�
 
 ```
 
-### SECRET_KEY生成方法
+###  🔑SECRET_KEY生成方法
 ```
 #bash
 python -c "import secrets; print(secrets.token_urlsafe(50))"

@@ -10,7 +10,12 @@ Collaborative task management for hackathon teams.
 ### ディレクトリ構造（初期）
 ```
 hacknest-teamb/  
-|--- app/  
+|--- app/
+|    |--- config
+|    |    |--- asgi.py
+|    |    |--- settings.py
+|    |    |--- urls.py
+|    |    |--- wsgi.py
 |    |--- manage.py/  
 |--- docker/  
 |    |--- Dockerfile

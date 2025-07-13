@@ -64,7 +64,7 @@ python -c "import secrets; print(secrets.token_urlsafe(50))"
 docker compose up --build
 ```
 
-### 初回セットアップ
+### 初回セットアップ(まだやらない)
 1.データベースマイグレーション：
 ```
 #bash

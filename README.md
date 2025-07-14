@@ -7,16 +7,23 @@ Collaborative task management for hackathon teams.
 - MySQL 8.0
 - Docker / Docker Compose
 
-### ディレクトリ構造（初期）
+### ディレクトリ構造（開発前段階）
 ```
 hacknest-teamb/  
 |--- app/
+|    |--- apps/
 |    |--- config
 |    |    |--- asgi.py
 |    |    |--- settings.py
 |    |    |--- urls.py
 |    |    |--- wsgi.py
-|    |--- manage.py/  
+|    |--- manage.py
+|    |--- templates/
+|    |--- static/
+|    |    |--- css/
+|    |    |--- js/
+|    |    |--- images/
+|    |--- sql/
 |--- docker/  
 |    |--- Dockerfile
 |--- .env  

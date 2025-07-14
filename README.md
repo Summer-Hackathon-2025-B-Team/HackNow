@@ -9,7 +9,7 @@ Collaborative task management for hackathon teams.
 
 ### ディレクトリ構造（開発前段階）
 ```
-hacknest-teamb/  
+HackNow/  
 |--- app/
 |    |--- apps/
 |    |--- config
@@ -38,7 +38,7 @@ hacknest-teamb/
 
 ```
 #bash
-cp .env.example.env
+cp .env.example .env
 ```
 
 **.envの中身は以下のように設定してください(サンプル):**

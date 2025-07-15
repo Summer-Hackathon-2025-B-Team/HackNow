@@ -27,7 +27,7 @@ HackNow/
 |--- docker/  
 |    |--- Dockerfile
 |--- .env  
-|--- .env.example #環境変数のテンプレート  
+|--- .env.sample #環境変数のテンプレート  
 |--- docker-compose.yml  
 |--- requirements.txt  
 |___ README.md
@@ -38,7 +38,7 @@ HackNow/
 
 ```
 #bash
-cp .env.example .env
+cp .env.sample .env
 ```
 
 **.envの中身は以下のように設定してください(サンプル):**

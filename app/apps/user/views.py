@@ -10,7 +10,7 @@ class SignupView(CreateView):
     template_name = "user/signup.html"
 
     # reverse_lazyはビューの定義時点でURLを解決するのではなく、遅延評価
-    success_url = reverse_lazy("user:signup")
+    success_url = reverse_lazy("home:index")
 
     # フォームのバリデーションが問題ない時に実行
     def form_valid(self, form):

@@ -144,3 +144,6 @@ LOGIN_URL = "user:login"
 
 # ログイン後の遷移先（一旦ログイン画面）
 LOGIN_REDIRECT_URL = "user:login"
+
+# ログアウト時の遷移先（ログイン画面）
+LOGOUT_REDIRECT_URL = "user:login"

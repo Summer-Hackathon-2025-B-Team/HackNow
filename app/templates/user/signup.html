@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hack-Now|新規登録</title>
+    </head>
+
+    <body>
+
+        <div class="auth-container">
+            <div class="auth-box">
+                <p>新規登録</p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    {% for field in form %}
+                        <div class="input_item">
+                            <label for="{{ field.id_for_label }}" class="form-label">
+                                {{ field.label }}
+                            </label>
+                            <br>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-error">
+                                    {{ field.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <br>
+                    {% endfor %}
+                            
+                    <button type="submit" class="button_decision">
+                        登録
+                    </button>
+                </form>
+
+                <a href="{% url 'user:signup' %}" class="moving_link">
+                    ログイン画面に戻る
+                </a>
+
+            </div>
+        </div>
+
+    </body>
+</html>

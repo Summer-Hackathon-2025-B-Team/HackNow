@@ -1,52 +1,63 @@
-<!doctype html>
-<html lang="ja">
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ログイン{% endblock %}
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Hack-Now|ログイン</title>
-    </head>
+{% block content %}
 
-    <body>
+    <div class="text-center mb-5">
+        <h2><strong>ログイン</strong></h2>
+    </div>
 
-        <div class="auth-container">
-            <div class="auth-box">
-                <p>ログイン</p>
+    <form method="post">
+        {% csrf_token %}
 
-                <form method="post">
-                    {% csrf_token %}
+        <div class="container-fluid">
 
-                    <div class="input_item">
-                        {{ form.username.label_tag }}　
-                        {{ form.username }}
-                    </div>
-                    <br>
-                
-                    <div class="input_item">
-                        {{ form.password.label_tag }}　　　
-                        {{ form.password }}
-                    </div>
-                    <br>
+            <div class="row mb-4">
+                <div class="col-md-3"></div>
+                <div class="col-md-2 ms-5">
+                    {{ form.username.label }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.username }}
+                </div>
+                <div class="col-md-3"></div>
+            </div>
 
+            <div class="row mb-5">
+                <div class="col-md-3"></div>
+                <div class="col-md-2 ms-5">
+                    {{ form.password.label }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.password }}
+                </div>
+                <div class="col-md-3"></div>
+
+                <div class="text-center mt-3 text-danger">
                     {% if form.non_field_errors %} 
                         {% for error in form.non_field_errors %}
-                            <div class="text-error">
-                                {{ error }}
-                            </div>
+                            {{ error }}
                         {% endfor %} 
                     {% endif %}
-                
-                    <button type="submit" class="button_decision">
-                        ログイン
-                    </button>
-                </form>
-
-                <a href="{% url 'user:signup' %}" class="moving_link">
-                    新規登録はこちら
-                </a>
+                </div>
 
             </div>
+
         </div>
 
-    </body>
-</html>
+        <div class="text-center mb-5">
+            <button type="submit" class="btn btn-primary btn-layout">
+                ログイン
+            </button>
+        </div>
+
+    </form>
+
+    <div class="text-center">
+        <a href="{% url 'user:signup' %}" class="btn btn-secondary btn-layout">
+            新規登録はこちら
+        </a>
+    </div>
+
+{% endblock content %}

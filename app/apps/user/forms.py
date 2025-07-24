@@ -19,6 +19,9 @@ class SignUpForm(UserCreationForm):
        # nameフィールドにautofocusを追加（初期フォーカスが当たるようになる）
         self.fields['name'].widget.attrs.update({'autofocus': 'autofocus'})
 
+        self.fields['name'].label = 'ユーザ名'
+        self.fields['email'].label = 'メールアドレス'
+
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 

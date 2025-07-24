@@ -1,0 +1,95 @@
+body {
+    font-family: "MS Pゴシック" ;
+}
+
+/* ログイン画面関連 */
+.auth-area{
+    margin-left:400px;
+    margin-bottom: 50px;
+}
+
+/* サイドメニュー関連 */
+.sidemenu {
+    background-color: #ECE8E9;
+    height: 100vh;
+}
+
+.menu-title {
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    font-size:20px;
+}
+
+.menu-title i {
+    margin-left:15px;
+    width:40px;
+}
+
+.submenu a {
+    display: block;
+    padding: 5px 0 5px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size:18px;
+}
+
+.submenu i {
+    width:40px;
+}
+
+.submenu a:hover {
+    text-decoration: underline;
+}
+
+.logout a {
+    text-decoration: none;
+    color: black;
+}
+
+.logout a:hover {
+    text-decoration: underline;
+}
+
+
+/* ホーム画面関連 */
+.content {
+    padding: 50px;
+}
+
+/* ボタン関連 */
+.btn-layout{
+    width:200px;
+    margin:0 auto;
+    box-shadow: 3px 3px 3px gray;
+}
+
+.alert-box {
+    margin-bottom: 15px;
+}
+
+.deadline {
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+
+table{
+    width:1000px;
+    margin:20px auto;
+    border:1px black solid;
+}
+
+thead{
+    background-color:#ECE8E9 ;
+    text-align: center;
+}
+
+.cell-layout{
+    border:1px gray solid;
+    padding:5px;
+}
+

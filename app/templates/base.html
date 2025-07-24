@@ -1,0 +1,140 @@
+{% load static %}
+<!doctype html>
+<html lang="ja">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hack-Now | {% block title %}{% endblock title %}</title>
+
+        <!-- ファビコン設定 -->
+        <link rel="icon" href="{% static 'images/favicon.ico' %}">
+
+        <!-- bootstrap設定 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+        <!-- css設定 -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/stylesheets.css' %}">
+
+    </head>
+
+    <body>
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <!-- サイドバー -->
+                <nav class="col-md-2 sidemenu">
+
+                    <!-- アプリロゴ表示（押下するとホーム画面へ） -->
+                    <div class="text-center mt-4 mb-5">
+                        <a href="{% url 'home:index' %}">
+                            <img src="{% static 'images/logo.png' %}" width="220" height="40">
+                        </a>
+                    </div>
+
+                    <!-- ログインしている場合のみ表示 -->
+                    {% if user.is_authenticated %}
+
+                        <!-- 一般ユーザ用メニュー -->
+                        {% if not user.is_staff %}
+
+                            <!-- アカウント情報 -->
+                            <div class="mb-4">
+                                <div class="menu-title" data-bs-toggle="collapse" data-bs-target="#submenu1" aria-expanded="false">
+                                    <i class="fas fa-bars"></i> アカウント管理
+                                </div>
+                                <div class="collapse submenu" id="submenu1">
+                                    <a href="#"><i class="fas fa-id-card"></i> ユーザ情報</a>
+                                </div>
+                            </div>
+
+                            <!-- 各種管理 -->
+                            <div class="mb-4">
+                                <div class="menu-title" data-bs-toggle="collapse" data-bs-target="#submenu2" aria-expanded="false">
+                                    <i class="fas fa-bars"></i> 各種管理
+                                </div>
+                                <div class="collapse submenu" id="submenu2">
+                                    <a href="#"><i class="fas fa-calendar-alt"></i> ミーティング管理</a>
+                                    <a href="#"><i class="fas fa-tasks"></i> タスク管理</a>
+                                    <a href="#"><i class="fas fa-link"></i> 資料リンク管理</a>
+                                    <a href="#"><i class="fas fa-book"></i> ナレッジ管理</a>
+                                </div>
+                            </div>
+
+                            <!-- 参考情報 -->
+                            <div class="mb-4">
+                                <div class="menu-title" data-bs-toggle="collapse" data-bs-target="#submenu3" aria-expanded="false">
+                                    <i class="fas fa-bars"></i> 参考情報
+                                </div>
+                                <div class="collapse submenu" id="submenu3">
+                                    <a href="#"><i class="fas fa-info-circle"></i> ハッカソン参考情報</a>
+                                    <a href="#"><i class="fas fa-play-circle"></i> 過去ハッカソン情報</a>
+                                </div>
+                            </div>
+
+                        <!-- 管理者用メニュー -->
+                        {% else %}
+
+                            <!-- アカウント情報 -->
+                            <div class="mb-4">
+                                <div class="menu-title" data-bs-toggle="collapse" data-bs-target="#submenu1" aria-expanded="false">
+                                    <i class="fas fa-bars"></i> アカウント管理
+                                </div>
+                                <div class="collapse submenu" id="submenu1">
+                                    <a href="#"><i class="fas fa-id-card"></i> ユーザ情報</a>
+                                </div>
+                            </div>
+
+                            <!-- 各種管理 -->
+                            <div class="mb-4">
+                                <div class="menu-title" data-bs-toggle="collapse" data-bs-target="#submenu2" aria-expanded="false">
+                                    <i class="fas fa-bars"></i> 各種管理
+                                </div>
+                                <div class="collapse submenu" id="submenu2">
+                                    <a href="#"><i class="fas fa-sitemap"></i> コース情報</a>
+                                    <a href="#"><i class="fas fa-user-group"></i> チーム情報</a>
+                                    <a href="#"><i class="fas fa-info-circle"></i> ハッカソン参考情報</a>
+                                    <a href="#"><i class="fas fa-play-circle"></i> 過去ハッカソン情報</a>
+                                </div>
+                            </div>
+
+                        {% endif %}
+
+                        <div class="menu-title mt-4">
+
+                            <!-- ログアウトはPOST処理が必要、かつボタンではなくaタグを使いたいので、Javascriptの仕組みでform起動 -->
+                            <form id="logout-form" action="{% url 'user:logout' %}" method="post" style="display: none;">
+                                {% csrf_token %}
+                            </form>
+                            <div class="logout">
+                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fas fa-sign-out-alt"></i> ログアウト
+                                </a>
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                </nav>
+
+                <!-- メインコンテンツ -->
+                <main class="col-md-10 content">
+
+                    {% block content %}{% endblock content %}
+
+                    <footer class="bg-light text-center py-2 fixed-bottom border-top">
+                        Hackathon 2025 Summer B-Team
+                    </footer>
+                </main>
+            </div>
+        </div>
+
+        <!-- Bootstrap 5 JS & Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

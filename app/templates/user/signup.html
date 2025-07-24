@@ -1,48 +1,57 @@
-<!doctype html>
-<html lang="ja">
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}新規登録{% endblock %}
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Hack-Now|新規登録</title>
-    </head>
+{% block content %}
 
-    <body>
+    <div class="container-fluid">
 
-        <div class="auth-container">
-            <div class="auth-box">
-                <p>新規登録</p>
+        <div class="row">
 
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.non_field_errors }}
+            <div class="text-center mb-5">
+                <h2><strong>新規登録</strong></h2>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <div class="auth-area">
+
                     {% for field in form %}
-                        <div class="input_item">
-                            <label for="{{ field.id_for_label }}" class="form-label">
+
+                        <div class="form-group mb-3">
+                            <div>
                                 {{ field.label }}
-                            </label>
-                            <br>
-                            {{ field }}
-                            {% if field.errors %}
-                                <div class="text-error">
-                                    {{ field.errors }}
-                                </div>
-                            {% endif %}
+                            </div>
+                            <div class="w-50">
+                                {{ field }}
+                            </div>                        
                         </div>
-                        <br>
+
+                        {% if field.errors %}
+                            <div class="text-danger">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+
                     {% endfor %}
-                            
-                    <button type="submit" class="button_decision">
+                </div>
+
+                <div class="text-center mb-5">
+                    <button type="submit" class="btn btn-primary btn-layout">
                         登録
                     </button>
-                </form>
+                </div>
 
-                <a href="{% url 'user:login' %}" class="moving_link">
-                    ログイン画面に戻る
-                </a>
+            </form>
 
-            </div>
+            <a href="{% url 'user:login' %}" class="btn btn-secondary btn-layout">
+                ログイン画面に戻る
+            </a>
+
         </div>
-
-    </body>
-</html>
+    </div>
+                        
+{% endblock content %}

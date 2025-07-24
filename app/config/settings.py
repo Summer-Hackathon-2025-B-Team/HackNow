@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.user.apps.UserConfig',
+    'apps.home.apps.HomeConfig',
 ]
 
 MIDDLEWARE = [
@@ -142,8 +143,8 @@ AUTH_USER_MODEL = 'user.User'
 # 未ログイン時の遷移先（ログイン画面）
 LOGIN_URL = "user:login"
 
-# ログイン後の遷移先（一旦ログイン画面）
-LOGIN_REDIRECT_URL = "user:login"
+# ログイン後の遷移先（ホーム画面）
+LOGIN_REDIRECT_URL = "home:index"
 
 # ログアウト時の遷移先（ログイン画面）
 LOGOUT_REDIRECT_URL = "user:login"

@@ -138,3 +138,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 認証ユーザモデルとしてUserテーブルを利用
 AUTH_USER_MODEL = 'user.User'
+
+# 未ログイン時の遷移先（ログイン画面）
+LOGIN_URL = "user:login"
+
+# ログイン後の遷移先（一旦ログイン画面）
+LOGIN_REDIRECT_URL = "user:login"

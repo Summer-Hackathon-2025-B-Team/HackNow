@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ホーム{% endblock %}
+
+{% block content %}
+
+    <div class="text-center mb-5">
+        <h3><strong>{{ user.name }}さんの作業ルーム</strong></h3>
+    </div>
+
+    <div class="alert alert-danger alert-box">
+        <p><i class="fas fa-exclamation-triangle"></i> 「ER図作成」のタスクが本日期限となります。</p>
+        <p><i class="fas fa-exclamation-triangle"></i> 「画面遷移図」のタスクが期限切れとなっています。</p>
+    </div>
+
+    <div class="alert alert-success alert-box">
+        <p><i class="fas fa-info-circle"></i> 次のミーティングは X月X日(X) XX時 です。</p>
+    </div>
+
+    <div class="deadline text-center">
+        <p>中間発表（X月X日）まで　残り <span class="text-danger fw-bold">XX</span>日！</p>
+        <p>最終発表（X月X日）まで　残り <span class="text-danger fw-bold">XX</span>日！</p>
+    </div>
+
+{% endblock content %}

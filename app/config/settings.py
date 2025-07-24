@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.user.apps.UserConfig',
+    'apps.home.apps.HomeConfig',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +60,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,7 +127,24 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# staticディレクトリの定義
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 認証ユーザモデルとしてUserテーブルを利用
+AUTH_USER_MODEL = 'user.User'
+
+# 未ログイン時の遷移先（ログイン画面）
+LOGIN_URL = "user:login"
+
+# ログイン後の遷移先（ホーム画面）
+LOGIN_REDIRECT_URL = "home:index"
+
+# ログアウト時の遷移先（ログイン画面）
+LOGOUT_REDIRECT_URL = "user:login"

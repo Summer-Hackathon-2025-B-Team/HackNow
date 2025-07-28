@@ -66,6 +66,28 @@ body {
     box-shadow: 3px 3px 3px gray;
 }
 
+.btn-adjustment{
+    margin-right:220px; /* 新規登録ボタンの位置調整 */
+}
+
+.btn-layout-small{
+    width:80px;
+    margin:5px auto;
+    font-weight: bold;
+    box-shadow: 3px 3px 3px gray;
+}
+
+.btn-adjustment{
+
+}
+
+/* トグルボタン関連 */
+.switch-large .form-check-input {
+    width: 3em;
+    height: 1.5em;
+}
+
+
 .alert-box {
     margin-bottom: 15px;
 }
@@ -76,20 +98,12 @@ body {
     margin-top: 30px;
 }
 
-
-table{
-    width:1000px;
-    margin:20px auto;
-    border:1px black solid;
-}
-
 thead{
     background-color:#ECE8E9 ;
     text-align: center;
 }
 
-.cell-layout{
+th, td{
     border:1px gray solid;
     padding:5px;
 }
-

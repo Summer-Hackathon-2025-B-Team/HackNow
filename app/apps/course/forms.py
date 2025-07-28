@@ -2,7 +2,7 @@ from django import forms
 from .models import Course
 from django.forms.widgets import DateInput
 
-class CreateCourseForm(forms.ModelForm):
+class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ('name', 'Interim_report_date', 'last_report_date', 'activity_status')

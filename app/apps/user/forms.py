@@ -16,8 +16,16 @@ class SignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
 
-       # nameフィールドにautofocusを追加（初期フォーカスが当たるようになる）
-        self.fields['name'].widget.attrs.update({'autofocus': 'autofocus'})
+        # nameフィールドにautofocusを追加（初期フォーカスが当たるようになる）
+        self.fields['name'].widget.attrs.update({
+            'autofocus': 'autofocus',
+            'autocomplete': 'nickname',
+        })
+
+        # emailフィールドにautocomplete=usernameを追加（ログイン時のIDがemailであることを明示）
+        self.fields['email'].widget.attrs.update({
+            'autocomplete': 'username',
+        })
 
         self.fields['name'].label = 'ユーザ名'
         self.fields['email'].label = 'メールアドレス'
@@ -31,9 +39,20 @@ class LoginForm(AuthenticationForm):
     def __init__(self, request=None, *args, **kwargs):
         self.request = request
         super().__init__(request, *args, **kwargs)
+
         self.fields['username'].label = 'メールアドレス'
-        self.fields['username'].widget.attrs.update({'class': 'form-control'})
-        self.fields['password'].widget.attrs.update({'class': 'form-control'})
+
+        self.fields['username'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'メールアドレスを入力',
+            'autocomplete': 'username',
+        })
+
+        self.fields['password'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'パスワードを入力',
+            'autocomplete': 'current-password',
+        })
 
     def clean(self):
         email = self.cleaned_data.get('username') 

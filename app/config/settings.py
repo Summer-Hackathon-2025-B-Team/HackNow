@@ -43,7 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.user.apps.UserConfig',
     'apps.home.apps.HomeConfig',
+<<<<<<< HEAD
     'apps.task.apps.TaskConfig',
+=======
+    'apps.course.apps.CourseConfig',
+>>>>>>> develop
 ]
 
 MIDDLEWARE = [
@@ -54,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'config.middleware.authMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'

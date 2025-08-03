@@ -43,11 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.user.apps.UserConfig',
     'apps.home.apps.HomeConfig',
-<<<<<<< HEAD
     'apps.task.apps.TaskConfig',
-=======
     'apps.course.apps.CourseConfig',
->>>>>>> develop
 ]
 
 MIDDLEWARE = [

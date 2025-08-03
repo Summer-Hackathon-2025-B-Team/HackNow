@@ -1,0 +1,18 @@
+<!-- # base.htmlに記載されている内容をベースとして拡張する。 -->
+{% extents 'base.html' %}
+<!-- # base.htmlに記載されている{% block title %}{% endblock title %}などのブロックの中に個別のコードを書いていく -->
+{% block title %}タスク管理{% endblock %}
+
+{% block content %}
+<!-- itemを繰り返し処理 -->
+{% for item in object_list %}
+<ul>
+    <li>{{ item.assignee }}</li>
+    <li>{{ item.name }}</li>
+    <li>{{ item.get_priority_display }}</li>
+    <li>{{ item.start_date }}</li>
+    <li>{{ item.end_date }}</li>
+    <li>{{ item.get_status_display }}</li>
+</ul>
+{% endfor %}
+{% endblock content %}

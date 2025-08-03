@@ -1,5 +1,6 @@
 from django import forms
-from .models import Team, Course
+from .models import Team
+from apps.course.models import Course
 
 class TeamForm(forms.ModelForm):
     class Meta:

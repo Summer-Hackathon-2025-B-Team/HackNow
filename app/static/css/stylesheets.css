@@ -73,6 +73,31 @@ body {
     padding: 50px;
 }
 
+.alert-box{
+    background-color: #FFB6C1;
+    border:1px solid red;
+    border-radius: 5px;
+    padding:20px;
+    font-size:24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.info-box{
+    background-color: #98FB98;
+    border:1px solid green;
+    border-radius: 5px;
+    padding:20px;
+    font-size:24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.deadline {
+    font-size: 40px;
+    font-weight: bold;
+}
+
 /* ボタン関連 */
 .btn-layout{
     width:200px;
@@ -115,17 +140,7 @@ body {
     height: 1.5em;
 }
 
-
-.alert-box {
-    margin-bottom: 15px;
-}
-
-.deadline {
-    font-size: 40px;
-    font-weight: bold;
-    margin-top: 30px;
-}
-
+/* テーブル関連 */
 thead{
     background-color:#ECE8E9 ;
     text-align: center;

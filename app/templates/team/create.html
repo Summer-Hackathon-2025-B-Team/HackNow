@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}チーム情報登録{% endblock %}
+
+{% block content %}
+
+    <div class="text-center mb-5">
+        <h2><strong>チーム情報登録</strong></h2>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <div class="container-fluid">
+
+            <div class="row mb-5">
+
+                {% for field in form %}
+
+                    <div class="row mb-4">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-2 ms-5">
+                            {{ field.label }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ field }}
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                {% endfor %}
+            </div>
+
+            <div class="text-center mb-5">
+                <button type="submit" class="btn btn-primary btn-layout">
+                    登録
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+
+    <div class="text-center">
+        <a href="{% url 'team:index' %}" class="btn btn-secondary btn-layout">
+            チーム情報管理に戻る
+        </a>
+    </div>
+    
+{% endblock content %}

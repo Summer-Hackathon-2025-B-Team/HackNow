@@ -8,6 +8,7 @@ urlpatterns = [
     path('user/', include('apps.user.urls')),   
     path('home/', include('apps.home.urls')),   
     path('course/', include('apps.course.urls')),   
+    path('team/', include('apps.team.urls')),   
 ]
 
 # staticディレクトリを参照するための定義

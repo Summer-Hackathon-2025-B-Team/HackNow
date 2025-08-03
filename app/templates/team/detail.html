@@ -51,8 +51,9 @@
                     チームメンバー
                 </div>
                 <div class="col-md-4">
-                    {% for user in object.user_set.all %}
-                        {{ user.username }}
+                    {% for user in object.members.all %}
+                        {{ user.name }}
+                        <br>
                     {% empty %}
                         メンバーがいません
                     {% endfor %}

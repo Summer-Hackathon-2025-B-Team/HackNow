@@ -10,7 +10,8 @@ body {
 
 /* サイドメニュー関連 */
 .sidemenu {
-    background-color: #ECE8E9;
+    /* background-color: #ECE8E9; */
+    background-color: #353A40;
     height: 100vh;
 }
 
@@ -21,32 +22,45 @@ body {
     align-items: center;
     padding: 8px 0;
     font-size:20px;
+    color: white;
+    background-color: #4A4E53;
+    border:1px solid #CFCFCF;
 }
 
 .menu-title i {
     margin-left:15px;
     width:40px;
+    color: white;
+}
+
+.submenu {
+    cursor: pointer;
+    background-color: #5f5f5f;
+    border:1px solid #CFCFCF;
 }
 
 .submenu a {
     display: block;
     padding: 5px 0 5px 20px;
-    color: #333;
     text-decoration: none;
     font-size:18px;
+    color: white;
 }
 
 .submenu i {
-    width:40px;
+    width:30px;
+    color: white;
 }
 
 .submenu a:hover {
     text-decoration: underline;
+    background-color: gray;
+    font-weight: bold;
 }
 
 .logout a {
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 .logout a:hover {
@@ -59,6 +73,31 @@ body {
     padding: 50px;
 }
 
+.alert-box{
+    background-color: #FFB6C1;
+    border:1px solid red;
+    border-radius: 5px;
+    padding:20px;
+    font-size:24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.info-box{
+    background-color: #98FB98;
+    border:1px solid green;
+    border-radius: 5px;
+    padding:20px;
+    font-size:24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.deadline {
+    font-size: 40px;
+    font-weight: bold;
+}
+
 /* ボタン関連 */
 .btn-layout{
     width:200px;
@@ -66,8 +105,13 @@ body {
     box-shadow: 3px 3px 3px gray;
 }
 
-.btn-adjustment{
-    margin-right:220px; /* 新規登録ボタンの位置調整 */
+/* 新規登録ボタンの位置調整 */
+.btn-adjustment-course{
+    margin-right:220px; 
+}
+
+.btn-adjustment-team{
+    margin-right:240px; 
 }
 
 .btn-layout-small{
@@ -77,8 +121,17 @@ body {
     box-shadow: 3px 3px 3px gray;
 }
 
-.btn-adjustment{
+.btn-layout-small:hover{
+    background-color: #00BFFF;
+    color:black;
+}
 
+.btn-edit{
+    background-color: #1E90FF;
+}
+
+.btn-detail{
+    background-color: #87CEFA;
 }
 
 /* トグルボタン関連 */
@@ -87,17 +140,7 @@ body {
     height: 1.5em;
 }
 
-
-.alert-box {
-    margin-bottom: 15px;
-}
-
-.deadline {
-    font-size: 40px;
-    font-weight: bold;
-    margin-top: 30px;
-}
-
+/* テーブル関連 */
 thead{
     background-color:#ECE8E9 ;
     text-align: center;

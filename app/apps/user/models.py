@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from apps.team.models import Team
 import uuid
 
 # カスタムユーザのマネージャークラス（ユーザ作成用のロジックを提供）
@@ -54,8 +55,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     # 項目定義
-    # 【備忘】team_idはチーム管理テーブル作成後、外部キーにすること！
-    team_id = models.IntegerField(null=True, blank=True)
+
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True, related_name='members')
+
     name = models.CharField(max_length=20, null=False, blank=False, unique=True)
     email = models.EmailField(max_length=50, null=False, blank=False, unique=True)
     is_active = models.BooleanField(default=True)

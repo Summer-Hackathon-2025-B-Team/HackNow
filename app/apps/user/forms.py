@@ -1,7 +1,11 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import User
+from apps.team.models import Team
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import make_password
+import uuid
+from django.contrib.auth.password_validation import validate_password
 
 # カスタムユーザモデル用のユーザ登録フォーム
 # UserCreationFormはパスワードの確認など、ユーザー作成に必要な機能を備えたフォーム
@@ -67,3 +71,62 @@ class LoginForm(AuthenticationForm):
             self.confirm_login_allowed(self.user_cache)
         
         return self.cleaned_data
+
+# ユーザ情報フォーム
+class AccountForm(forms.ModelForm):
+
+    password = forms.CharField(
+        label='パスワード変更',
+        required=False, # 未入力（パスワード変更なし）でもOK
+
+        # <input type="password"> を使って「●●●」の見た目に        
+        # render_value=False：フォーム初期表示時に中身を空にする
+        widget=forms.PasswordInput(render_value=False), 
+    )
+
+    team_id_input = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'size': 40}),
+    )
+
+    class Meta:
+        model = User
+        fields = ('name', 'password')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # チームIDの初期値（既に設定があればそれを表示）
+        if self.instance.team:
+            self.fields['team_id_input'].initial = str(self.instance.team.id)
+
+        # ラベルの設定
+        self.fields['name'].label = 'ユーザ名'
+     
+        self.fields['password'].initial = ''
+
+    def clean_team_id_input(self):
+        team_id = self.cleaned_data.get('team_id_input')
+        if team_id:
+            try:
+                team_uuid = uuid.UUID(team_id)
+                return Team.objects.get(id=team_uuid)  # 存在チェック
+            except (ValueError, Team.DoesNotExist):
+                raise forms.ValidationError("有効なチームIDではありません。")
+        return None
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.team = self.cleaned_data.get('team_id_input')
+        if commit:
+            instance.save()
+        return instance
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if password:
+            validate_password(password)  # 長さ・数字・記号などDjangoの基準でチェック
+            return make_password(password)
+        else:
+            # 空欄の場合は元のパスワードをそのまま使う
+            return self.instance.password

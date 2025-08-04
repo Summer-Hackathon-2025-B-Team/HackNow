@@ -5,10 +5,10 @@ from django.forms.widgets import DateInput
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ('name', 'Interim_report_date', 'last_report_date', 'activity_status')
+        fields = ('name', 'interim_report_date', 'last_report_date', 'activity_status')
         # 日付フィールドにカレンダーを表示
         widgets = {
-            'Interim_report_date': DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'interim_report_date': DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'last_report_date': DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
 
@@ -26,7 +26,7 @@ class CourseForm(forms.ModelForm):
 
         # ラベルの設定
         self.fields['name'].label = 'コース名'
-        self.fields['Interim_report_date'].label = '中間発表日'
+        self.fields['interim_report_date'].label = '中間発表日'
         self.fields['last_report_date'].label = '最終発表日'
         self.fields['activity_status'].label = '活動ステータス'
 

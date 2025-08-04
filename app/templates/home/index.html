@@ -23,18 +23,23 @@
         <div class="deadline text-center">
 
             <!-- 一般ユーザ -->
-            {% if days_left_interim > 0 %}
-                <p>中間発表（{{ interim_report_date }}）まで　残り <span class="text-danger fw-bold">{{ days_left_interim }}</span> 日！</p>
-                <p>最終発表（{{ last_report_date }}）まで　残り <span class="text-danger fw-bold">{{ days_left_last }}</span> 日！</p>
-            {% elif days_left_interim == 0 %}
-                <p>今日は中間発表日です！<br>しっかり準備して臨みましょう！</p>
-            {% elif days_left_last > 0 %}
-                <p>最終発表（{{ last_report_date }}）まで　残り <span class="text-danger fw-bold">{{ days_left_last }}</span> 日！</p>
-            {% elif days_left_last == 0 %}
-                <p>今日は最終発表日です！<br>悔いが残らないよう全力で挑みましょう！</p>
-            {% else %}
-                <p>こちらのハッカソンは終了しました。<br>お疲れ様でした！</p>
+            {% if days_left_interim != "" %}
+
+                {% if days_left_interim > 0 %}
+                    <p>中間発表（{{ interim_report_date }}）まで　残り <span class="text-danger fw-bold">{{ days_left_interim }}</span> 日！</p>
+                    <p>最終発表（{{ last_report_date }}）まで　残り <span class="text-danger fw-bold">{{ days_left_last }}</span> 日！</p>
+                {% elif days_left_interim == 0 %}
+                    <p>今日は中間発表日です！<br>しっかり準備して臨みましょう！</p>
+                {% elif days_left_last > 0 %}
+                    <p>最終発表（{{ last_report_date }}）まで　残り <span class="text-danger fw-bold">{{ days_left_last }}</span> 日！</p>
+                {% elif days_left_last == 0 %}
+                    <p>今日は最終発表日です！<br>悔いが残らないよう全力で挑みましょう！</p>
+                {% else %}
+                    <p>こちらのハッカソンは終了しました。<br>お疲れ様でした！</p>
+                {% endif %}
+
             {% endif %}
+            
         </div>
 
     <!-- 管理ユーザ -->

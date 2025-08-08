@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}タスク詳細{% endblock %}
+
+{% block content %}
+<ul>
+  <li>{{ object.assignee }}</li>
+  <li>{{ object.name }}</li>
+  <li>{{ object.get_priority_display }}</li>
+  <li>{{ object.start_date }}</li>
+  <li>{{ object.end_date }}</li>
+  <li>{{ object.get_status_display }}</li>
+</ul>
+{% endblock content %}

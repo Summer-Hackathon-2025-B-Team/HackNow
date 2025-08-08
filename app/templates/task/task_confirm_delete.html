@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}タスク削除確認{% endblock %}
+
+{% block content %}
+    <h2>「{{ object.name }}」を削除しますか？</h2>
+    <p>この操作は取り消せません。</p>
+    <form method='post' action="">
+      {% csrf_token %}
+      <button type='submit'>{{ object.name }}削除</button>
+      <a href="{% url 'task:index' %}">キャンセル</a>
+    </form>
+{% endblock %}

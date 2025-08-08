@@ -1,4 +1,4 @@
-# Djangのモデル機能を使うためのインポート。models.
+# Djangoのモデル機能を使うためのインポート。models.
 from django.db import models
 # from django.conf import settings
 
@@ -55,5 +55,5 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
-        #明示的にテーブル名を指定（これをしないと、「アプリ名(小文字)_モデル名(小文字)」で自動命名される）
+        # 明示的にテーブル名を指定（これをしないと、「アプリ名(小文字)_モデル名(小文字)」で自動命名される)この指定をしないと、task_taskになります
         db_table = 'tasks'

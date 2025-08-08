@@ -61,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=20, null=False, blank=False, unique=True)
     email = models.EmailField(max_length=50, null=False, blank=False, unique=True)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False) 
+    is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -81,3 +81,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     # クリーンメソッド（保存前処理）
     def clean(self):
         super().clean()
+
+    def __str__(self):
+        return self.name

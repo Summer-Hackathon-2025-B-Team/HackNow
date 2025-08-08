@@ -10,6 +10,7 @@ urlpatterns = [
     path('course/', include('apps.course.urls')),   
     path('team/', include('apps.team.urls')),   
     path('past/', include('apps.past.urls')),   
+    path('task/',include('apps.task.urls')),
 ]
 
 # staticディレクトリを参照するための定義

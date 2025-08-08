@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}過去ハッカソン情報管理{% endblock %}
+
+{% block content %}
+
+    <div class="text-center mb-5">
+        <h2><strong>過去ハッカソン情報管理</strong></h2>
+    </div>
+
+    <div class="text-end mb-4 btn-adjustment-past">
+        <a href="{% url 'past:create' %}" class="btn btn-primary btn-layout">
+            新規登録
+        </a>
+    </div>
+
+    <table class="mb-5 mx-auto" width="1200">
+        <thead class="">
+            <tr>
+                <th width="120">カテゴリ</th>
+                <th width="200">アプリ名</th>
+                <th width="500">アプリ概要</th>
+                <th width="90">発表動画</th>
+                <th width="110">発表開始時間</th>
+                <th width="90">編集</th>
+                <th width="90">削除</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                <tr>
+                    <td class="">{{ item.category }}</td>
+                    <td class="">{{ item.name }}</td>
+                    <td class="">{{ item.description|linebreaksbr }}</td>
+                    <td class="text-center">
+                        <a href="{{ item.url }}">
+                            <button class="btn btn-edit btn-layout-small">リンク</button>
+                        </a>
+                    </td>
+                    <td class="">{{ item.start_time }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'course:edit' item.id %}">
+                            <button class="btn btn-edit btn-layout-small">編集</button>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a href="{% url 'course:edit' item.id %}">
+                            <button class="btn btn-edit btn-layout-small">削除</button>
+                        </a>
+                    </td>
+        
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
+            ホーム画面に戻る
+        </a>
+    </div>
+    <br><br>
+                        
+{% endblock content %}

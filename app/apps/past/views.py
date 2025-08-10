@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from .models import Past
@@ -52,3 +52,10 @@ def item_list_api(request):
     ]
 
     return JsonResponse({'items': data})
+
+# タスク削除
+def delete_view(request,pk):
+    # 該当レコードがなければ404エラーを返す
+    past_app = get_object_or_404(Past, pk=pk)
+    past_app.delete()
+    return redirect('past:index') 

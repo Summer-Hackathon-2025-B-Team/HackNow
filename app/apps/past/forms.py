@@ -17,7 +17,7 @@ class PastForm(forms.ModelForm):
         self.fields['start_time'].label = '発表開始時間'
 
         # 共通クラス追加
-        for field in self.fields.items():
+        for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
 class CategoryFilterForm(forms.Form):

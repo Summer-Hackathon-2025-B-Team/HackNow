@@ -19,3 +19,9 @@ class PastForm(forms.ModelForm):
         # 共通クラス追加
         for field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+
+class CategoryFilterForm(forms.Form):
+    category = forms.ChoiceField(
+        choices=[],  # 後でビューでセット
+        required=False
+    )

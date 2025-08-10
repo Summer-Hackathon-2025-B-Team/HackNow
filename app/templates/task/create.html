@@ -1,0 +1,55 @@
+<!-- このテンプレートはbase.htmlを継承します -->
+{% extends 'base.html' %}
+
+{% block title %}タスク登録{% endblock %}
+
+{% block content %}
+
+    <div class="text-center mb-5">
+        <h2><strong>タスク登録</strong></h2>
+    </div>
+
+    <!-- formを用いてデータを送るときのmethodはPOSTが使われる {% csrf_token %}はクロスサイトリクエストフォージェリのトークンが発行させる。これがないと処理を行えない。 -->
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <div class="container-fluid content-area">
+
+            <div class="row mb-5">
+
+                {% for field in form %}
+
+                    <div class="row mb-4">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-2 ms-5">
+                            {{ field.label }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ field }}
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                {% endfor %}
+            </div>
+            <br><br>
+
+            <div class="text-center mb-5">
+                <button type="submit" class="btn btn-primary btn-layout">
+                    登録
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+
+    <div class="text-center">
+        <a href="{% url 'task:index' %}" class="btn btn-secondary btn-layout">
+            タスク管理に戻る
+        </a>
+    </div>
+
+{% endblock content %}

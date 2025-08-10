@@ -4,55 +4,87 @@
 
 {% block content %}
 
-    <div class="text-center mb-5">
-        <h2><strong>過去ハッカソン情報管理</strong></h2>
-    </div>
+    <!-- 管理ユーザ -->
+    {% if user.is_staff %}
 
-    <div class="text-end mb-4 btn-adjustment-past">
-        <a href="{% url 'past:create' %}" class="btn btn-primary btn-layout">
-            新規登録
-        </a>
-    </div>
+        <div class="text-center mb-5">
+            <h2><strong>過去ハッカソン情報管理</strong></h2>
+        </div>
 
-    <table class="mb-5 mx-auto" width="1200">
-        <thead class="">
-            <tr>
-                <th width="120">カテゴリ</th>
-                <th width="200">アプリ名</th>
-                <th width="500">アプリ概要</th>
-                <th width="90">発表動画</th>
-                <th width="110">発表開始時間</th>
-                <th width="90">編集</th>
-                <th width="90">削除</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in object_list %}
+        <div class="text-end mb-4 btn-adjustment-past">
+            <a href="{% url 'past:create' %}" class="btn btn-primary btn-layout">
+                新規登録
+            </a>
+        </div>
+
+        <table class="mb-5 mx-auto" width="1200">
+            <thead class="">
                 <tr>
-                    <td class="">{{ item.category }}</td>
-                    <td class="">{{ item.name }}</td>
-                    <td class="">{{ item.description|linebreaksbr }}</td>
-                    <td class="text-center">
-                        <a href="{{ item.url }}">
-                            <button class="btn btn-edit btn-layout-small">リンク</button>
-                        </a>
-                    </td>
-                    <td class="">{{ item.start_time }}</td>
-                    <td class="text-center">
-                        <a href="{% url 'course:edit' item.id %}">
-                            <button class="btn btn-edit btn-layout-small">編集</button>
-                        </a>
-                    </td>
-                    <td class="text-center">
-                        <a href="{% url 'course:edit' item.id %}">
-                            <button class="btn btn-edit btn-layout-small">削除</button>
-                        </a>
-                    </td>
-        
+                    <th width="120">カテゴリ</th>
+                    <th width="200">アプリ名</th>
+                    <th width="500">アプリ概要</th>
+                    <th width="90">発表動画</th>
+                    <th width="110">発表開始時間</th>
+                    <th width="90">編集</th>
+                    <th width="90">削除</th>
                 </tr>
+            </thead>
+            <tbody>
+                {% for item in object_list %}
+                    <tr>
+                        <td class="">{{ item.category }}</td>
+                        <td class="">{{ item.name }}</td>
+                        <td class="">{{ item.description|linebreaksbr }}</td>
+                        <td class="text-center">
+                            <a href="{{ item.url }}">
+                                <button class="btn btn-edit btn-layout-small">リンク</button>
+                            </a>
+                        </td>
+                        <td class="">{{ item.start_time }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'course:edit' item.id %}">
+                                <button class="btn btn-edit btn-layout-small">編集</button>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'course:edit' item.id %}">
+                                <button class="btn btn-edit btn-layout-small">削除</button>
+                            </a>
+                        </td>
+            
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    <!-- 一般ユーザ（参照のみ） -->
+    {% else %}
+
+        <div class="text-center mb-5">
+            <h2><strong>過去ハッカソン情報</strong></h2>
+        </div>
+
+        <select id="categorySelect" class="category_select">
+            {% for value, label in categories %}
+                <option value="{{ value }}">{{ label }}</option>
             {% endfor %}
-        </tbody>
-    </table>
+        </select>
+
+        <table class="mb-5 mx-auto" width="1040">
+            <thead class="">
+                <tr>
+                    <th width="120">カテゴリ</th>
+                    <th width="200">アプリ名</th>
+                    <th width="500">アプリ概要</th>
+                    <th width="100">発表動画</th>
+                    <th width="120">発表開始時間</th>
+                </tr>
+            </thead>
+            <tbody id="itemTableBody">
+            </tbody>
+        </table>
+
+    {% endif %}
 
     <div class="text-center">
         <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
@@ -60,5 +92,46 @@
         </a>
     </div>
     <br><br>
-                        
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const categorySelect = document.getElementById('categorySelect');
+            const tableBody = document.getElementById('itemTableBody');
+
+            function fetchItems() {
+                const category = categorySelect.value;
+                const url = new URL("{% url 'past:item_list_api' %}", window.location.origin);
+                if (category) {
+                    url.searchParams.append('category', category);
+                }
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        tableBody.innerHTML = '';
+                        if (data.items.length === 0) {
+                            tableBody.innerHTML = '<tr><td colspan="5">該当するアイテムはありません。</td></tr>';
+                        } else {
+                            data.items.forEach(item => {
+                                const row = document.createElement('tr');
+                                const descriptionHtml = item.description.replace(/\n/g, '<br>'); // ★ 改行対応
+
+                                row.innerHTML = `
+                                    <td>${item.category}</td>
+                                    <td>${item.name}</td>
+                                    <td>${descriptionHtml}</td>
+                                    <td>${item.url ? `<a href="${item.url}" target="_blank"><button class="btn btn-edit btn-layout-small">リンク</button></a>` : ''}</td>
+                                    <td>${item.start_time}</td>
+                                `;
+                                tableBody.appendChild(row);
+                            });
+                        }
+                    });
+            }
+
+            categorySelect.addEventListener('change', fetchItems);
+            fetchItems(); // 初期表示
+        });
+    </script>
+
 {% endblock content %}

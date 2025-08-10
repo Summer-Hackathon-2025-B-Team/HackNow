@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from .models import Past
@@ -8,6 +9,15 @@ class ListPastView(ListView):
     template_name = 'past/index.html'
     model = Past
     ordering = ["-id"]
+
+    def get_category_choices(self):
+        categories = Past.objects.values_list('category', flat=True).distinct()
+        return [('', 'すべてのカテゴリ')] + [(c, c) for c in categories if c]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = self.get_category_choices()
+        return context
 
 class CreatePastView(CreateView):
     form_class = PastForm
@@ -21,20 +31,24 @@ class EditPastView(UpdateView):
     model = Past
     success_url = reverse_lazy("past:index")
 
-# カテゴリでの非同期フィルタ
-def category_filter(request):
 
-    category = request.GET.get('category')
+def item_list_api(request):
+    category = request.GET.get('category', '')
+    items = Past.objects.all()
+    items = Past.objects.all().order_by('-id')
 
     if category:
-        past_apps = Past.objects.filter(category=category)
-    else:
-        past_apps = Past.objects.all()
+        items = items.filter(category=category)
 
-    data = {'past_apps': [
+    data = [
         {
-            'category': Past.category, 
-        }for past_app in past_apps
-    ]}
+            'category': item.category,
+            'name': item.name,
+            'description': item.description,
+            'url': item.url,
+            'start_time': item.start_time
+        }
+        for item in items
+    ]
 
-    return JsonResponse(data)
+    return JsonResponse({'items': data})

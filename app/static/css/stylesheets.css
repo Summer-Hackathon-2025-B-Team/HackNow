@@ -121,6 +121,10 @@ body {
     margin-right:20px; 
 }
 
+.btn-adjustment-task{
+    margin-right:70px; 
+}
+
 .btn-layout-small{
     width:80px;
     margin:5px auto;
@@ -153,6 +157,19 @@ body {
     font-weight: bold;
 }
 
+/* タスク管理画面 */
+.status_checkbox{
+    margin-top:5px;
+    margin-left:80px;
+    font-size:20px;
+    font-weight: bold;
+}
+
+/* 過去ハッカソン情報画面 */
+.category_select{
+    margin-left:95px;
+    margin-bottom:20px;
+}
 
 /* テーブル関連 */
 thead{

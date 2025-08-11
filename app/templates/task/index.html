@@ -1,0 +1,139 @@
+<!-- # base.htmlに記載されている内容をベースとして拡張する。 -->
+{% extends 'base.html' %}
+{% block title %}タスク管理{% endblock %}
+
+{% block content %}
+
+    <div class="text-center mb-5">
+        <h2><strong>タスク管理</strong></h2>
+    </div>
+
+    <div>
+        <!-- ステータスチェックボックス -->
+        <div class="float-start status_checkbox">
+            <label class="form-check form-check-inline">
+            <input class="form-check-input status-filter" type="checkbox" value="1" checked>
+                未着手
+            </label>
+            <label class="form-check form-check-inline">
+            <input class="form-check-input status-filter" type="checkbox" value="2" checked>
+                対応中
+            </label>
+            <label class="form-check form-check-inline">
+            <input class="form-check-input status-filter" type="checkbox" value="3" checked>
+                完了
+            </label>
+        </div>
+
+        <div class="float-end mb-4 btn-adjustment-task">
+            <a href="{% url 'task:create' %}" class="btn btn-primary btn-layout">
+                <i class="fas fa-plus-circle"></i> 新規登録
+            </a>
+        </div>
+
+    </div>
+
+    <table class="mb-5 mx-auto" width="1100">
+        <thead class="">
+            <tr>
+                <th width="200">タスク名</th>
+                <th width="200">担当者</th>
+                <th width="100">優先度</th>
+                <th width="150">開始予定日</th>
+                <th width="150">終了予定日</th>
+                <th width="100">ステータス</th>
+                <th width="100">詳細</th>
+                <th width="100">編集</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                <tr class="task-row" data-status="{{ item.status }}">
+                    <td class="">{{ item.name }}</td>
+                    <td class="">{{ item.assignee }}</td>
+                    <td class="">{{ item.get_priority_display }}</td>
+                    <td class="">{{ item.start_date }}</td>
+                    <td class="">{{ item.end_date }}</td>
+                    <td class="">{{ item.get_status_display }}</td>
+
+                    <td class="text-center">
+                        <a href="{% url 'task:edit' item.id %}">
+                            <button class="btn btn-edit btn-layout-small">編集</button>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url); return false;" 
+                            data-url="/task/{{ item.id }}/delete/">
+                            <button class="btn btn-detail btn-layout-small">削除</button>
+                        </a>
+                    </td>        
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
+            ホーム画面に戻る
+        </a>
+    </div>
+
+    <!-- 削除確認モーダル -->
+    <div id="confirm-dialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: #fff; border: 1px solid #ccc; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3); z-index: 1000; width: 700px; font-size: 24px; margin:0px auto; text-align: center;">
+        <p>タスクを削除しますか？</p>
+        <button class="btn btn-primary btn-layout" style="width: 100px; font-size:20px;" onclick="proceedDelete()">Yes</button>
+        <button class="btn btn-danger btn-layout" style="width: 100px; font-size:20px; margin-left:20px;" onclick="cancelDelete()">No</button>
+    </div>
+
+    <!-- モーダル表示時の背景 -->
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;">
+    </div>
+
+    <script>
+    let deleteUrl = null;
+
+    function confirmDelete(itemId, url) {
+        deleteUrl = url;
+        document.getElementById('confirm-dialog').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function cancelDelete() {
+        deleteUrl = null;
+        document.getElementById('confirm-dialog').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+    function proceedDelete() {
+        if (deleteUrl) {
+        window.location.href = deleteUrl;  // GETで削除URLに遷移（CSRFに注意）
+        }
+    }
+    </script>
+
+    <!-- タスクステータスのフィルター処理 -->
+    <script>
+        const checkboxes = document.querySelectorAll('.status-filter');
+        const rows = document.querySelectorAll('.task-row');
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                const activeStatuses = Array.from(checkboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+
+                rows.forEach(row => {
+                const rowStatus = row.getAttribute('data-status');
+                if (activeStatuses.includes(rowStatus)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+                });
+            });
+        });
+    </script>    
+
+{% endblock content %}

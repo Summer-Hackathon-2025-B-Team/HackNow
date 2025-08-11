@@ -11,9 +11,13 @@ def index_view(request):
         days_left_interim = ""
         days_left_last = ""
 
-        if request.user.team:
-            interim_report_date = request.user.team.course.interim_report_date
-            last_report_date = request.user.team.course.last_report_date
+        # 条件分岐しながらteamにrequest.user.teamを代入
+        if team := request.user.team: 
+
+            # ユーザに紐づくチームが存在する場合
+            course = team.course
+            interim_report_date = course.interim_report_date
+            last_report_date = course.last_report_date
             days_left_interim = (interim_report_date - date.today()).days
             days_left_last = (last_report_date - date.today()).days
 

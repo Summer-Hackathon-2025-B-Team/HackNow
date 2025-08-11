@@ -11,7 +11,7 @@
     <form method="post">
         {% csrf_token %}
 
-        <div class="container-fluid">
+        <div class="container-fluid content-area">
 
             <div class="row mb-5">
 
@@ -22,6 +22,17 @@
                     </div>
                     <div class="col-md-4">
                         {{ form.name }}
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2 ms-5">
+                        メールアドレス
+                    </div>
+                    <div class="col-md-4">
+                        {{ request.user.email }}
                     </div>
                     <div class="col-md-3"></div>
                 </div>
@@ -55,7 +66,7 @@
                             コース・チーム名
                         </div>
                         <div class="col-md-4">
-                            {{ request.user.team.course.name }}　{{ request.user.team.name }}
+                            {{ request.user.team.course.name }} {{ request.user.team.name }}
                         </div>
                         <div class="col-md-3"></div>
                     </div>
@@ -114,5 +125,7 @@
             ホーム画面に戻る
         </a>
     </div>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     
 {% endblock content %}

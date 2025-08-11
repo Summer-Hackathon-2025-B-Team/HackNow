@@ -2,6 +2,7 @@ body {
     font-family: "MS Pゴシック" ;
 }
 
+
 /* ログイン画面関連 */
 .auth-area{
     margin-left:400px;
@@ -13,6 +14,7 @@ body {
     /* background-color: #ECE8E9; */
     background-color: #353A40;
     height: 100vh;
+    position: fixed;
 }
 
 .menu-title {
@@ -71,6 +73,7 @@ body {
 /* ホーム画面関連 */
 .content {
     padding: 50px;
+    margin-left: 265px;
 }
 
 .alert-box{
@@ -114,6 +117,14 @@ body {
     margin-right:240px; 
 }
 
+.btn-adjustment-past{
+    margin-right:20px; 
+}
+
+.btn-adjustment-task{
+    margin-right:70px; 
+}
+
 .btn-layout-small{
     width:80px;
     margin:5px auto;
@@ -138,6 +149,26 @@ body {
 .switch-large .form-check-input {
     width: 3em;
     height: 1.5em;
+}
+
+/* 各画面のフォント調整 */
+.content-area{
+    font-size:18px;
+    font-weight: bold;
+}
+
+/* タスク管理画面 */
+.status_checkbox{
+    margin-top:5px;
+    margin-left:80px;
+    font-size:20px;
+    font-weight: bold;
+}
+
+/* 過去ハッカソン情報画面 */
+.category_select{
+    margin-left:95px;
+    margin-bottom:20px;
 }
 
 /* テーブル関連 */

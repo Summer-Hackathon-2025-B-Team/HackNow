@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}チーム情報登録{% endblock %}
+{% block title %}過去ハッカソン情報編集{% endblock %}
 
 {% block content %}
 
     <div class="text-center mb-5">
-        <h2><strong>チーム情報登録</strong></h2>
+        <h2><strong>過去ハッカソン情報編集</strong></h2>
     </div>
 
     <form method="post">
@@ -35,7 +35,7 @@
 
             <div class="text-center mb-5">
                 <button type="submit" class="btn btn-primary btn-layout">
-                    登録
+                    更新
                 </button>
             </div>
 
@@ -44,8 +44,8 @@
     </form>
 
     <div class="text-center">
-        <a href="{% url 'team:index' %}" class="btn btn-secondary btn-layout">
-            チーム情報管理に戻る
+        <a href="{% url 'past:index' %}" class="btn btn-secondary btn-layout">
+            過去ハッカソン情報管理に戻る
         </a>
     </div>
     

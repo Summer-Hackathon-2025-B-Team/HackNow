@@ -119,6 +119,11 @@
 
                     {% endif %}
 
+                    <!-- アプリキャラクター表示（押下するとXXX） -->
+                    <div class="text-center character-icon">
+                        <img src="{% static 'images/hackman.png' %}" id="motivation-img" class="img-fluid" width="160" height="80" style="cursor:pointer;">
+                    </div>
+
                 </nav>
 
                 <!-- メインコンテンツ -->
@@ -151,6 +156,44 @@
 
         <!-- Bootstrap 5 JS & Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- モーダル -->
+        <div class="modal fade" id="motivationModal" tabindex="-1" aria-labelledby="motivationModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="motivationModalLabel">ハックマンの「向上心を刺激する一言」</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+                    </div>
+                    <div class="modal-body" id="modal-text" style="font-size:1.2rem; line-height:1.5;"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const quotes = [
+                    "失敗は成功のもと。",
+                    "今日の努力が明日の自分を作る。",
+                    "挑戦しない限り、何も始まらない。",
+                    "限界を決めるのは自分自身だ。",
+                    "小さな一歩が大きな成長につながる。"
+                ];
+
+                const img = document.getElementById("motivation-img");
+                const modalText = document.getElementById("modal-text");
+                const motivationModal = new bootstrap.Modal(document.getElementById('motivationModal'));
+
+                img.addEventListener("click", function() {
+                    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                    modalText.textContent = randomQuote;
+                    motivationModal.show();
+                });
+            });
+        </script>
 
     </body>
 </html>

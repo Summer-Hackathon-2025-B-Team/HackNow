@@ -11,13 +11,29 @@
     <!-- 一般ユーザ -->
     {% if not user.is_staff %}
 
-        <div class="alert-box">
-            <p><i class="fas fa-exclamation-triangle"></i>　「ER図作成」のタスクが本日期限です。</p>
-            <p><i class="fas fa-exclamation-triangle"></i>　「画面遷移図」のタスクが期限切れとなっています。</p>
-        </div>
+        {% if due_today_tasks or overdue_tasks %}
+            <div class="alert-box">
+                {% if due_today_tasks %}
+                    <ul>
+                        {% for task in due_today_tasks %}
+                            <li><i class="fas fa-bell" style="color: #FFD700;"></i>「{{ task.name }}」のタスクが本日期限です。</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if overdue_tasks %}
+                    <ul>
+                        {% for task in overdue_tasks %}
+                            <li><i class="fas fa-exclamation-triangle" style="color: red;"></i>「{{ task.name }}」のタスクが期限切れです。</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+            </div>
+        {% endif %}
 
         <div class="info-box">
-            <p><i class="fas fa-info-circle"></i>　次のミーティングは 8月5日(火) 21時 です。</p>
+            <p><i class="fas fa-info-circle" style="color: #1E90FF;"></i>  次のミーティングは 8月5日(火) 21時 です。</p>
         </div>
 
         <div class="deadline text-center">
@@ -45,7 +61,52 @@
     <!-- 管理ユーザ -->
     {% else %}
 
-        活動中チームの情報を表示する予定
+        <div class="text-center mb-5">
+            <h2><strong>活動中チーム情報</strong></h2>
+        </div>
+
+        <table class="mb-5 mx-auto" width="1000">
+            <thead class="">
+                <tr>
+                    <th width="200">コース</th>
+                    <th width="200">チーム名</th>
+                    <th width="250">チームメンバー</th>
+                    <th width="350">対応中タスク</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in active_teams %}
+                    <tr>
+                        <td class="">{{ team.course.name }}</td>
+                        <td class="">{{ team.name }}</td>
+                        <td>
+                            <ul>
+                            {% for member in team.members.all %}
+                                <li>{{ member.name }}</li>
+                            {% empty %}
+                                <li>メンバーなし</li>
+                            {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                {% for task in team.task_set.all %}
+                                    {% if task.status == 2 %}
+                                        <li>{{ task.name }}</li>
+                                    {% endif %}
+                                {% empty %}
+                                    <li>対応中タスクなし</li>
+                                {% endfor %}
+                            </ul>
+                        </td>            
+                    </tr>
+                {% empty %}
+                    <div class="text-center mb-5">
+                        <p>活動中のチームはありません。</p>
+                    </div>
+                {% endfor %}
+            </tbody>
+        </table>
 
     {% endif %}
 

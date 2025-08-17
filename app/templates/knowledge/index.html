@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}ナレッジ管理{% endblock %}
+{% block content %}
+<h2>ナレッジ管理</h2>
+
+<p>
+  <a href="{% url 'knowledge:create' %}">新規登録</a>
+  <a href="{% url 'home:index' %}">ホーム画面に戻る</a>
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>タイトル</th>
+      <th>作成者</th>
+      <th>詳細</th>
+      <th>削除</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for k in items %}
+    <tr>
+      <td>{{ k.title }}</td>
+      <td>
+        {% if k.created_by %}
+        {{ k.created_by.get_full_name|default:k.created_by }}
+        {% else %}—{% endif %}
+      </td>
+      <td><a href="{% url 'knowledge:detail' k.pk %}">詳細</a></td>
+      <td>
+        <a href="{% url 'knowledge:delete' k.pk %}">削除</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4">登録はまだありません</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

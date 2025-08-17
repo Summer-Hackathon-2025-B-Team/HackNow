@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}ナレッジ削除{% endblock %}
+{% block content %}
+<h2>削除してよろしいですか？</h2>
+<p>title: {{ object.title }}</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">削除</button>
+  <a href="{% url 'knowledge:detail' object.pk %}">キャンセル</a>
+</form>
+{% endblock %}

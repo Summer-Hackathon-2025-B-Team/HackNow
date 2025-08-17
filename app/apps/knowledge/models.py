@@ -3,21 +3,23 @@ from django.conf import settings
 # apps/team/models.pyに定義されているTeamクラスを、このファイルで使えるようにする
 from apps.team.models import Team
 
+# ユーザモデルの取得
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 # Djangoはmodel.Modelを継承してモデルを定義すると、主キーidカラムは自動で追加されます。
 class Knowledge(models.Model):
+
     # チーム(UUID主キーのTeamを外部キーで参照)
     team = models.ForeignKey(Team, null=False, blank=False, on_delete=models.CASCADE)
+
+    created_by = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
+
     # タイトル
     title = models.CharField(max_length=30, null=False, blank=False)
     # 複数行・長文なので、TextField
     content = models.TextField(max_length=255, null=False, blank=False)
 
-    created_by = models.ForeignKey(
-    settings.AUTH_USER_MODEL,
-    null=True, blank=True,
-    on_delete=models.SET_NULL,
-    related_name="knowledges"
-)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

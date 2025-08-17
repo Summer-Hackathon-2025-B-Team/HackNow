@@ -1,41 +1,96 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}ナレッジ管理{% endblock %}
+
 {% block content %}
-<h2>ナレッジ管理</h2>
 
-<p>
-  <a href="{% url 'knowledge:create' %}">新規登録</a>
-  <a href="{% url 'home:index' %}">ホーム画面に戻る</a>
-</p>
+    <div class="text-center mb-5">
+        <h2><strong>ナレッジ管理</strong></h2>
+    </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>タイトル</th>
-      <th>作成者</th>
-      <th>詳細</th>
-      <th>削除</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for k in items %}
-    <tr>
-      <td>{{ k.title }}</td>
-      <td>
-        {% if k.created_by %}
-        {{ k.created_by.get_full_name|default:k.created_by }}
-        {% else %}—{% endif %}
-      </td>
-      <td><a href="{% url 'knowledge:detail' k.pk %}">詳細</a></td>
-      <td>
-        <a href="{% url 'knowledge:delete' k.pk %}">削除</a>
-      </td>
-    </tr>
-    {% empty %}
-    <tr>
-      <td colspan="4">登録はまだありません</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endblock %}
+    <div class="text-end mb-4 btn-adjustment-past">
+        <a href="{% url 'knowledge:create' %}" class="btn btn-primary btn-layout">
+            <i class="fas fa-plus-circle"></i> 新規登録
+        </a>
+    </div>
+
+    <table class="mb-5 mx-auto" width="800">
+        <thead class="">
+            <tr>
+                <th width="300">タイトル</th>
+                <th width="200">作成者</th>
+                <th width="100">詳細</th>
+                <th width="100">編集</th>
+                <th width="100">削除</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                <tr>
+                    <td class="">{{ item.title }}</td>
+                    <td class="">{{ item.created_by.get_full_name|default:item.created_by }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'knowledge:detail' item.id %}" >
+                            <button class="btn btn-edit btn-layout-small">詳細</button>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a href="{% url 'knowledge:edit' item.id %}" >
+                            <button class="btn btn-edit btn-layout-small">編集</button>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url); return false;" 
+                            data-url="/knowledge/{{ item.id }}/delete/">
+                            <button class="btn btn-detail btn-layout-small">削除</button>
+                        </a>
+                    </td>
+        
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
+            ホーム画面に戻る
+        </a>
+    </div>
+    <br><br>
+
+    <!-- 削除確認モーダル -->
+    <div id="confirm-dialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: #fff; border: 1px solid #ccc; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3); z-index: 1000; width: 700px; font-size: 24px; margin:0px auto; text-align: center;">
+        <p>ナレッジを削除しますか？</p>
+        <button class="btn btn-primary btn-layout" style="width: 100px; font-size:20px;" onclick="proceedDelete()">Yes</button>
+        <button class="btn btn-danger btn-layout" style="width: 100px; font-size:20px; margin-left:20px;" onclick="cancelDelete()">No</button>
+    </div>
+
+    <!-- モーダル表示時の背景 -->
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;">
+    </div>
+
+    <script>
+    let deleteUrl = null;
+
+    function confirmDelete(itemId, url) {
+        deleteUrl = url;
+        document.getElementById('confirm-dialog').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function cancelDelete() {
+        deleteUrl = null;
+        document.getElementById('confirm-dialog').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+    function proceedDelete() {
+        if (deleteUrl) {
+        window.location.href = deleteUrl;  // GETで削除URLに遷移（CSRFに注意）
+        }
+    }
+    </script>
+
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}ナレッジ詳細{% endblock %}
+{% block content %}
+<h2>ナレッジ詳細</h2>
+
+<p><strong>タイトル</strong>：{{ item.title }}</p>
+<p><strong>作成者</strong>：
+  {% if item.created_by %}
+  {{ item.created_by.get_full_name|default:item.created_by }}
+  {% else %}—{% endif %}
+</p>
+<p><strong>内容</strong>：</p>
+<div style="white-space: pre-wrap;">{{ item.content }}</div>
+
+<p style="margin-top: 1rem;">
+  <a href="{% url 'knowledge:edit' item.pk %}">編集</a>　
+  <a href="{% url 'knowledge:index' %}">戻る</a>
+</p>
+{% endblock %}

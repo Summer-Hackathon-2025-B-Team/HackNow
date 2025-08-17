@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}ミーティング管理{% endblock %}
+
+{% block content %}
+
+    <div class="text-center mb-5">
+        <h2><strong>ミーティング管理</strong></h2>
+    </div>
+
+    <div class="text-end mb-4 btn-adjustment-team">
+        <a href="{% url 'meeting:create' %}" class="btn btn-primary btn-layout">
+            <i class="fas fa-plus-circle"></i> 新規登録
+        </a>
+    </div>
+
+    <table class="mb-5 mx-auto" width="850">
+        <thead class="">
+            <tr>
+                <th width="250">実施日時</th>
+                <th width="300">ミーティング名</th>
+                <th width="100">詳細</th>
+                <th width="100">編集</th>
+                <th width="100">削除</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in object_list %}
+                <tr class="task-row" data-status="{{ item.status }}">
+                    <td class="">{{ item.datetime|date:"Y年n月j日(D) G:i" }}～</td>
+                    <td class="">{{ item.name }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'meeting:detail' item.id %}">
+                            <button class="btn btn-edit btn-layout-small">詳細</button>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a href="{% url 'meeting:edit' item.id %}">
+                            <button class="btn btn-edit btn-layout-small">編集</button>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url); return false;" 
+                            data-url="/meeting/{{ item.id }}/delete/">
+                            <button class="btn btn-detail btn-layout-small">削除</button>
+                        </a>
+                    </td>        
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
+            ホーム画面に戻る
+        </a>
+    </div>
+
+    <!-- 削除確認モーダル -->
+    <div id="confirm-dialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: #fff; border: 1px solid #ccc; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3); z-index: 1000; width: 700px; font-size: 24px; margin:0px auto; text-align: center;">
+        <p>ミーティングを削除しますか？</p>
+        <button class="btn btn-primary btn-layout" style="width: 100px; font-size:20px;" onclick="proceedDelete()">Yes</button>
+        <button class="btn btn-danger btn-layout" style="width: 100px; font-size:20px; margin-left:20px;" onclick="cancelDelete()">No</button>
+    </div>
+
+    <!-- モーダル表示時の背景 -->
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;">
+    </div>
+
+    <script>
+    let deleteUrl = null;
+
+    function confirmDelete(itemId, url) {
+        deleteUrl = url;
+        document.getElementById('confirm-dialog').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function cancelDelete() {
+        deleteUrl = null;
+        document.getElementById('confirm-dialog').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+    function proceedDelete() {
+        if (deleteUrl) {
+            window.location.href = deleteUrl;  // GETで削除URLに遷移（CSRFに注意）
+        }
+    }
+    </script>
+
+{% endblock content %}
+

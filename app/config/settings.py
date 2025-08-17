@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'apps.course.apps.CourseConfig',
     'apps.team.apps.TeamConfig',
     'apps.past.apps.PastConfig',
+    'apps.meeting.apps.MeetingConfig',
 ]
 
 MIDDLEWARE = [

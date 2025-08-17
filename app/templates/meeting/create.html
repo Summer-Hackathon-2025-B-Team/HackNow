@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block title %}ミーティング登録{% endblock %}
+
+{% block content %}
+
+    <div class="text-center mb-5">
+        <h2><strong>ミーティング登録</strong></h2>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="container-fluid content-area">
+
+            <div class="text-center mb-3 text-danger">
+                {{ form.non_field_errors }}
+
+                {% for field in form %}
+                    <div>
+                        {% for error in field.errors %}
+                            {{ field.label_tag }} {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+
+                {{ formset.non_form_errors }}
+                
+                {% for subform in formset %}
+                    <div class="agenda-form">
+                    {{ subform.non_field_errors }}
+                    {% for field in subform %}
+                        <div>
+                            {% for error in field.errors %}
+                                {{ field.label_tag }} {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                    </div>
+                {% endfor %}
+                                
+            </div>
+
+            <div class="mb-5">
+
+                <div class="row mb-4">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        実施日時
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex gap-2">
+                            <div class="flex-fill">
+                                {{ form.date }}
+                            </div>
+                            <div class="flex-fill">
+                                {{ form.time }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3"></div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        ミーティング名
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.name }}
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+
+                <div id="formset-area">
+
+                    {{ formset.management_form }}
+                    {% for agenda in formset %}
+                        <div class="agenda-form">
+                            <div class="row mb-4">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-3">
+                                    議題
+                                </div>
+                                <div class="col-md-4">
+                                    {{ agenda.name }}
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-3">
+                                    議事内容
+                                </div>
+                                <div class="col-md-4">
+                                    {{ agenda.content }}
+                                </div>
+                                <div class="col-md-3"></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- 雛形フォーム（通常非表示・「議題を追加」ボタンを押すと表示） -->
+                <div id="empty-form" style="display: none;">
+                    <div class="agenda-form">
+                        <div class="row mb-4">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2">議題</div>
+                            <div class="col-md-4">{{ formset.empty_form.name }}</div>
+                            <div class="col-md-3"></div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2">議事内容</div>
+                            <div class="col-md-4">{{ formset.empty_form.content }}</div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="mb-5 btn-adjustment-add-agenda">
+                    <button type="button" id="add-form" class="btn btn-info btn-layout"><i class="fas fa-plus-circle"></i> 議題を追加</button>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        持ち帰り事項
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.homework }}
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                        次回ミーティング
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-flex gap-2">
+                            <div class="flex-fill">
+                                {{ form.next_date }}
+                            </div>
+                            <div class="flex-fill">
+                                {{ form.next_time }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+
+            </div>
+
+            <div class="text-center mb-5">
+                <button type="submit" class="btn btn-primary btn-layout">
+                    登録
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+
+    <div class="text-center">
+        <a href="{% url 'meeting:index' %}" class="btn btn-secondary btn-layout">
+            ミーティング管理に戻る
+        </a>
+    </div>
+    <br><br>
+
+    <script>
+        document.getElementById("add-form").addEventListener("click", function() {
+            let formsetArea = document.getElementById("formset-area");
+            // 隠しフィールド（TOTAL_FORMS）を取得
+            let totalForms = document.querySelector("#id_agenda_set-TOTAL_FORMS");
+            let formIndex = parseInt(totalForms.value);
+
+            // 雛形フォームを取得
+            let emptyFormHtml = document.getElementById("empty-form").innerHTML;
+
+            // __prefix__ をインデックスに置換（Djangoのempty_formは __prefix__ というダミー番号を持つ）
+            let newFormHtml = emptyFormHtml.replace(/__prefix__/g, formIndex);
+
+            // 新しいフォームを追加
+            formsetArea.insertAdjacentHTML("beforeend", newFormHtml);
+
+            // TOTAL_FORMSを1増やす
+            totalForms.value = formIndex + 1;
+
+        });
+    </script>
+
+{% endblock content %}

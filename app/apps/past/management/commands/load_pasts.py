@@ -11,7 +11,7 @@ class Command(BaseCommand):
             Past(category="学習支援",name="RareTECH Love",description="別ツールでやり取りしている質問・回答を一覧で参照できるアプリ\nキーワードや質問者での検索も可能",url="https://raretech.site/dashboard/lesson/archive/456",start_time="49:10～"),
             Past(category="学習支援",name="想起アプリ（仮）",description="RareTECHで学んだ内容を元に作問するアプリ\n問題に参考URLをつけることができ、知識拡充可能",url="https://raretech.site/dashboard/lesson/archive/456",start_time="20:20～"),
             Past(category="タスク管理",name="-",description="Flaskを利用したシンプルなTodo管理アプリ\nチームで参考記事を読み込み、不明点を整理",url="https://raretech.site/dashboard/lesson/archive/456",start_time="05:00～"),
-            Past(category="その他",name="あんちてーぜ！",description="Todo管理/タイピングゲーム/ブックレビューができるアプリ\nメンバーが作りたいものを詰め込んだアプリ",url="https://raretech.site/dashboard/lesson/archive/474",start_time="1:28:00～"),
+            Past(category="その他",name="あんちてーぜ！",description="Todo管理/タイピングゲーム/ブックレビューができるアプリ\nメンバーが作りたいものを詰め込んで作成",url="https://raretech.site/dashboard/lesson/archive/474",start_time="1:28:00～"),
             Past(category="日記管理",name="守屋の秘訣日記",description="守屋さんの美の秘訣を紹介するブログアプリ\n簡単に記事投稿できる",url="https://raretech.site/dashboard/lesson/archive/474",start_time="1:11:20～"),
             Past(category="情報収集",name="REAL",description="RareTECH生のツイートだけを表示するアプリ\nTwitterのAPIを利用して情報取得",url="https://raretech.site/dashboard/lesson/archive/474",start_time="52:40～"),
             Past(category="学習支援",name="ITお絵描きゲーム",description="与えられたお題（IT用語）について画面上に図を書くアプリ\n複数人でゲーム参加し、何の絵か当てたらポイント",url="https://raretech.site/dashboard/lesson/archive/474",start_time="24:00～"),

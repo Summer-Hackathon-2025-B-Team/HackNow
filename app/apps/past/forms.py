@@ -6,6 +6,11 @@ class PastForm(forms.ModelForm):
         model = Past
         fields = ('category', 'name', 'description', 'url', 'start_time')
 
+        widgets = {
+            "description": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
+        }
+
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'apps.task.apps.TaskConfig',
     'apps.course.apps.CourseConfig',
     'apps.team.apps.TeamConfig',
+    'apps.knowledge.apps.KnowledgeConfig',
     'apps.past.apps.PastConfig',
 ]
 

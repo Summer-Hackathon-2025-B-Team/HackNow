@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}ナレッジ登録{% endblock %}
+{% block content %}
+<h2>ナレッジ登録</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">登録</button>
+  <a href="{% url 'knowledge:index' %}">戻る</a>
+</form>
+{% endblock %}

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'apps.past.apps.PastConfig',
     'apps.meeting.apps.MeetingConfig',
     'apps.document.apps.DocumentConfig',
+    'apps.reference.apps.ReferenceConfig',
 ]
 
 MIDDLEWARE = [

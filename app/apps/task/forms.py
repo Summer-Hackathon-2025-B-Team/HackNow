@@ -12,8 +12,8 @@ class TaskForm(forms.ModelForm):
 
         # 日付フィールドにカレンダーを表示
         widgets = {
-            'start_date': DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'end_date': DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'start_date': DateInput(attrs={'type': 'date'}),
+            'end_date': DateInput(attrs={'type': 'date'}),
         }
 
     def __init__(self, *args, **kwargs):

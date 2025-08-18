@@ -6,7 +6,7 @@ class Past(models.Model):
     # 項目定義
     category = models.CharField(max_length=20, null=False, blank=False)
     name = models.CharField(max_length=30, null=False, blank=False)
-    description = models.CharField(max_length=100, null=False, blank=False)
+    description = models.TextField(max_length=100, null=False, blank=False)
     url = models.URLField(max_length=255, null=False, blank=False)
     start_time = models.CharField(max_length=20, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)

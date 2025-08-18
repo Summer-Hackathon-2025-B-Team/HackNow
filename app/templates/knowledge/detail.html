@@ -1,19 +1,60 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}ナレッジ詳細{% endblock %}
+
 {% block content %}
-<h2>ナレッジ詳細</h2>
 
-<p><strong>タイトル</strong>：{{ item.title }}</p>
-<p><strong>作成者</strong>：
-  {% if item.created_by %}
-  {{ item.created_by.get_full_name|default:item.created_by }}
-  {% else %}—{% endif %}
-</p>
-<p><strong>内容</strong>：</p>
-<div style="white-space: pre-wrap;">{{ item.content }}</div>
+    <div class="text-center mb-5">
+        <h2><strong>ナレッジ詳細</strong></h2>
+    </div>
 
-<p style="margin-top: 1rem;">
-  <a href="{% url 'knowledge:edit' item.pk %}">編集</a>　
-  <a href="{% url 'knowledge:index' %}">戻る</a>
-</p>
-{% endblock %}
+    <div class="container-fluid content-area">
+
+        <div class="mb-5">
+
+            <div class="row mb-4">
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    タイトル
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex gap-2">
+                        {{ object.title }}
+                    </div>
+                </div>
+
+                <div class="col-md-3"></div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    作成者
+                </div>
+                <div class="col-md-4">
+                    {{ object.created_by.get_full_name|default:object.created_by }}
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-3"></div>
+                <div class="col-md-2">
+                    内容
+                </div>
+                <div class="col-md-4">
+                    {{ object.content|linebreaks }}
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="{% url 'knowledge:index' %}" class="btn btn-secondary btn-layout">
+            ナレッジ管理に戻る
+        </a>
+    </div>
+    <br><br>
+    
+{% endblock content %}

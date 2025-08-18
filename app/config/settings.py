@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'apps.team.apps.TeamConfig',
     'apps.knowledge.apps.KnowledgeConfig',
     'apps.past.apps.PastConfig',
+    'apps.meeting.apps.MeetingConfig',
 ]
 
 MIDDLEWARE = [

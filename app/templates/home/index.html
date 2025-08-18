@@ -4,41 +4,43 @@
 
 {% block content %}
 
-    <div class="text-center mb-5">
-        <h1><strong>{{ user.team.course.name }} {{ user.team.name }}<br>{{ user.name }}さんの作業ルーム</strong></h1>
-    </div>
-
     <!-- 一般ユーザ -->
     {% if not user.is_staff %}
 
+        <div class="text-center mb-5 home-user">
+            <h1><strong>{{ user.team.course.name }} {{ user.team.name }}<br>{{ user.name }}さんの作業ルーム</strong></h1>
+        </div>
+
         {% if due_today_tasks or overdue_tasks %}
             <div class="alert-box">
-                {% if due_today_tasks %}
-                    <ul>
+                <div class="mb-4">
+                    {% if due_today_tasks %}
                         {% for task in due_today_tasks %}
-                            <li><i class="fas fa-bell" style="color: #FFD700;"></i>「{{ task.name }}」のタスクが本日期限です。</li>
+                            <i class="fas fa-bell" style="color: #FFD700;"></i>「{{ task.name }}」のタスクが本日期限です。<br>
                         {% endfor %}
-                    </ul>
-                {% endif %}
+                    {% endif %}
+                </div>
 
-                {% if overdue_tasks %}
-                    <ul>
+                <div>
+                    {% if overdue_tasks %}
                         {% for task in overdue_tasks %}
-                            <li><i class="fas fa-exclamation-triangle" style="color: red;"></i>「{{ task.name }}」のタスクが期限切れです。</li>
+                            <i class="fas fa-exclamation-triangle" style="color: red;"></i>「{{ task.name }}」のタスクが期限切れです。<br>
                         {% endfor %}
-                    </ul>
-                {% endif %}
+                    {% endif %}
+                </div>
 
             </div>
         {% endif %}
 
-        <div class="info-box">
-            <p><i class="fas fa-info-circle" style="color: #1E90FF;"></i>  次のミーティングは 8月5日(火) 21時 です。</p>
-        </div>
+        {% if next_meeting %}
+            <div class="info-box">
+                <i class="fas fa-info-circle" style="color: #1E90FF;"></i>  次のミーティングは {{ next_meeting.next_datetime|date:"Y年n月j日(D) G:i" }} です。
+            </div>
+        {% endif %}
 
         <div class="deadline text-center">
 
-            <!-- 一般ユーザ -->
+            <!-- ユーザに紐づく中間発表日がある場合 -->
             {% if days_left_interim != "" %}
 
                 {% if days_left_interim > 0 %}
@@ -54,12 +56,18 @@
                     <p>こちらのハッカソンは終了しました。<br>お疲れ様でした！</p>
                 {% endif %}
 
+            {% else %}
+                <p>まずは「アカウント管理」＞「ユーザ情報」から<br>チームIDを登録しましょう！</p>
             {% endif %}
             
         </div>
 
     <!-- 管理ユーザ -->
     {% else %}
+
+        <div class="text-center mb-5 home-user">
+            <h1><strong>{{ user.name }}さんの作業ルーム</strong></h1>
+        </div>
 
         <div class="text-center mb-5">
             <h2><strong>活動中チーム情報</strong></h2>

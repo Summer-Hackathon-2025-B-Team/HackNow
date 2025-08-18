@@ -57,7 +57,7 @@
                                     <i class="fas fa-bars"></i> 各種管理
                                 </div>
                                 <div class="collapse submenu" id="submenu2">
-                                    <a href="#"><i class="fas fa-calendar-alt"></i> ミーティング管理</a>
+                                    <a href="{% url 'meeting:index' %}"><i class="fas fa-calendar-alt"></i> ミーティング管理</a>
                                     <a href="{% url 'task:index' %}"><i class="fas fa-tasks"></i> タスク管理</a>
                                     <a href="#"><i class="fas fa-link"></i> 資料リンク管理</a>
                                     <a href="{% url 'knowledge:index' %}"><i class="fas fa-book"></i> ナレッジ管理</a>
@@ -119,9 +119,9 @@
 
                     {% endif %}
 
-                    <!-- アプリキャラクター表示（押下するとXXX） -->
+                    <!-- アプリキャラクター表示（押下するとモーダルでメッセージ表示） -->
                     <div class="text-center character-icon">
-                        <img src="{% static 'images/hackman.png' %}" id="motivation-img" class="img-fluid" width="160" height="80" style="cursor:pointer;">
+                        <img src="{% static 'images/hackman.png' %}" id="motivation-img" class="img-fluid" width="120" height="60" style="cursor:pointer;">
                     </div>
 
                 </nav>
@@ -147,7 +147,7 @@
 
                     {% block content %}{% endblock content %}
 
-                    <footer class="bg-light text-center py-2 fixed-bottom border-top">
+                    <footer class="bg-light text-center py-1 fixed-bottom border-top">
                         Hackathon 2025 Summer B-Team
                     </footer>
                 </main>
@@ -162,10 +162,10 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="motivationModalLabel">ハックマンの「向上心を刺激する一言」</h5>
+                        <h5 class="modal-title" id="motivationModalLabel">ハックマンの「<span style="font-weight: bold;">向上心を刺激する一言</span>」</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                     </div>
-                    <div class="modal-body" id="modal-text" style="font-size:1.2rem; line-height:1.5;"></div>
+                    <div class="modal-body" id="modal-text" style="font-size:1.2rem; line-height:1.5; color: red;"></div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                     </div>
@@ -176,11 +176,13 @@
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 const quotes = [
-                    "失敗は成功のもと。",
-                    "今日の努力が明日の自分を作る。",
-                    "挑戦しない限り、何も始まらない。",
-                    "限界を決めるのは自分自身だ。",
-                    "小さな一歩が大きな成長につながる。"
+                    "学べば学ぶほど、自分がどれだけ無知であるか思い知らされる。自分の無知に気づけば気づくほど、より一層学びたくなる。（by アインシュタイン）",
+                    "人間はやり通す力があるかないかによってのみ、称賛または非難に値する。（by レオナルド・ダ・ヴィンチ）",
+                    "最も高い目標を達成するには、一歩一歩進むしかないという事実を、頭に入れておかなければならない。（by アンドリュー・カーネギー）",
+                    "天才なんかあるものか。僕は他人がコーヒーを飲んでいる時間に仕事をしただけだ。（by 魯迅）",
+                    "早い時間に始めて遅くまで残っていた。来る日も来る日も、来る年も来る年も。一夜にして成功するのに17年と114日もかかったよ。（by リオネル・メッシ）",
+                    "未来は今日何をするかによって決まる。（by ガンジー）",
+                    "努力した者が全て報われるとは限らん。しかし！成功した者は皆すべからく努力しておる！！（by はじめの一歩/漫画）",
                 ];
 
                 const img = document.getElementById("motivation-img");

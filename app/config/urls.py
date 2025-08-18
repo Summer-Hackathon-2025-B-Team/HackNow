@@ -11,6 +11,7 @@ urlpatterns = [
     path('team/', include('apps.team.urls')),
     path('past/', include('apps.past.urls')),
     path('task/',include('apps.task.urls')),
+    path('meeting/',include('apps.meeting.urls')),
     path('knowledge/', include('apps.knowledge.urls')),
 ]
 

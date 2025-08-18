@@ -71,6 +71,11 @@ body {
 
 
 /* ホーム画面関連 */
+.home-user{
+    border-bottom: 2px #D3D3D3 solid;
+    border-image: linear-gradient(to right, gray 0%, #D3D3D3 100%) 1;
+}
+
 .content {
     padding: 50px;
     margin-left: 265px;
@@ -106,28 +111,19 @@ body {
     font-weight: bold;
 }
 
+/* ミーティング管理関連 */
+.agenda-detail-line{
+    width:600px;
+    margin: 0 auto;
+    border-bottom: 2px #D3D3D3 solid;
+}
+
 /* ボタン関連 */
 .btn-layout{
-    width:200px;
+    width:300px;
     margin:0 auto;
+    padding:8px;
     box-shadow: 3px 3px 3px gray;
-}
-
-/* 新規登録ボタンの位置調整 */
-.btn-adjustment-course{
-    margin-right:220px; 
-}
-
-.btn-adjustment-team{
-    margin-right:240px; 
-}
-
-.btn-adjustment-past{
-    margin-right:20px; 
-}
-
-.btn-adjustment-task{
-    margin-right:70px; 
 }
 
 .btn-layout-small{
@@ -149,6 +145,29 @@ body {
 .btn-detail{
     background-color: #87CEFA;
 }
+
+
+/* ボタンの位置調整 */
+.btn-adjustment-course{
+    margin-right:220px; 
+}
+
+.btn-adjustment-team{
+    margin-right:240px; 
+}
+
+.btn-adjustment-past{
+    margin-right:20px; 
+}
+
+.btn-adjustment-task{
+    margin-right:70px; 
+}
+
+.btn-adjustment-add-agenda{
+    margin-left:500px; 
+}
+
 
 /* トグルボタン関連 */
 .switch-large .form-check-input {
@@ -185,12 +204,12 @@ thead{
 th, td{
     border:1px gray solid;
     padding:5px;
-    vertical-align:top;
+    vertical-align:middle;
 }
 
 .character-icon{
     position: absolute;
     bottom: 0;
-    margin-left:40px;
+    margin-left:55px;
     margin-bottom:70px;
 }

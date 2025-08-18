@@ -30,3 +30,7 @@ class TaskForm(forms.ModelForm):
 
         # ログインユーザが所属するチームのメンバーだけ選択肢にする
         self.fields['assignee'].queryset = User.objects.filter(team=user.team)
+
+        # 共通クラス追加
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})

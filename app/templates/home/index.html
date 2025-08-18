@@ -13,22 +13,21 @@
 
         {% if due_today_tasks or overdue_tasks %}
             <div class="alert-box">
-                <div class="mb-4">
-                    {% if due_today_tasks %}
+                {% if due_today_tasks %}
+                    <div class="">
                         {% for task in due_today_tasks %}
                             <i class="fas fa-bell" style="color: #FFD700;"></i>「{{ task.name }}」のタスクが本日期限です。<br>
                         {% endfor %}
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
 
-                <div>
-                    {% if overdue_tasks %}
+                {% if overdue_tasks %}
+                    <div class="">
                         {% for task in overdue_tasks %}
                             <i class="fas fa-exclamation-triangle" style="color: red;"></i>「{{ task.name }}」のタスクが期限切れです。<br>
                         {% endfor %}
-                    {% endif %}
-                </div>
-
+                    </div>
+                {% endif %}
             </div>
         {% endif %}
 
@@ -44,12 +43,12 @@
             {% if days_left_interim != "" %}
 
                 {% if days_left_interim > 0 %}
-                    <p>中間発表（{{ interim_report_date }}）まで　残り <span class="text-danger fw-bold">{{ days_left_interim }}</span> 日！</p>
-                    <p>最終発表（{{ last_report_date }}）まで　残り <span class="text-danger fw-bold">{{ days_left_last }}</span> 日！</p>
+                    <p>中間発表（{{ interim_report_date }}）まで　残り <span class="fw-bold" style="color: red;">{{ days_left_interim }}</span> 日！</p>
+                    <p>最終発表（{{ last_report_date }}）まで　残り <span class="fw-bold" style="color: red;">{{ days_left_last }}</span> 日！</p>
                 {% elif days_left_interim == 0 %}
                     <p>今日は中間発表日です！<br>しっかり準備して臨みましょう！</p>
                 {% elif days_left_last > 0 %}
-                    <p>最終発表（{{ last_report_date }}）まで　残り <span class="text-danger fw-bold">{{ days_left_last }}</span> 日！</p>
+                    <p>最終発表（{{ last_report_date }}）まで　残り <span class="fw-bold" style="color: red;">{{ days_left_last }}</span> 日！</p>
                 {% elif days_left_last == 0 %}
                     <p>今日は最終発表日です！<br>悔いが残らないよう全力で挑みましょう！</p>
                 {% else %}

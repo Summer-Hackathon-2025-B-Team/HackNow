@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}資料リンク管理{% endblock %}
+
+{% block content %}
+
+<div class="text-center mb-5">
+  <h2><strong>資料リンク管理</strong></h2>
+</div>
+
+<div class="text-end mb-4 btn-adjustment-past">
+  <a href="{% url 'document:create' %}" class="btn btn-primary btn-layout">
+    <i class="fas fa-plus-circle"></i> 新規登録
+  </a>
+</div>
+
+<table class="mb-5 mx-auto" width="800">
+  <thead class="">
+    <tr>
+      <th width="300">資料名</th>
+      <th width="200">作成者</th>
+      <th width="100">リンク</th>
+      <th width="100">編集</th>
+      <th width="100">削除</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in object_list %}
+      <tr>
+        <!-- 資料名 -->
+        <td class="">{{ item.name }}</td>
+
+        <!-- 作成者 -->
+        <td class="">{{ item.created_by.get_full_name|default:item.created_by }}</td>
+
+        <!-- リンク -->
+        <td class="text-center">
+          <a href="{{ item.url }}" target="_blank">
+            <button class="btn btn-edit btn-layout-small">リンク</button>
+          </a>
+        </td>
+
+        <td class="text-center">
+          <a href="{% url 'document:edit' item.id %}">
+            <button class="btn btn-edit btn-layout-small">編集</button>
+          </a>
+        </td>
+        <td class="text-center">
+          <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url); return false;"
+            data-url="/document/{{ item.id }}/delete/">
+            <button class="btn btn-detail btn-layout-small">削除</button>
+          </a>
+        </td>
+
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="text-center">
+  <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
+    ホーム画面に戻る
+  </a>
+</div>
+<br><br>
+
+<!-- 削除確認モーダル -->
+<div id="confirm-dialog"
+  style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: #fff; border: 1px solid #ccc; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3); z-index: 1000; width: 700px; font-size: 24px; margin:0px auto; text-align: center;">
+  <p>資料リンクを削除しますか？</p>
+  <button class="btn btn-primary btn-layout" style="width: 100px; font-size:20px;"
+    onclick="proceedDelete()">Yes</button>
+  <button class="btn btn-danger btn-layout" style="width: 100px; font-size:20px; margin-left:20px;"
+    onclick="cancelDelete()">No</button>
+</div>
+
+<!-- モーダル表示時の背景 -->
+<div id="overlay" style="display: none; position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;">
+</div>
+<!-- JavaScriptを書くための開始タグです。 -->
+<script>
+  // 変数deleteUrlを宣言し、初期値をnullにします。
+  let deleteUrl = null;
+
+  // confirmDeleteという関数を定義します。引数itemId:削除したいアイテムのID,url:削除処理を行うためのリンク先URL
+  function confirmDelete(itemId, url) {
+    // 渡された削除用URLをdeleteUrl変数に保存します。あとで使えるようにURLを記憶
+    deleteUrl = url;
+    // HTMLのid='confirm-dialog'要素を取得し、その表示スタイルを'block'に指定。非表示だった削除確認ダイアログを表示する。
+    document.getElementById('confirm-dialog').style.display = 'block';
+    // id='overlay'要素を取得して表示させます。背景に半透明のオーバーレイを出して、ダイアログを強調する。
+    document.getElementById('overlay').style.display = 'block';
+  }
+
+  // cancelDelete関数を定義。削除をやめたい時に呼び出されます。
+  function cancelDelete() {
+    // 削除用URLをクリア(リセット)します。
+    deleteUrl = null;
+    // 削除確認ダイアログを非表示に戻します。
+    document.getElementById('confirm-dialog').style.display = 'none';
+    // オーバーレイも非表示にします。
+    document.getElementById('overlay').style.display = 'none';
+  }
+
+  // proceedDelete関数を定義。実際に削除を実行するときに呼ばれます。
+  function proceedDelete() {
+    // deleteUrlがセットされている(nullでない)場合のみ処理を実行する条件分岐。
+    if (deleteUrl) {
+      // ブラウザをdeleteUrlに遷移させる(ページ移動する)。
+      window.location.href = deleteUrl;  // GETで削除URLに遷移（CSRFに注意）
+    }
+  }
+</script>
+
+{% endblock content %}

@@ -13,6 +13,7 @@ urlpatterns = [
     path('task/',include('apps.task.urls')),
     path('meeting/',include('apps.meeting.urls')),
     path('knowledge/', include('apps.knowledge.urls')),
+    path('document/', include('apps.document.urls')),
     path('reference/', include('apps.reference.urls')),
 ]
 

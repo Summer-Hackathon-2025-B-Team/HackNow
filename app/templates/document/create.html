@@ -1,0 +1,69 @@
+<!-- このテンプレートはbase.htmlを拡張します。 -->
+{% extends 'base.html' %}
+{% load static %}
+<!-- base.html側に block title が用意されていて、その中身をこの行で上書きしているイメージ -->
+{% block title %}資料リンク登録{% endblock %}
+
+<!-- base.html で定義されている content ブロックの中身を、ここから書き始めます -->
+{% block content %}
+
+<!-- ページ上部に中央揃えで「資料リンク登録」という見出し（太字）を表示しています。mb-5 は Bootstrap のクラスで「下に余白を大きめに取る」という意味です。 -->
+<div class="text-center mb-5">
+  <h2><strong>資料リンク登録</strong></h2>
+</div>
+
+<!-- フォーム送信時にPOSTリクエストを使います。 -->
+<form method="post">
+  <!-- CSRF対策用のトークンを埋め込みます。Djangoのセキュリティ機能で必須。 -->
+  {% csrf_token %}
+
+  <!-- フォーム全体に関するエラー（特定のフィールドに属さないエラー）を表示します。 -->
+  {{ form.non_field_errors }}
+
+  <!-- Bootstrap のコンテナ（fluid:横幅いっぱい）。content-area は独自のCSSクラスかもしれません。 -->
+  <div class="container-fluid content-area">
+
+    <!-- 行（row）を作成し、下に余白を設定。 -->
+    <div class="row mb-5">
+
+      <!-- Djangoのフォームオブジェクトから、全フィールドをループ処理で取り出します。 -->
+      {% for field in form %}
+
+      <div class="row mb-4">
+        <!-- 左右に空白(col-md-3を置いて中央寄席にしています。) -->
+        <div class="col-md-3"></div>
+        <!-- フィールド名(ラベル、例：タイトル、URLなどなど)を表示 -->
+        <div class="col-md-2 ms-5">
+          {{ field.label }}
+        </div>
+        <!-- field → 実際の入力フォーム(テキストボックスなど)を表示。 -->
+        <div class="col-md-4">
+          {{ field }}
+        </div>
+        <!-- Bootstrapのカラムを指定(col-md-X)で横幅を調整しています。 -->
+        <div class="col-md-3"></div>
+      </div>
+
+      {% endfor %}
+    </div>
+
+    <!-- 登録ボタンを中央に配置しています。 -->
+    <div class="text-center mb-5">
+      <!-- type="submit":フォームを送信　btn btn-primary:Bootstrapの青いボタン。 -->
+      <button type="submit" class="btn btn-primary btn-layout">
+        登録
+      </button>
+    </div>
+
+  </div>
+
+</form>
+<!-- フォームの下にリンクボタンを配置 -->
+<div class="text-center">
+  <!-- documentアプリのindexという名前のURLに飛ぶ　Bootstrapの灰色ボタン。 -->
+  <a href="{% url 'document:index' %}" class="btn btn-secondary btn-layout">
+    戻る
+  </a>
+</div>
+
+{% endblock content %}

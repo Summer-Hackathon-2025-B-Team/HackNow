@@ -7,7 +7,11 @@ from django.views.generic import (
     DetailView,
     )
 from .models import Meeting
+from apps.team.models import Team
 from .forms import MeetingForm, AgendaFormSet
+import requests
+from django.contrib import messages
+
 
 class ListMeetingView(ListView):
     template_name = 'meeting/index.html'
@@ -15,7 +19,13 @@ class ListMeetingView(ListView):
 
     def get_queryset(self):
         """ログインユーザのチームのミーティング情報だけ取得"""
-        return Meeting.objects.filter(team=self.request.user.team).order_by('datetime')
+        return Meeting.objects.filter(team=self.request.user.team).order_by('-datetime')
+
+    def dispatch(self, request, *args, **kwargs):
+        # ログインユーザがチーム未所属ならエラー画面にリダイレクト
+        if request.user.team is None:
+            return redirect('home:error') 
+        return super().dispatch(request, *args, **kwargs)
 
 
 # views.pyファイルの設定をします
@@ -110,4 +120,25 @@ def delete_meeting_view(request,pk):
     # 該当レコードがなければ404エラーを返す
     meeting = get_object_or_404(Meeting, pk=pk)
     meeting.delete()
+    return redirect('meeting:index') 
+
+
+# Mattermostへの通知
+def notification_view(request,pk):
+
+    meeting = get_object_or_404(Meeting, pk=pk)
+
+    # ユーザが属するチームにMattermostのWebhookURLが設定されている場合
+    if webhook_url := request.user.team.webhook_url: 
+
+        datetime = meeting.datetime.strftime('%Y/%m/%d %H:%M')
+        message = "@all\n" + datetime + "実施分のミーティングについて議事内容を更新しました。\nご確認ください。"
+
+        # Mattermostに送信
+        mm_payload = {"text": message}
+        mm_response = requests.post(webhook_url, json=mm_payload)
+        messages.success(request, "議事更新通知をMattermostに通知しました。")
+        return redirect('meeting:index') 
+
+    messages.error(request, "MattermostのWebhookURLが未登録のため、議事更新通知ができませんでした。")
     return redirect('meeting:index') 

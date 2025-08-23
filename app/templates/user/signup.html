@@ -31,7 +31,7 @@
                         </div>
 
                         {% if field.errors %}
-                            <div class="text-danger">
+                            <div class="" style="color:red;">
                                 {{ field.errors }}
                             </div>
                         {% endif %}
@@ -48,7 +48,7 @@
             </form>
 
             <a href="{% url 'user:login' %}" class="btn btn-secondary btn-layout">
-                ログイン画面に戻る
+                ログイン画面に戻る <i class="fa-solid fa-circle-chevron-right"></i>
             </a>
 
         </div>

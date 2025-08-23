@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:pk>/edit', views.EditMeetingView.as_view(), name="edit"),
     path('<int:pk>/detail', views.DetailMeetingView.as_view(), name="detail"),
     path('<int:pk>/delete/', views.delete_meeting_view, name='delete'),
+    path('<int:pk>/notification/', views.notification_view, name='notification'),
 ]

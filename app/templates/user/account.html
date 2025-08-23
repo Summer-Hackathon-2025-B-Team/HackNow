@@ -22,6 +22,15 @@
                     </div>
                     <div class="col-md-4">
                         {{ form.name }}
+                            
+                        {% if form.name.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.name.errors %}
+                                    <li style="color:red;">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
                     </div>
                     <div class="col-md-3"></div>
                 </div>
@@ -79,7 +88,7 @@
                         <div class="col-md-4">
                             {% for member in request.user.team.members.all %}
                                 {% if member != request.user %}
-                                    {{ member.name }}<br>
+                                    <i class="fa-solid fa-user" style="color: black;"></i> {{ member.name }}<br>
                                 {% endif %}
                                 {% empty %}
                                     他のメンバーはいません
@@ -122,7 +131,7 @@
 
     <div class="text-center">
         <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
-            ホーム画面に戻る
+            ホーム画面に戻る <i class="fa-solid fa-circle-chevron-right"></i>
         </a>
     </div>
 

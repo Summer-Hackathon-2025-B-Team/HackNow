@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}チーム未登録エラー{% endblock %}
+
+{% block content %}
+
+    <!-- 中央寄せ用ラッパー -->
+    <div style="max-width: 1000px; margin: 0 auto;">
+
+        <div class="text-center mb-5">
+
+            <h2><strong style="color: red;">チーム未登録エラー</strong></h2>
+
+            <div class="text-center mt-5">
+                <img src="{% static 'images/ojigi/ojigi_bear.png' %}" width="100" height="100">
+                <img src="{% static 'images/ojigi/ojigi_dog.png' %}" width="100" height="100">
+                <img src="{% static 'images/ojigi/ojigi_cat.png' %}" width="100" height="100">
+                <img src="{% static 'images/ojigi/ojigi_rabit.png' %}" width="100" height="100">
+            </div>
+
+        </div>
+
+        <div class="text-center mb-5" style="font-size: 24px; font-weight: bold;">
+            <p>各種管理メニューの機能は<strong style="text-decoration: underline;">チーム登録済みユーザのみ利用可能</strong>です。<br>「アカウント管理」＞「ユーザ情報」からチームIDの登録をお願いします！</p>
+        </div>
+
+        <div class="text-center">
+            <a href="{% url 'user:account' %}" class="btn btn-secondary btn-layout">
+                ユーザ情報へ <i class="fa-solid fa-circle-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    
+{% endblock content %}
+

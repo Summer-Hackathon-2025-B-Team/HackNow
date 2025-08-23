@@ -3,11 +3,23 @@ from django.views.generic import ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from .models import Reference
 from .forms import ReferenceForm
+from django.http import JsonResponse
 
 class ReferenceListView(ListView):
     template_name = 'reference/index.html'
     model = Reference
     ordering = ["-id"]
+
+    # ターゲットの選択肢を生成
+    def get_target_choices(self):
+        targets = Reference.objects.values_list('target', flat=True).distinct()
+        return [('', 'すべて')] + [(c, c) for c in targets if c]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['targets'] = self.get_target_choices()
+        return context
+
 
 class ReferenceCreateView(CreateView):
     form_class = ReferenceForm
@@ -27,3 +39,23 @@ def delete_view(request,pk):
     reference = get_object_or_404(Reference, pk=pk)
     reference.delete()
     return redirect('reference:index') 
+
+
+def target_filter_api(request):
+    target = request.GET.get('target', '')
+    items = Reference.objects.all()
+    items = Reference.objects.all().order_by('-id')
+
+    if target:
+        items = items.filter(target=target)
+
+    data = [
+        {
+            'target': item.target,
+            'content': item.content,
+            'url': item.url,
+        }
+        for item in items
+    ]
+
+    return JsonResponse({'items': data})

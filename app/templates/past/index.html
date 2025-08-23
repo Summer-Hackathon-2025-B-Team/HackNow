@@ -4,141 +4,182 @@
 
 {% block content %}
 
-    <!-- 管理ユーザ -->
-    {% if user.is_staff %}
+    <!-- 中央寄せ用ラッパー -->
+    <div style="max-width: 1200px; margin: 0 auto;">
 
-        <div class="text-center mb-5">
-            <h2><strong>過去ハッカソン情報管理</strong></h2>
-        </div>
+        <!-- 管理ユーザ -->
+        {% if user.is_staff %}
 
-        <div class="text-end mb-4 btn-adjustment-past">
-            <a href="{% url 'past:create' %}" class="btn btn-primary btn-layout">
-                <i class="fas fa-plus-circle"></i> 新規登録
+            <div class="text-center mb-5">
+                <h2>
+                    <strong>過去ハッカソン情報管理　</strong>
+                </h2>
+            </div>
+
+            <div class="mb-4 text-end">
+                <a href="{% url 'past:create' %}" class="btn btn-layout btn-create">
+                    <i class="fas fa-plus-circle"></i> 新規登録
+                </a>
+            </div>
+
+            <table class="mb-5 mx-auto" style="width: 100%;">
+                <thead class="">
+                    <tr>
+                        <th width="130">カテゴリ</th>
+                        <th width="200">アプリ名</th>
+                        <th width="500">アプリ概要</th>
+                        <th width="90">発表動画</th>
+                        <th width="100">発表開始時間</th>
+                        <th width="90">編集</th>
+                        <th width="90">削除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in object_list %}
+                        <tr>
+                            <td class="">{{ item.category }}</td>
+                            <td class="">{{ item.name }}</td>
+                            <td class="" style="font-size: 14px;">{{ item.description|linebreaksbr }}</td>
+                            <td class="text-center">
+                                <a href="{{ item.url }}" target="_blank">
+                                    <button class="btn btn-layout-small btn-link"><i class="fa-solid fa-link"></i> リンク</button>
+                                </a>
+                            </td>
+                            <td class="">{{ item.start_time }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'past:edit' item.id %}" >
+                                    <button class="btn btn-layout-small btn-edit"><i class="fa-solid fa-pen"></i> 編集</button>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url, '{{ item.name }}'); return false;" 
+                                    data-url="/past/{{ item.id }}/delete/">
+                                    <button class="btn btn-layout-small btn-delete"><i class="fa-solid fa-trash"></i> 削除</button>
+                                </a>
+                            </td>
+                
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        <!-- 一般ユーザ（参照のみ） -->
+        {% else %}
+
+            <div class="text-center mb-5">
+                <h2>
+                    <strong>過去ハッカソン情報管理　</strong>
+                    <!-- ルーペンギンのアイコン表示 -->
+                    <img src="{% static 'images/penguin_roupe.png' %}" id="roupenguin-img" class="img-fluid" width="60" height="75" style="cursor:pointer;">
+                </h2>
+            </div>
+
+            <div class="category_select">
+                カテゴリでの絞り込み：
+                <select id="categorySelect" class="">
+                    {% for value, label in categories %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <table class="mb-5 mx-auto" style="width: 100%;">
+                <thead class="">
+                    <tr>
+                        <th width="120">カテゴリ</th>
+                        <th width="200">アプリ名</th>
+                        <th width="560">アプリ概要</th>
+                        <th width="100">発表動画</th>
+                        <th width="120">発表開始時間</th>
+                    </tr>
+                </thead>
+                <tbody id="itemTableBody">
+                </tbody>
+            </table>
+
+        {% endif %}
+
+        <div class="text-center">
+            <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
+                ホーム画面に戻る <i class="fa-solid fa-circle-chevron-right"></i>
             </a>
         </div>
+        <br><br>
 
-        <table class="mb-5 mx-auto" width="1200">
-            <thead class="">
-                <tr>
-                    <th width="120">カテゴリ</th>
-                    <th width="200">アプリ名</th>
-                    <th width="500">アプリ概要</th>
-                    <th width="90">発表動画</th>
-                    <th width="110">発表開始時間</th>
-                    <th width="90">編集</th>
-                    <th width="90">削除</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in object_list %}
-                    <tr>
-                        <td class="">{{ item.category }}</td>
-                        <td class="">{{ item.name }}</td>
-                        <td class="">{{ item.description|linebreaksbr }}</td>
-                        <td class="text-center">
-                            <a href="{{ item.url }}" target="_blank">
-                                <button class="btn btn-edit btn-layout-small">リンク</button>
-                            </a>
-                        </td>
-                        <td class="">{{ item.start_time }}</td>
-                        <td class="text-center">
-                            <a href="{% url 'past:edit' item.id %}" >
-                                <button class="btn btn-edit btn-layout-small">編集</button>
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url); return false;" 
-                                data-url="/past/{{ item.id }}/delete/">
-                                <button class="btn btn-detail btn-layout-small">削除</button>
-                            </a>
-                        </td>
-            
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-    <!-- 一般ユーザ（参照のみ） -->
-    {% else %}
-
-        <div class="text-center mb-5">
-            <h2><strong>過去ハッカソン情報</strong></h2>
-        </div>
-
-        <select id="categorySelect" class="category_select">
-            {% for value, label in categories %}
-                <option value="{{ value }}">{{ label }}</option>
-            {% endfor %}
-        </select>
-
-        <table class="mb-5 mx-auto" width="1040">
-            <thead class="">
-                <tr>
-                    <th width="120">カテゴリ</th>
-                    <th width="200">アプリ名</th>
-                    <th width="500">アプリ概要</th>
-                    <th width="100">発表動画</th>
-                    <th width="120">発表開始時間</th>
-                </tr>
-            </thead>
-            <tbody id="itemTableBody">
-            </tbody>
-        </table>
-
-    {% endif %}
-
-    <div class="text-center">
-        <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
-            ホーム画面に戻る
-        </a>
     </div>
-    <br><br>
 
+    <!-- カテゴリ選択に応じてテーブルを非同期に更新 -->
     <script>
+
+        // ページが読み込まれたら (DOMContentLoaded)、処理を開始
         document.addEventListener('DOMContentLoaded', function() {
+
+            // selectタグ（カテゴリ選択のプルダウン）を取得
             const categorySelect = document.getElementById('categorySelect');
+
+            // tbodyタグ（抽出した過去ハッカソン情報を表示する場所）を取得
             const tableBody = document.getElementById('itemTableBody');
 
             function fetchItems() {
+
+                // 選択されたカテゴリを取得
                 const category = categorySelect.value;
-                const url = new URL("{% url 'past:item_list_api' %}", window.location.origin);
+
+                // フルパスURLの生成
+                // window.location.origin：スキーム（http://など） + ドメイン + ポート
+                const url = new URL("{% url 'past:category_filter_api' %}", window.location.origin);
+
                 if (category) {
+                    // GETパラメータにカテゴリを付与
                     url.searchParams.append('category', category);
                 }
 
+                // API呼び出し
                 fetch(url)
+                    // レスポンスをjson形式に変換（レスポンス：JsonResponse({'items': data})）
                     .then(response => response.json())
                     .then(data => {
                         tableBody.innerHTML = '';
+
+                        // フィルタした結果、対象なしの場合
                         if (data.items.length === 0) {
                             tableBody.innerHTML = '<tr><td colspan="5">該当するアイテムはありません。</td></tr>';
+
+                        // 対象ありの場合
                         } else {
                             data.items.forEach(item => {
                                 const row = document.createElement('tr');
-                                const descriptionHtml = item.description.replace(/\n/g, '<br>'); // ★ 改行対応
 
+                                // 改行があればbrタグに変換
+                                const descriptionHtml = item.description.replace(/\n/g, '<br>');
+
+                                // trタグ内にhtmlを生成（テンプレートリテラル（`...`）で組み立て）
                                 row.innerHTML = `
                                     <td>${item.category}</td>
                                     <td>${item.name}</td>
                                     <td>${descriptionHtml}</td>
-                                    <td>${item.url ? `<a href="${item.url}" target="_blank"><button class="btn btn-edit btn-layout-small">リンク</button></a>` : ''}</td>
+                                    <td>${item.url ? `<a href="${item.url}" target="_blank"><button class="btn btn-layout-small btn-link"><i class="fa-solid fa-link"></i> リンク</button></a>` : ''}</td>
                                     <td>${item.start_time}</td>
                                 `;
+
+                                // tableBodyの子要素（DOM要素）としてrowを追加
                                 tableBody.appendChild(row);
                             });
                         }
                     });
             }
 
+            // カテゴリを変更した際に発火（fetchItems関数を呼び出し） ⇒ イベント駆動処理
             categorySelect.addEventListener('change', fetchItems);
-            fetchItems(); // 初期表示
+            // 初期表示 ⇒ 最初に無条件で実行
+            fetchItems();
         });
     </script>
 
     <!-- 削除確認モーダル -->
     <div id="confirm-dialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
         background: #fff; border: 1px solid #ccc; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3); z-index: 1000; width: 700px; font-size: 24px; margin:0px auto; text-align: center;">
-        <p>タスクを削除しますか？</p>
+        <p id="confirm-message">過去ハッカソン情報を削除しますか？</p>
         <button class="btn btn-primary btn-layout" style="width: 100px; font-size:20px;" onclick="proceedDelete()">Yes</button>
         <button class="btn btn-danger btn-layout" style="width: 100px; font-size:20px; margin-left:20px;" onclick="cancelDelete()">No</button>
     </div>
@@ -148,26 +189,73 @@
         width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;">
     </div>
 
+    <!-- ルーペンギンのモーダル -->
+
+    <!-- id="motivationModal" がモーダル全体の識別子。JSでこれを呼び出す。 -->
+     <!-- tabindex="-1"：通常のTab移動ではフォーカスしないが、JSで .focus() すればフォーカス可能 -->
+     <!-- aria-labelledby="motivationModalLabel"：id="motivationModalLabel" の要素を「このモーダルのタイトル」としてスクリーンリーダーに伝える（目が見えない人に配慮したユニバーサルデザイン） -->
+    <div class="modal fade" id="roupenguin-Modal" tabindex="-1" aria-labelledby="roupenguin-ModalLabel" aria-hidden="true">
+
+        <!-- modal-dialog-centered：モーダルを画面中央に配置 -->
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 800px;">
+            <div class="modal-content">
+
+                <!-- モーダルのヘッダー部分 -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roupenguin-ModalLabel">ペンギン図鑑</h5>
+
+                    <!-- 右上の閉じるボタン（data-bs-dismiss="modal" が付いたボタンを押すと、Bootstrap が自動でモーダルを閉じる） -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+                </div>
+
+                <!-- モーダルの本文部分（ここにJSで画像やテキストを入れる） -->
+                <div class="modal-body" id="roupenguin-modal-text" style="font-size:1.2rem; line-height:1.5;"></div>
+
+                <!-- モーダルのフッター部分（閉じるボタンあり） -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ルーペンギンをクリックするとモーダル表示 -->
     <script>
-    let deleteUrl = null;
 
-    function confirmDelete(itemId, url) {
-        deleteUrl = url;
-        document.getElementById('confirm-dialog').style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
-    }
+        // ページが読み込まれたら (DOMContentLoaded)、処理を開始
+        document.addEventListener("DOMContentLoaded", function() {
 
-    function cancelDelete() {
-        deleteUrl = null;
-        document.getElementById('confirm-dialog').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-    }
+            // モーダルに表示するテキスト
+            const quote = "■名前：ルーペンギン\n■特徴：5歳の誕生日にもらったルーペを使い\n　　　　興味を持ったことをくまなくリサーチ\n■マイブーム：過去のハッカソンで作られたアプリの分析";
 
-    function proceedDelete() {
-        if (deleteUrl) {
-        window.location.href = deleteUrl;  // GETで削除URLに遷移（CSRFに注意）
-        }
-    }
+            // 画像（クリック対象）
+            const img = document.getElementById("roupenguin-img");
+
+            // モーダルにテキストを表示する箇所を取得
+            const modalText = document.getElementById("roupenguin-modal-text");
+
+            // Bootstrapのモーダル機能をJSから使うためにインスタンス化
+            const motivationModal = new bootstrap.Modal(document.getElementById('roupenguin-Modal'));
+
+            // 画像をクリックすると発火
+            img.addEventListener("click", function() {
+
+                // /\n/g は正規表現で「改行文字 \n を全部探す、でbrタグに置換。置換後の文字列をhtmlとして解釈して表示。
+                modalText.innerHTML = `
+                    <div class="d-flex align-items-start">
+                        <!-- 左側 画像 -->
+                        <div class="me-4">
+                            <img src="{% static 'images/penguin_roupe.png' %}" alt="ルーペンギン画像" class="img-fluid" style="max-width:120px; border-radius:8px;">
+                        </div>
+                        <!-- 右側 テキスト -->
+                        <div>
+                            ${quote.replace(/\n/g, "<br>")}
+                        </div>
+                    </div>
+                `;
+                motivationModal.show();
+            });
+        });
     </script>
 
 {% endblock content %}

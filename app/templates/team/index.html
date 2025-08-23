@@ -4,58 +4,61 @@
 
 {% block content %}
 
-    <div class="text-center mb-5">
-        <h2><strong>チーム情報管理</strong></h2>
-    </div>
+    <!-- 中央寄せ用ラッパー -->
+    <div style="max-width: 750px; margin: 0 auto;">
 
-    <div class="text-end mb-4 btn-adjustment-team">
-        <a href="{% url 'team:create' %}" class="btn btn-primary btn-layout">
-            <i class="fas fa-plus-circle"></i> 新規登録
-        </a>
-    </div>
+        <div class="text-center mb-5">
+            <h2><strong>チーム情報管理</strong></h2>
+        </div>
 
-    <table class="mb-5 mx-auto" width="750">
-        <thead class="">
-            <tr>
-                <th width="250">コース</th>
-                <th width="150">チーム名</th>
-                <th width="150">活動ステータス</th>
-                <th width="100">詳細</th>
-                <th width="100">編集</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in object_list %}
+        <div class="mb-4 text-end">
+            <a href="{% url 'team:create' %}" class="btn btn-layout btn-create">
+                <i class="fas fa-plus-circle"></i> 新規登録
+            </a>
+        </div>
+
+        <table class="mb-5 mx-auto" style="width: 100%;">
+            <thead class="">
                 <tr>
-                    <td class="">{{ item.course }}</td>
-                    <td class="">{{ item.name }}</td>
-                    <td>
-                        {% if item.course.activity_status %}
-                            <span class="">活動中</span>
-                        {% else %}
-                            <span class="">活動終了</span>
-                        {% endif %}
-                    </td>
-                    <td class="text-center">
-                        <a href="{% url 'team:detail' item.id %}">
-                            <button class="btn btn-detail btn-layout-small">詳細</button>
-                        </a>
-                    </td>
-                    <td class="text-center">
-                        <a href="{% url 'team:edit' item.id %}">
-                            <button class="btn btn-edit btn-layout-small">編集</button>
-                        </a>
-                    </td>
-        
+                    <th width="250">コース</th>
+                    <th width="150">チーム名</th>
+                    <th width="150">活動ステータス</th>
+                    <th width="100">詳細</th>
+                    <th width="100">編集</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for item in object_list %}
+                    <tr>
+                        <td class="">{{ item.course }}</td>
+                        <td class="">{{ item.name }}</td>
+                        <td>
+                            {% if item.course.activity_status %}
+                                <span class="status-progress">活動中</span>
+                            {% else %}
+                                <span class="status-end">活動終了</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'team:detail' item.id %}">
+                                <button class="btn btn-detail btn-layout-small"><i class="fa-solid fa-list"></i> 詳細</button>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'team:edit' item.id %}">
+                                <button class="btn btn-edit btn-layout-small"><i class="fa-solid fa-pen"></i> 編集</button>
+                            </a>
+                        </td>
+            
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <div class="text-center">
-        <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
-            ホーム画面に戻る
-        </a>
-    </div>
-                        
+        <div class="text-center">
+            <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
+                ホーム画面に戻る <i class="fa-solid fa-circle-chevron-right"></i>
+            </a>
+        </div>
+    </div>                        
 {% endblock content %}

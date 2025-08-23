@@ -6,7 +6,7 @@ from .forms import CourseForm
 class ListCourseView(ListView):
     template_name = 'course/index.html'
     model = Course
-    ordering = ["-created_at"]
+    ordering = ["-last_report_date"]
 
 class CreateCourseView(CreateView):
     form_class = CourseForm

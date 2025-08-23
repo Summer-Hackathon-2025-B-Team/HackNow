@@ -8,4 +8,5 @@ urlpatterns = [
     path('create', views.ReferenceCreateView.as_view(), name="create"),
     path('<int:pk>/edit', views.ReferenceEditView.as_view(), name="edit"),
     path('<int:pk>/delete/', views.delete_view, name='delete'),
+    path('target_filter/', views.target_filter_api, name='target_filter_api'),
 ]

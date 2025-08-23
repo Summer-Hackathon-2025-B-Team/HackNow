@@ -105,6 +105,7 @@ class AccountForm(forms.ModelForm):
      
         self.fields['password'].initial = ''
 
+    # チームIDチェック
     def clean_team_id_input(self):
         team_id = self.cleaned_data.get('team_id_input')
         if team_id:
@@ -122,6 +123,7 @@ class AccountForm(forms.ModelForm):
             instance.save()
         return instance
 
+    # パスワードチェック
     def clean_password(self):
         password = self.cleaned_data.get('password')
         if password:
@@ -130,3 +132,20 @@ class AccountForm(forms.ModelForm):
         else:
             # 空欄の場合は元のパスワードをそのまま使う
             return self.instance.password
+
+    # ユーザ名チェック
+    def clean_name(self):
+        username = self.cleaned_data.get('name')
+    
+        # すでに同じユーザ名を持つユーザが存在するかチェック
+        same_name = User.objects.filter(name=username)
+
+        # もし自分自身を編集しているなら、自分は除外
+        if self.instance:
+            same_name = same_name.exclude(pk=self.instance.pk)
+
+        if same_name.exists():
+            raise forms.ValidationError("既に登録されているユーザ名です。")
+
+        return username
+    

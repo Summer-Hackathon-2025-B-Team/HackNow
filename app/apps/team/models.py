@@ -20,6 +20,9 @@ class Team(models.Model):
     # チーム名
     name = models.CharField(max_length=10, null=False, blank=False)
 
+    # webhookのURL
+    webhook_url = models.URLField(max_length=255, null=True, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

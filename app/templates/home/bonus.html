@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}おまけページ{% endblock %}
+
+{% block content %}
+
+    <!-- 中央寄せ用ラッパー -->
+    <div style="max-width: 1100px; margin: 0 auto;">
+
+        <div class="text-center mb-5">
+
+            <h2><strong>おまけページ</strong></h2>
+
+        </div>
+
+        <div class="text-center mb-5" style="font-size: 24px; font-weight: bold;">
+            <p>人生、<strong style="color: red;">四苦八苦</strong>（苦しいことが多い）ですが<br><br>
+                <strong style="color: blue;">シック</strong>な（落ち着いたデザインの）当アプリを活用し<br>
+                世の中や自身の課題を<strong style="color: blue;">ハック</strong>（工夫・改善）して<br><br>
+                <strong style="color: red;">四苦八苦</strong>を乗り越えましょう！
+            </p>
+        </div>
+
+        <div class="mt-5 mb-5 text-center">
+            <img id="hackman-sprite" src="{% static 'images/hackman_move/hack1.png' %}" width="1000" height="110">
+        </div>
+
+        <div class="text-center">
+            <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
+                ホーム画面に戻る <i class="fa-solid fa-circle-chevron-right"></i>
+            </a>
+        </div>
+        <br><br>
+
+        <!-- ボツペンギンのアイコン -->
+        <!-- <div class="text-center">
+            <img src="{% static 'images/penguin/penguin_hanpen.png' %}" id="hanpenguin-img" class="img-fluid me-5" width="160" height="220" style="cursor:pointer;">
+            <img src="{% static 'images/penguin/penguin_conpe.png' %}" id="conpenguin-img" class="img-fluid me-5" width="180" height="240" style="cursor:pointer;">
+            <img src="{% static 'images/penguin/penguin_ad.png' %}" id="kanpenguin-img" class="img-fluid me-5" width="150" height="210" style="cursor:pointer;">
+            <img src="{% static 'images/penguin/penguin_pen.png' %}" id="sharpenguin-img" class="img-fluid me-5" width="160" height="220" style="cursor:pointer;">
+        </div> -->
+
+    </div>
+
+    <script>
+        // 画像を交互に表示してアニメーションっぽく
+        const frames = [
+            "{% static 'images/hackman_move/hack1.png' %}",
+            "{% static 'images/hackman_move/hack2.png' %}",
+            "{% static 'images/hackman_move/hack3.png' %}",
+            "{% static 'images/hackman_move/hack4.png' %}",
+            "{% static 'images/hackman_move/hack5.png' %}",
+            "{% static 'images/hackman_move/hack6.png' %}",
+            "{% static 'images/hackman_move/hack7.png' %}",
+            "{% static 'images/hackman_move/hack8.png' %}",
+            "{% static 'images/hackman_move/hack9.png' %}",
+            "{% static 'images/hackman_move/hack10.png' %}",
+        ];
+        let index = 0;
+        const sprite = document.getElementById("hackman-sprite");
+
+        setInterval(() => {
+            index = (index + 1) % frames.length;
+            sprite.src = frames[index];
+        }, 600); // 0.5秒ごとに切り替え
+    </script>
+
+{% endblock content %}

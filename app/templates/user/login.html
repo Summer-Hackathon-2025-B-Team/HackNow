@@ -15,7 +15,7 @@
 
             <div class="row mb-4">
                 <div class="col-md-3"></div>
-                <div class="col-md-2 ms-5">
+                <div class="col-md-2">
                     {{ form.username.label }}
                 </div>
                 <div class="col-md-4">
@@ -26,7 +26,7 @@
 
             <div class="row mb-5">
                 <div class="col-md-3"></div>
-                <div class="col-md-2 ms-5">
+                <div class="col-md-2">
                     {{ form.password.label }}
                 </div>
                 <div class="col-md-4">
@@ -56,8 +56,64 @@
 
     <div class="text-center">
         <a href="{% url 'user:signup' %}" class="btn btn-secondary btn-layout">
-            新規登録はこちら
+            新規登録はこちら <i class="fa-solid fa-circle-chevron-right"></i>
         </a>
     </div>
 
 {% endblock content %}
+
+{% block sp-content %}
+
+    <div class="text-center mb-3 sp-main-title">
+        <strong>ログイン</strong>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="container-fluid content-area">
+
+            <div class="row mb-3">
+                <div>
+                    {{ form.username.label }}
+                </div>
+                <div>
+                    {{ form.username }}
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div>
+                    {{ form.password.label }}
+                </div>
+                <div>
+                    {{ form.password }}
+                </div>
+
+                <div class="text-center mt-3 text-danger">
+                    {% if form.non_field_errors %} 
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %} 
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mb-4">
+            <button type="submit" class="btn btn-primary btn-layout">
+                ログイン
+            </button>
+        </div>
+
+    </form>
+
+    <div class="text-center">
+        <a href="{% url 'user:signup' %}" class="btn btn-secondary btn-layout">
+            新規登録はこちら <i class="fa-solid fa-circle-chevron-right"></i>
+        </a>
+    </div>
+
+{% endblock sp-content %}

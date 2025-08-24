@@ -15,12 +15,19 @@ from .models import Knowledge
 from .forms import KnowledgeForm
 
 class KnowledgeListView(ListView):
+        
     model = Knowledge
     template_name = 'knowledge/index.html'
 
     def get_queryset(self):
-        """ログインユーザのチームのナレッジのみ取得"""
+        """ログインユーザのチームのナレッジのみ取得（更新日が新しいものを上に）"""
         return Knowledge.objects.filter(team=self.request.user.team).order_by('updated_at')
+
+    def dispatch(self, request, *args, **kwargs):
+        # ログインユーザがチーム未所属ならエラー画面にリダイレクト
+        if request.user.team is None:
+            return redirect('home:error') 
+        return super().dispatch(request, *args, **kwargs)
 
 class KnowledgeCreateView(CreateView):
     model = Knowledge

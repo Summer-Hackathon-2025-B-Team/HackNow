@@ -11,11 +11,15 @@
         <!-- ファビコン設定 -->
         <link rel="icon" href="{% static 'images/favicon.ico' %}">
 
-        <!-- bootstrap設定 -->
+        <!-- bootstrap設定(css) -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-        <!-- css設定 -->
+        <!-- JSをheadで読込むとHTML構築終了前にスクリプトが走り、DOM操作コード（getElementById など）が null になるリスクがあり
+            Bootstrap自体は即座にエラーにはならないが、モーダルなどを「ページ描画中に使う」ケースで不具合が出やすい
+            なので、bodyの最後に読込むのがよい -->
+
+        <!-- 独自css読込 -->
         <link rel="stylesheet" type="text/css" href="{% static 'css/stylesheets.css' %}">
 
     </head>
@@ -25,7 +29,7 @@
 
             <div class="row">
 
-                <!-- サイドバー -->
+                <!-- サイドメニュー -->
                 <nav class="col-md-2 sidemenu">
 
                     <!-- アプリロゴ表示（押下するとホーム画面へ） -->
@@ -75,6 +79,11 @@
                                 </div>
                             </div>
 
+                            <!-- ハックマン（アプリキャラクター）の表示 ⇒ 押下するとモーダルでメッセージを表示 -->
+                            <div class="text-center character-icon">
+                                <img src="{% static 'images/hackman.png' %}" id="motivation-img" class="img-fluid" width="120" height="60" style="cursor:pointer;">
+                            </div>
+
                         <!-- 管理者用メニュー -->
                         {% else %}
 
@@ -119,17 +128,122 @@
 
                     {% endif %}
 
-                    <!-- アプリキャラクター表示（押下するとモーダルでメッセージ表示） -->
-                    <div class="text-center character-icon">
-                        <img src="{% static 'images/hackman.png' %}" id="motivation-img" class="img-fluid" width="120" height="60" style="cursor:pointer;">
-                    </div>
-
                 </nav>
 
-                <!-- メインコンテンツ -->
+                <!-- スマホ用ヘッダー -->
+                <header>
+
+                    <!-- アプリロゴ表示（押下するとホーム画面へ） -->
+                    <div class="text-start">
+                        <a href="{% url 'home:index' %}">
+                            <img src="{% static 'images/logo_white.png' %}" width="180" height="30">
+                        </a>
+                    </div>
+
+                    {% if user.is_authenticated %}
+                        <!-- ハンバーガーメニュー部分 -->
+                        <div class="nav">
+                        
+                            <!-- ハンバーガーメニューの表示・非表示を切り替えるチェックボックス -->
+                            <input id="drawer_input" class="drawer_hidden" type="checkbox">
+                        
+                            <!-- ハンバーガーアイコン -->
+                            <label for="drawer_input" class="drawer_open"><span></span></label>
+
+                            {% if not user.is_staff %}
+
+                                <!-- 一般ユーザ用メニュー -->
+                                <nav class="nav_content">
+                                    <p class="sp_menu_title">～メニュー～</p>
+                                    <ul class="nav_list">
+                                        <li class="nav_item mt-1">
+                                            <a href="{% url 'user:account' %}">ユーザ情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'meeting:index' %}">ミーティング管理</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'task:index' %}">タスク管理</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'document:index' %}">資料リンク管理</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'knowledge:index' %}">ナレッジ管理</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'reference:index' %}">ハッカソン参考情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'past:index' %}">過去ハッカソン情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <!-- ログアウトはPOST処理が必要、かつボタンではなくaタグを使いたいので、Javascriptの仕組みでform起動 -->
+                                            <form id="logout-form" action="{% url 'user:logout' %}" method="post" style="display: none;">
+                                                {% csrf_token %}
+                                            </form>
+                                            <div class="">
+                                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                    ログアウト
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </nav>        
+
+                            {% else %}
+
+                                <!-- 管理ユーザ用メニュー -->
+                                <nav class="nav_content">
+                                    <p class="sp_menu_title">～メニュー～</p>
+                                    <ul class="nav_list">
+                                        <li class="nav_item mt-1">
+                                            <a href="{% url 'user:account' %}">ユーザ情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'course:index' %}">コース情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'team:index' %}">チーム情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'reference:index' %}">ハッカソン参考情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'past:index' %}">過去ハッカソン情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <!-- ログアウトはPOST処理が必要、かつボタンではなくaタグを使いたいので、Javascriptの仕組みでform起動 -->
+                                            <form id="logout-form" action="{% url 'user:logout' %}" method="post" style="display: none;">
+                                                {% csrf_token %}
+                                            </form>
+                                            <div class="">
+                                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                    ログアウト
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </nav>        
+
+                            {% endif %}
+
+                        </div>            
+                    {% endif %}
+                </header>
+
+                <!-- メインコンテンツ（画面の右側：PC用） -->
                 <main class="col-md-10 content">
 
-                    <!-- メッセージ表示 -->
+                    {% block content %}{% endblock content %}
+
+                    <footer class="bg-light text-center py-1 fixed-bottom border-top">
+                        <a href="{% url 'home:bonus' %}">
+                            Hackathon 2025 Summer B-Team
+                        </a>
+                    </footer>
+
+                    <!-- ユーザ情報更新時のメッセージ表示 -->
                     {% if messages %}
                         <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080;">
                             {% for message in messages %}
@@ -144,26 +258,29 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                    
+                </main>
 
-                    {% block content %}{% endblock content %}
+                <!-- メインコンテンツ（画面の右側：スマホ用） -->
+                <main class="sp-content">
 
-                    <footer class="bg-light text-center py-1 fixed-bottom border-top">
+                    {% block sp-content %}{% endblock sp-content %}
+
+                    <footer class="bg-light text-center py-2 fixed-bottom border-top">
                         Hackathon 2025 Summer B-Team
                     </footer>
+
                 </main>
+
             </div>
         </div>
 
-        <!-- Bootstrap 5 JS & Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
         <!-- モーダル -->
         <div class="modal fade" id="motivationModal" tabindex="-1" aria-labelledby="motivationModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header modal-header-modify">
                         <h5 class="modal-title" id="motivationModalLabel">ハックマンの「<span style="font-weight: bold;">向上心を刺激する一言</span>」</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                     </div>
                     <div class="modal-body" id="modal-text" style="font-size:1.2rem; line-height:1.5; color: red;"></div>
                     <div class="modal-footer">
@@ -173,29 +290,40 @@
             </div>
         </div>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const quotes = [
-                    "学べば学ぶほど、自分がどれだけ無知であるか思い知らされる。自分の無知に気づけば気づくほど、より一層学びたくなる。（by アインシュタイン）",
-                    "人間はやり通す力があるかないかによってのみ、称賛または非難に値する。（by レオナルド・ダ・ヴィンチ）",
-                    "最も高い目標を達成するには、一歩一歩進むしかないという事実を、頭に入れておかなければならない。（by アンドリュー・カーネギー）",
-                    "天才なんかあるものか。僕は他人がコーヒーを飲んでいる時間に仕事をしただけだ。（by 魯迅）",
-                    "早い時間に始めて遅くまで残っていた。来る日も来る日も、来る年も来る年も。一夜にして成功するのに17年と114日もかかったよ。（by リオネル・メッシ）",
-                    "未来は今日何をするかによって決まる。（by ガンジー）",
-                    "努力した者が全て報われるとは限らん。しかし！成功した者は皆すべからく努力しておる！！（by はじめの一歩/漫画）",
-                ];
+        <!-- 日報提出トレースモーダルの定義 -->
+        <div class="modal fade" id="daily-report-trace-modal" tabindex="-1" aria-labelledby="daily-report-trace-ModalLabel" aria-hidden="true">
 
-                const img = document.getElementById("motivation-img");
-                const modalText = document.getElementById("modal-text");
-                const motivationModal = new bootstrap.Modal(document.getElementById('motivationModal'));
+            <!-- modal-dialog-centered：モーダルを画面中央に配置 -->
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+                <div class="modal-content">
 
-                img.addEventListener("click", function() {
-                    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-                    modalText.textContent = randomQuote;
-                    motivationModal.show();
-                });
-            });
-        </script>
+                    <!-- モーダルのヘッダー部分 -->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="daily-report-trace-ModalLabel" style="color:red; font-weight: bold;">日報を提出しましょう！</h5>
+
+                        <!-- 右上の閉じるボタン（data-bs-dismiss="modal" が付いたボタンを押すと、Bootstrap が自動でモーダルを閉じる） -->
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+                    </div>
+
+                    <!-- モーダルの本文部分（ここにJSでテキストを入れる） -->
+                    <div class="modal-body" id="daily-report-trace-modal-text" style="font-size:1.2rem; line-height:1.5; font-weight: bold;"></div>
+
+                    <!-- モーダルのフッター部分 -->
+                    <div class="modal-footer d-flex justify-content-between">
+                        <a href="https://raretech.site/dashboard/report/daily" target="_blank">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">RareTECHの日報ページへ</button>
+                        </a>                        
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap(js) & Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- 独自jsの読込 -->
+        <script src="{% static 'js/main.js' %}"></script>
 
     </body>
 </html>

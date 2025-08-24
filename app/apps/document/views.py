@@ -7,7 +7,6 @@ from django.views.generic import (
     ListView,
     CreateView,
     UpdateView,
-    DeleteView,
 )
 
 # 同じアプリ内の models.py から Document モデルを読み込む。

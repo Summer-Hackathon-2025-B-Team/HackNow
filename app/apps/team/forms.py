@@ -5,7 +5,7 @@ from apps.course.models import Course
 class TeamForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = ('course', 'name')
+        fields = ('course', 'name', 'webhook_url')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -18,6 +18,7 @@ class TeamForm(forms.ModelForm):
         # ラベルの設定
         self.fields['course'].label = 'コース'
         self.fields['name'].label = 'チーム名'
+        self.fields['webhook_url'].label = 'webhookURL'
 
         # status=Trueのコースだけをプルダウンに表示
         self.fields['course'].queryset = Course.objects.filter(activity_status=True)        

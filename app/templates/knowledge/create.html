@@ -20,14 +20,14 @@
                 {% for field in form %}
 
                     <div class="row mb-4">
-                        <div class="col-md-3"></div>
+                        <div class="col-md-2"></div>
                         <div class="col-md-2 ms-5">
                             {{ field.label }}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             {{ field }}
                         </div>
-                        <div class="col-md-3"></div>
+                        <div class="col-md-2"></div>
                     </div>
 
                 {% endfor %}
@@ -45,7 +45,7 @@
 
     <div class="text-center">
         <a href="{% url 'knowledge:index' %}" class="btn btn-secondary btn-layout">
-            ナレッジ管理に戻る
+            ナレッジ管理に戻る <i class="fa-solid fa-circle-chevron-right"></i>
         </a>
     </div>
     

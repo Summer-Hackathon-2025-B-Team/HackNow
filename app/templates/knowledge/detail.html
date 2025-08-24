@@ -13,46 +13,48 @@
         <div class="mb-5">
 
             <div class="row mb-4">
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
                 <div class="col-md-2">
                     タイトル
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="d-flex gap-2">
                         {{ object.title }}
                     </div>
                 </div>
 
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
+            <div class="knowledge-detail-line mb-4"></div>
 
             <div class="row mb-4">
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
                 <div class="col-md-2">
                     作成者
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     {{ object.created_by.get_full_name|default:object.created_by }}
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
+            <div class="knowledge-detail-line mb-4"></div>
 
             <div class="row mb-4">
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
                 <div class="col-md-2">
                     内容
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     {{ object.content|linebreaks }}
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
         </div>
     </div>
 
     <div class="text-center">
         <a href="{% url 'knowledge:index' %}" class="btn btn-secondary btn-layout">
-            ナレッジ管理に戻る
+            ナレッジ管理に戻る <i class="fa-solid fa-circle-chevron-right"></i>
         </a>
     </div>
     <br><br>

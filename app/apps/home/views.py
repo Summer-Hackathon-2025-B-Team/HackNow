@@ -77,8 +77,19 @@ def index_view(request):
             .prefetch_related('members')       # チームのユーザ一覧をまとめて取得
             .prefetch_related('task_set')       # チームのタスク一覧をまとめて取得
             .select_related('course')           # コース情報もまとめて取得
+            .order_by('name')
         )
 
         return render(request, 'home/index.html', {
             'active_teams': active_teams,
         })
+
+# チームIDを紐づけていないユーザが各種管理メニューの機能にアクセスしたときのビュー
+def error_view(request):
+
+    return render(request, 'home/error.html')
+
+# おまけ画面
+def bonus_view(request):
+
+    return render(request, 'home/bonus.html')

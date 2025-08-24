@@ -6,7 +6,10 @@ from .forms import TeamForm
 class ListTeamView(ListView):
     template_name = 'team/index.html'
     model = Team
-    ordering = ["-created_at"]
+
+    # 紐づくコース情報の最終発表日の降順（新しい日付が上）でソート 
+    def get_queryset(self):
+        return Team.objects.select_related("course").order_by("-course__last_report_date")
 
 class CreateTeamView(CreateView):
     form_class = TeamForm

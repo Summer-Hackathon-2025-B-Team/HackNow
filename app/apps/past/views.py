@@ -10,6 +10,7 @@ class ListPastView(ListView):
     model = Past
     ordering = ["-id"]
 
+    # カテゴリの選択肢を生成
     def get_category_choices(self):
         categories = Past.objects.values_list('category', flat=True).distinct()
         return [('', 'すべてのカテゴリ')] + [(c, c) for c in categories if c]
@@ -32,7 +33,7 @@ class EditPastView(UpdateView):
     success_url = reverse_lazy("past:index")
 
 
-def item_list_api(request):
+def category_filter_api(request):
     category = request.GET.get('category', '')
     items = Past.objects.all()
     items = Past.objects.all().order_by('-id')

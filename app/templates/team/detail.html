@@ -61,13 +61,28 @@
                 <div class="col-md-3"></div>
             </div>
 
+            <div class="row mb-4">
+                <div class="col-md-3"></div>
+                <div class="col-md-2 ms-5">
+                    webhookURL
+                </div>
+                <div class="col-md-4">
+                    {% if object.webhook_url %}
+                        {{ object.webhook_url }}
+                    {% else %}
+                        設定なし
+                    {% endif %}
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+
         </div>
 
     </div>
 
     <div class="text-center">
         <a href="{% url 'team:index' %}" class="btn btn-secondary btn-layout">
-            チーム情報管理に戻る
+            チーム情報管理に戻る <i class="fa-solid fa-circle-chevron-right"></i>
         </a>
     </div>
     

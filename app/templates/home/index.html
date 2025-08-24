@@ -4,117 +4,235 @@
 
 {% block content %}
 
-    <!-- 一般ユーザ -->
-    {% if not user.is_staff %}
+    <!-- 中央寄せ用ラッパー -->
+    <div style="max-width: 1000px; margin: 0 auto;">
 
-        <div class="text-center mb-5 home-user">
-            <h1><strong>{{ user.team.course.name }} {{ user.team.name }}<br>{{ user.name }}さんの作業ルーム</strong></h1>
-        </div>
+        <!-- 一般ユーザ -->
+        {% if not user.is_staff %}
 
-        {% if due_today_tasks or overdue_tasks %}
-            <div class="alert-box">
-                {% if due_today_tasks %}
-                    <div class="">
-                        {% for task in due_today_tasks %}
-                            <i class="fas fa-bell" style="color: #FFD700;"></i>「{{ task.name }}」のタスクが本日期限です。<br>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                {% if overdue_tasks %}
-                    <div class="">
-                        {% for task in overdue_tasks %}
-                            <i class="fas fa-exclamation-triangle" style="color: red;"></i>「{{ task.name }}」のタスクが期限切れです。<br>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+            <div class="text-center mt-4 mb-4 home-user">
+                <h1><strong>{{ user.team.course.name }} {{ user.team.name }}<br>{{ user.name }}さんの作業ルーム</strong></h1>
             </div>
-        {% endif %}
 
-        {% if next_meeting %}
-            <div class="info-box">
-                <i class="fas fa-info-circle" style="color: #1E90FF;"></i>  次のミーティングは {{ next_meeting.next_datetime|date:"Y年n月j日(D) G:i" }} です。
-            </div>
-        {% endif %}
-
-        <div class="deadline text-center">
-
-            <!-- ユーザに紐づく中間発表日がある場合 -->
-            {% if days_left_interim != "" %}
-
-                {% if days_left_interim > 0 %}
-                    <p>中間発表（{{ interim_report_date }}）まで　残り <span class="fw-bold" style="color: red;">{{ days_left_interim }}</span> 日！</p>
-                    <p>最終発表（{{ last_report_date }}）まで　残り <span class="fw-bold" style="color: red;">{{ days_left_last }}</span> 日！</p>
-                {% elif days_left_interim == 0 %}
-                    <p>今日は中間発表日です！<br>しっかり準備して臨みましょう！</p>
-                {% elif days_left_last > 0 %}
-                    <p>最終発表（{{ last_report_date }}）まで　残り <span class="fw-bold" style="color: red;">{{ days_left_last }}</span> 日！</p>
-                {% elif days_left_last == 0 %}
-                    <p>今日は最終発表日です！<br>悔いが残らないよう全力で挑みましょう！</p>
-                {% else %}
-                    <p>こちらのハッカソンは終了しました。<br>お疲れ様でした！</p>
-                {% endif %}
-
-            {% else %}
-                <p>まずは「アカウント管理」＞「ユーザ情報」から<br>チームIDを登録しましょう！</p>
-            {% endif %}
-            
-        </div>
-
-    <!-- 管理ユーザ -->
-    {% else %}
-
-        <div class="text-center mb-5 home-user">
-            <h1><strong>{{ user.name }}さんの作業ルーム</strong></h1>
-        </div>
-
-        <div class="text-center mb-5">
-            <h2><strong>活動中チーム情報</strong></h2>
-        </div>
-
-        <table class="mb-5 mx-auto" width="1000">
-            <thead class="">
-                <tr>
-                    <th width="200">コース</th>
-                    <th width="200">チーム名</th>
-                    <th width="250">チームメンバー</th>
-                    <th width="350">対応中タスク</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for team in active_teams %}
-                    <tr>
-                        <td class="">{{ team.course.name }}</td>
-                        <td class="">{{ team.name }}</td>
-                        <td>
-                            <ul>
-                            {% for member in team.members.all %}
-                                <li>{{ member.name }}</li>
-                            {% empty %}
-                                <li>メンバーなし</li>
+            {% if due_today_tasks or overdue_tasks %}
+                <div class="alert-box">
+                    {% if due_today_tasks %}
+                        <div class="">
+                            {% for task in due_today_tasks %}
+                                <i class="fas fa-bell" style="color: #FFFF11;"></i>「{{ task.name }}」のタスクが本日期限です<br>
                             {% endfor %}
-                            </ul>
-                        </td>
-                        <td>
-                            <ul>
+                        </div>
+                    {% endif %}
+
+                    {% if overdue_tasks %}
+                        <div class="">
+                            {% for task in overdue_tasks %}
+                                <i class="fas fa-exclamation-triangle" style="color: red;"></i>「{{ task.name }}」のタスクが<span style="color: red;">期限切れ</span>です<br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if next_meeting %}
+                <div class="info-box">
+                    <i class="fas fa-info-circle" style="color: #1E90FF;"></i>  次のミーティングは<span style="color: #00008B;"> {{ next_meeting.next_datetime|date:"Y年n月j日(D) G:i" }} </span>です
+                </div>
+            {% endif %}
+
+            <div class="deadline text-center">
+
+                <!-- ユーザに紐づく中間発表日がある場合 -->
+                {% if days_left_interim != "" %}
+
+                    {% if days_left_interim > 0 %}
+                        <p>中間発表（{{ interim_report_date }}）まで　残り <span class="fw-bold" style="color: red;">{{ days_left_interim }}</span> 日！</p>
+                        <p>最終発表（{{ last_report_date }}）まで　残り <span class="fw-bold" style="color: red;">{{ days_left_last }}</span> 日！</p>
+                    {% elif days_left_interim == 0 %}
+                        <p>今日は中間発表日です！<br>しっかり準備して臨みましょう！</p>
+                    {% elif days_left_last > 0 %}
+                        <p>最終発表（{{ last_report_date }}）まで　残り <span class="fw-bold" style="color: red;">{{ days_left_last }}</span> 日！</p>
+                    {% elif days_left_last == 0 %}
+                        <p>今日は最終発表日です！<br>悔いが残らないよう全力で挑みましょう！</p>
+                    {% else %}
+                        <p>こちらのハッカソンは終了しました。<br>お疲れ様でした！</p>
+                    {% endif %}
+
+                {% else %}
+                    <p>まずは「アカウント管理」＞「ユーザ情報」から<br>チームIDを登録しましょう！</p>
+                {% endif %}
+                
+            </div>
+
+        <!-- 管理ユーザ -->
+        {% else %}
+
+            <div class="text-center mt-4 mb-4 home-user">
+                <h1><strong>{{ user.name }}さんの作業ルーム</strong></h1>
+            </div>
+
+            <div class="text-center mb-3">
+                <h2><strong>活動中チーム情報</strong></h2>
+            </div>
+
+            <table class="mb-5 mx-auto" width="1000">
+                <thead class="">
+                    <tr>
+                        <th width="250">コース</th>
+                        <th width="150">チーム名</th>
+                        <th width="250">チームメンバー</th>
+                        <th width="350">対応中タスク</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for team in active_teams %}
+                        <tr>
+                            <td class="">{{ team.course.name }}</td>
+                            <td class="">{{ team.name }}</td>
+                            <td>
+                                {% for member in team.members.all %}
+                                    <i class="fa-solid fa-user" style="color: black;"></i> {{ member.name }}<br>
+                                {% empty %}
+                                {% endfor %}
+                                <br>
+                            </td>
+                            <td>
                                 {% for task in team.task_set.all %}
                                     {% if task.status == 2 %}
-                                        <li>{{ task.name }}</li>
+                                        <i class="fa-regular fa-square"></i> {{ task.name }}<br>
                                     {% endif %}
                                 {% empty %}
-                                    <li>対応中タスクなし</li>
                                 {% endfor %}
-                            </ul>
-                        </td>            
-                    </tr>
-                {% empty %}
-                    <div class="text-center mb-5">
-                        <p>活動中のチームはありません。</p>
-                    </div>
-                {% endfor %}
-            </tbody>
-        </table>
+                                <br>
+                            </td>            
+                        </tr>
+                    {% empty %}
+                        <div class="text-center mb-5">
+                            <p>活動中のチームはありません。</p>
+                        </div>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-    {% endif %}
+        {% endif %}
+    </div>
 
 {% endblock content %}
+
+
+{% block sp-content %}
+
+    <!-- 中央寄せ用ラッパー -->
+    <div style="max-width: 700px; margin: 0 auto;" class="sp-main-content">
+
+        <!-- 一般ユーザ -->
+        {% if not user.is_staff %}
+
+            <div class="text-center mb-4 sp-home-user">
+                <strong>{{ user.team.course.name }} {{ user.team.name }}<br>{{ user.name }}さんの<br>作業ルーム</strong>
+            </div>
+
+            {% if due_today_tasks or overdue_tasks %}
+                <div class="sp-alert-box">
+                    {% if due_today_tasks %}
+                        <div class="">
+                            {% for task in due_today_tasks %}
+                                <i class="fas fa-bell" style="color: #FFFF11;"></i>「{{ task.name }}」の<br>　 タスクが本日期限です<br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {% if overdue_tasks %}
+                        <div class="">
+                            {% for task in overdue_tasks %}
+                                <i class="fas fa-exclamation-triangle" style="color: red;"></i>「{{ task.name }}」の<br>　 タスクが<span style="color: red;">期限切れ</span>です<br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if next_meeting %}
+                <div class="sp-info-box">
+                    <i class="fas fa-info-circle" style="color: #1E90FF;"></i>  次のミーティングは<br><span style="color: #00008B;">　 {{ next_meeting.next_datetime|date:"Y年n月j日(D) G:i" }} </span>です
+                </div>
+            {% endif %}
+
+            <div class="sp-deadline text-center">
+
+                <!-- ユーザに紐づく中間発表日がある場合 -->
+                {% if days_left_interim != "" %}
+
+                    {% if days_left_interim > 0 %}
+                        <p>中間発表（{{ interim_report_date }}）まで<br>残り <span class="fw-bold" style="color: red;">{{ days_left_interim }}</span> 日！</p>
+                        <p>最終発表（{{ last_report_date }}）まで<br>残り <span class="fw-bold" style="color: red;">{{ days_left_last }}</span> 日！</p>
+                    {% elif days_left_interim == 0 %}
+                        <p>今日は中間発表日です！<br>しっかり準備して臨みましょう！</p>
+                    {% elif days_left_last > 0 %}
+                        <p>最終発表（{{ last_report_date }}）まで<br>残り <span class="fw-bold" style="color: red;">{{ days_left_last }}</span> 日！</p>
+                    {% elif days_left_last == 0 %}
+                        <p>今日は最終発表日です！<br>悔いが残らないよう全力で挑みましょう！</p>
+                    {% else %}
+                        <p>こちらのハッカソンは終了しました。<br>お疲れ様でした！</p>
+                    {% endif %}
+
+                {% else %}
+                    <p>まずは「アカウント管理」＞「ユーザ情報」から<br>チームIDを登録しましょう！</p>
+                {% endif %}
+                
+            </div>
+
+        <!-- 管理ユーザ -->
+        {% else %}
+
+            <div class="text-center mb-4 sp-home-user">
+                <strong>{{ user.name }}さんの<br>作業ルーム</strong>
+            </div>
+
+            <div class="text-center mb-3">
+                <strong>活動中チーム情報</strong>
+            </div>
+
+            <table class="mb-5 sp-table" width="350">
+                <thead class="">
+                    <tr>
+                        <th width="80">コース</th>
+                        <th width="80">チーム名</th>
+                        <th width="100">チーム<br>メンバー</th>
+                        <th width="90">対応中<br>タスク</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for team in active_teams %}
+                        <tr>
+                            <td class="">{{ team.course.name }}</td>
+                            <td class="">{{ team.name }}</td>
+                            <td>
+                                {% for member in team.members.all %}
+                                    <i class="fa-solid fa-user" style="color: black;"></i> {{ member.name }}<br>
+                                {% empty %}
+                                {% endfor %}
+                                <br>
+                            </td>
+                            <td>
+                                {% for task in team.task_set.all %}
+                                    {% if task.status == 2 %}
+                                        <i class="fa-regular fa-square"></i> {{ task.name }}<br>
+                                    {% endif %}
+                                {% empty %}
+                                {% endfor %}
+                                <br>
+                            </td>            
+                        </tr>
+                    {% empty %}
+                        <div class="text-center mb-5">
+                            <p>活動中のチームはありません。</p>
+                        </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        {% endif %}
+    </div>
+
+{% endblock sp-content %}

@@ -66,7 +66,7 @@
                 <h2>
                     <strong>ハッカソン参考情報　</strong>
                     <!-- ウィキペンギンのアイコン表示 -->
-                    <img src="{% static 'images/penguin_wiki.png' %}" id="wikipenguin-img" class="img-fluid" width="60" height="75" style="cursor:pointer;">
+                    <img src="{% static 'images/penguin/penguin_wiki.png' %}" id="wikipenguin-img" class="img-fluid" width="60" height="75" style="cursor:pointer;">
                 </h2>
             </div>
 
@@ -79,15 +79,15 @@
                 </select>
             </div>
 
-            <table class="mb-5 mx-auto" style="width: 700px;">
+            <table class="mb-5 mx-auto" style="width: 100%;">
                 <thead class="">
                     <tr>
                         <th width="200">対象</th>
-                        <th width="400">内容</th>
+                        <th width="600">内容</th>
                         <th width="100">リンク</th>
                     </tr>
                 </thead>
-                <tbody id="itemTableBody">
+                <tbody id="itemTableBody"></tbody>
             </table>
 
         {% endif %}
@@ -170,7 +170,7 @@
     <!-- 削除確認モーダル -->
     <div id="confirm-dialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
         background: #fff; border: 1px solid #ccc; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3); z-index: 1000; width: 700px; font-size: 24px; margin:0px auto; text-align: center;">
-        <p id="confirm-message">参考情報を削除しますか？</p>
+        <p id="confirm-message"></p>
         <button class="btn btn-primary btn-layout" style="width: 100px; font-size:20px;" onclick="proceedDelete()">Yes</button>
         <button class="btn btn-danger btn-layout" style="width: 100px; font-size:20px; margin-left:20px;" onclick="cancelDelete()">No</button>
     </div>
@@ -192,11 +192,8 @@
             <div class="modal-content">
 
                 <!-- モーダルのヘッダー部分 -->
-                <div class="modal-header">
+                <div class="modal-header modal-header-modify">
                     <h5 class="modal-title" id="wikipenguin-ModalLabel">ペンギン図鑑</h5>
-
-                    <!-- 右上の閉じるボタン（data-bs-dismiss="modal" が付いたボタンを押すと、Bootstrap が自動でモーダルを閉じる） -->
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                 </div>
 
                 <!-- モーダルの本文部分（ここにJSでテキストを入れる） -->
@@ -236,7 +233,7 @@
                     <div class="d-flex align-items-start">
                         <!-- 左側 画像 -->
                         <div class="me-4">
-                            <img src="{% static 'images/penguin_wiki.png' %}" alt="ウィキペンギン画像" class="img-fluid" style="max-width:120px; border-radius:8px;">
+                            <img src="{% static 'images/penguin/penguin_wiki.png' %}" alt="ウィキペンギン画像" class="img-fluid" style="max-width:120px; border-radius:8px;">
                         </div>
                         <!-- 右側 テキスト -->
                         <div>
@@ -250,3 +247,115 @@
     </script>
 
 {% endblock content %}
+
+
+{% block sp-content %}
+
+    <!-- 中央寄せ用ラッパー -->
+    <div style="max-width: 700px; margin: 0 auto;" class="sp-main-content">
+
+        <!-- 管理ユーザ -->
+        {% if user.is_staff %}
+
+            <div class="text-center mb-5 sp-main-title">
+                <strong>ハッカソン参考情報</strong>
+            </div>
+
+            <div class="mb-4 text-end">
+                <a href="{% url 'reference:create' %}" class="btn btn-layout btn-create">
+                    <i class="fas fa-plus-circle"></i> 新規登録
+                </a>
+            </div>
+
+            <table class="mb-5 mx-auto" style="width: 100%;">
+                <thead class="">
+                    <tr>
+                        <th width="200">対象</th>
+                        <th width="400">内容</th>
+                        <th width="100">リンク</th>
+                        <th width="100">編集</th>
+                        <th width="100">削除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in object_list %}
+                        <tr>
+                            <td class="">{{ item.target }}</td>
+                            <td class="">{{ item.content|linebreaksbr }}</td>
+                            <td class="text-center">
+                                <a href="{{ item.url }}" target="_blank">
+                                    <button class="btn btn-layout-small btn-link"><i class="fa-solid fa-link"></i> リンク</button>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'reference:edit' item.id %}" >
+                                    <button class="btn btn-layout-small btn-edit"><i class="fa-solid fa-pen"></i> 編集</button>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url, '{{ item.content }}'); return false;" 
+                                    data-url="/reference/{{ item.id }}/delete/">
+                                    <button class="btn btn-layout-small btn-delete"><i class="fa-solid fa-circle-xmark"></i> 削除</button>
+                                </a>
+                            </td>
+                
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        <!-- 一般ユーザ（参照のみ） -->
+        {% else %}
+
+            <div class="text-center mb-5 sp-main-title">
+                <strong>ハッカソン参考情報</strong>
+            </div>
+
+            <table class="mb-5 mx-auto sp-table" style="width: 100%;">
+                <thead class="">
+                    <tr>
+                        <th width="30%">対象</th>
+                        <th width="50%">内容</th>
+                        <th width="20%">リンク</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in object_list %}
+                        <tr>
+                            <td class="">{{ item.target }}</td>
+                            <td class="">{{ item.content|linebreaksbr }}</td>
+                            <td class="text-center">
+                                <a href="{{ item.url }}" target="_blank">
+                                    <button class="btn btn-layout-small sp-btn-link"><i class="fa-solid fa-link"></i> リンク</button>
+                                </a>
+                            </td>                
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        {% endif %}
+
+        <div class="text-center">
+            <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
+                ホーム画面に戻る <i class="fa-solid fa-circle-chevron-right"></i>
+            </a>
+        </div>
+        <br><br>
+
+    </div>
+
+    <!-- 削除確認モーダル -->
+    <div id="confirm-dialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: #fff; border: 1px solid #ccc; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3); z-index: 1000; width: 700px; font-size: 24px; margin:0px auto; text-align: center;">
+        <p id="confirm-message"></p>
+        <button class="btn btn-primary btn-layout" style="width: 100px; font-size:20px;" onclick="proceedDelete()">Yes</button>
+        <button class="btn btn-danger btn-layout" style="width: 100px; font-size:20px; margin-left:20px;" onclick="cancelDelete()">No</button>
+    </div>
+
+    <!-- モーダル表示時の背景 -->
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0;
+        width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;">
+    </div>
+
+{% endblock sp-content %}

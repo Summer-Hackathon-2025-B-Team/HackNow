@@ -70,7 +70,7 @@
                 <h2>
                     <strong>過去ハッカソン情報管理　</strong>
                     <!-- ルーペンギンのアイコン表示 -->
-                    <img src="{% static 'images/penguin_roupe.png' %}" id="roupenguin-img" class="img-fluid" width="60" height="75" style="cursor:pointer;">
+                    <img src="{% static 'images/penguin/penguin_roupe.png' %}" id="roupenguin-img" class="img-fluid" width="60" height="75" style="cursor:pointer;">
                 </h2>
             </div>
 
@@ -201,11 +201,8 @@
             <div class="modal-content">
 
                 <!-- モーダルのヘッダー部分 -->
-                <div class="modal-header">
+                <div class="modal-header modal-header-modify">
                     <h5 class="modal-title" id="roupenguin-ModalLabel">ペンギン図鑑</h5>
-
-                    <!-- 右上の閉じるボタン（data-bs-dismiss="modal" が付いたボタンを押すと、Bootstrap が自動でモーダルを閉じる） -->
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                 </div>
 
                 <!-- モーダルの本文部分（ここにJSで画像やテキストを入れる） -->
@@ -245,7 +242,7 @@
                     <div class="d-flex align-items-start">
                         <!-- 左側 画像 -->
                         <div class="me-4">
-                            <img src="{% static 'images/penguin_roupe.png' %}" alt="ルーペンギン画像" class="img-fluid" style="max-width:120px; border-radius:8px;">
+                            <img src="{% static 'images/penguin/penguin_roupe.png' %}" alt="ルーペンギン画像" class="img-fluid" style="max-width:120px; border-radius:8px;">
                         </div>
                         <!-- 右側 テキスト -->
                         <div>

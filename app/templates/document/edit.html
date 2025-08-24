@@ -5,49 +5,49 @@
 
 {% block content %}
 
-<div class="text-center mb-5">
-  <h2><strong>資料リンク編集</strong></h2>
-</div>
-
-<form method="post">
-  {% csrf_token %}
-
-  {{ form.non_field_errors }}
-
-  <div class="container-fluid content-area">
-
-    <div class="row mb-5">
-
-      {% for field in form %}
-
-      <div class="row mb-4">
-        <div class="col-md-3"></div>
-        <div class="col-md-2 ms-5">
-          {{ field.label }}
-        </div>
-        <div class="col-md-4">
-          {{ field }}
-        </div>
-        <div class="col-md-3"></div>
-      </div>
-
-      {% endfor %}
-    </div>
-
-    <div class="text-center mb-5">
-      <button type="submit" class="btn btn-primary btn-layout">
-        更新
-      </button>
-    </div>
-
+  <div class="text-center mb-5">
+    <h2><strong>資料リンク編集</strong></h2>
   </div>
 
-</form>
+  <form method="post">
+    {% csrf_token %}
 
-<div class="text-center">
-  <a href="{% url 'document:index' %}" class="btn btn-secondary btn-layout">
-    戻る
-  </a>
-</div>
+    {{ form.non_field_errors }}
+
+    <div class="container-fluid content-area">
+
+      <div class="row mb-5">
+
+        {% for field in form %}
+
+        <div class="row mb-4">
+          <div class="col-md-3"></div>
+          <div class="col-md-2 ms-5">
+            {{ field.label }}
+          </div>
+          <div class="col-md-4">
+            {{ field }}
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+
+        {% endfor %}
+      </div>
+
+      <div class="text-center mb-5">
+        <button type="submit" class="btn btn-primary btn-layout">
+          更新
+        </button>
+      </div>
+
+    </div>
+
+  </form>
+
+  <div class="text-center">
+      <a href="{% url 'document:index' %}" class="btn btn-secondary btn-layout">
+          ハッカソン参考情報管理に戻る <i class="fa-solid fa-circle-chevron-right"></i>
+      </a>
+  </div>
 
 {% endblock content %}

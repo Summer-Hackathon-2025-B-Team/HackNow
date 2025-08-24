@@ -130,7 +130,109 @@
 
                 </nav>
 
-                <!-- メインコンテンツ（画面の右側） -->
+                <!-- スマホ用ヘッダー -->
+                <header>
+
+                    <!-- アプリロゴ表示（押下するとホーム画面へ） -->
+                    <div class="text-start">
+                        <a href="{% url 'home:index' %}">
+                            <img src="{% static 'images/logo_white.png' %}" width="180" height="30">
+                        </a>
+                    </div>
+
+                    {% if user.is_authenticated %}
+                        <!-- ハンバーガーメニュー部分 -->
+                        <div class="nav">
+                        
+                            <!-- ハンバーガーメニューの表示・非表示を切り替えるチェックボックス -->
+                            <input id="drawer_input" class="drawer_hidden" type="checkbox">
+                        
+                            <!-- ハンバーガーアイコン -->
+                            <label for="drawer_input" class="drawer_open"><span></span></label>
+
+                            {% if not user.is_staff %}
+
+                                <!-- 一般ユーザ用メニュー -->
+                                <nav class="nav_content">
+                                    <p class="sp_menu_title">～メニュー～</p>
+                                    <ul class="nav_list">
+                                        <li class="nav_item mt-1">
+                                            <a href="{% url 'user:account' %}">ユーザ情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'meeting:index' %}">ミーティング管理</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'task:index' %}">タスク管理</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'document:index' %}">資料リンク管理</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'knowledge:index' %}">ナレッジ管理</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'reference:index' %}">ハッカソン参考情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'past:index' %}">過去ハッカソン情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <!-- ログアウトはPOST処理が必要、かつボタンではなくaタグを使いたいので、Javascriptの仕組みでform起動 -->
+                                            <form id="logout-form" action="{% url 'user:logout' %}" method="post" style="display: none;">
+                                                {% csrf_token %}
+                                            </form>
+                                            <div class="">
+                                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                    ログアウト
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </nav>        
+
+                            {% else %}
+
+                                <!-- 管理ユーザ用メニュー -->
+                                <nav class="nav_content">
+                                    <p class="sp_menu_title">～メニュー～</p>
+                                    <ul class="nav_list">
+                                        <li class="nav_item mt-1">
+                                            <a href="{% url 'user:account' %}">ユーザ情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'course:index' %}">コース情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'team:index' %}">チーム情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'reference:index' %}">ハッカソン参考情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <a href="{% url 'past:index' %}">過去ハッカソン情報</a>
+                                        </li>
+                                        <li class="nav_item">
+                                            <!-- ログアウトはPOST処理が必要、かつボタンではなくaタグを使いたいので、Javascriptの仕組みでform起動 -->
+                                            <form id="logout-form" action="{% url 'user:logout' %}" method="post" style="display: none;">
+                                                {% csrf_token %}
+                                            </form>
+                                            <div class="">
+                                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                    ログアウト
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </nav>        
+
+                            {% endif %}
+
+                        </div>            
+                    {% endif %}
+                </header>
+
+                <!-- メインコンテンツ（画面の右側：PC用） -->
                 <main class="col-md-10 content">
 
                     {% block content %}{% endblock content %}
@@ -158,16 +260,27 @@
                     {% endif %}
                     
                 </main>
+
+                <!-- メインコンテンツ（画面の右側：スマホ用） -->
+                <main class="sp-content">
+
+                    {% block sp-content %}{% endblock sp-content %}
+
+                    <footer class="bg-light text-center py-2 fixed-bottom border-top">
+                        Hackathon 2025 Summer B-Team
+                    </footer>
+
+                </main>
+
             </div>
         </div>
 
         <!-- モーダル -->
         <div class="modal fade" id="motivationModal" tabindex="-1" aria-labelledby="motivationModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header modal-header-modify">
                         <h5 class="modal-title" id="motivationModalLabel">ハックマンの「<span style="font-weight: bold;">向上心を刺激する一言</span>」</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                     </div>
                     <div class="modal-body" id="modal-text" style="font-size:1.2rem; line-height:1.5; color: red;"></div>
                     <div class="modal-footer">

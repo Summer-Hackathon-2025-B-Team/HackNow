@@ -97,6 +97,7 @@
                 ホーム画面に戻る <i class="fa-solid fa-circle-chevron-right"></i>
             </a>
         </div>
+        <br><br>
 
     </div>
 
@@ -178,23 +179,27 @@
                     });
 
                     const ganttTasks = tasks.map(t => {
-                        const safeClass = "assignee-" + t.assignee_id.replace(/[^a-zA-Z0-9_-]/g,'_');
+                        // const safeClass = "assignee-" + t.assignee_id.replace(/[^a-zA-Z0-9_-]/g,'_');
+                        const safeClass = "gantt-bar-color";
                         return {
                             id: t.id ?? t.name,
                             name: t.name + " (" + t.assignee + ")",
                             start: t.start,
                             end: t.end,
                             progress: 100,
-                            custom_class: safeClass
+                            custom_class: safeClass,
                         };
                     });
 
                     let styleTag = document.createElement("style");
                     styleTag.type = "text/css";
                     styleTag.innerHTML = assignees.map(a => {
-                        const safeClass = "assignee-" + a.replace(/[^a-zA-Z0-9_-]/g,'_');
-                        const color = assigneeColorMap[a];
-                        return `.gantt-task.${safeClass} .bar { fill: ${color} !important; }`;
+                        // const safeClass = "assignee-" + a.replace(/[^a-zA-Z0-9_-]/g,'_');
+                        const safeClass = "gantt-bar-color";
+                        // const color = assigneeColorMap[a];
+                        const color = "#FF66CC";
+                        // return `.gantt-task.${safeClass} .bar { fill: ${color} !important; }`;
+                        return `.gantt-task.${safeClass} .bar { fill: black !important; }`;
                     }).join("\n");
                     document.head.appendChild(styleTag);
 

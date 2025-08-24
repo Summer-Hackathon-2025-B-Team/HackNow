@@ -18,7 +18,7 @@ class Knowledge(models.Model):
     # タイトル
     title = models.CharField(max_length=30, null=False, blank=False)
     # 複数行・長文なので、TextField
-    content = models.TextField(max_length=255, null=False, blank=False)
+    content = models.TextField(null=False, blank=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

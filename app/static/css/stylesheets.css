@@ -119,12 +119,19 @@ body {
     font-weight: bold;
 }
 
-/* ミーティング管理関連 */
+/* 詳細画面の区切り線 */
 .agenda-detail-line{
     width:600px;
     margin: 0 auto;
     border-bottom: 2px #D3D3D3 solid;
 }
+
+.knowledge-detail-line{
+    width:800px;
+    margin: 0 auto;
+    border-bottom: 2px #D3D3D3 solid;
+}
+
 
 /* ボタン関連 */
 .btn-layout{
@@ -285,4 +292,216 @@ footer a{
     overflow: visible; 
 }
 
-/* その他 */
+/* モーダル */
+.modal-header-modify{
+    background-color: #353A40;
+    color: white;
+}
+
+
+/* レスポンシブ対応（PC用にスマホ用cssを無効化） */
+.sp-header{
+    display: none;
+}
+
+.nav{
+    display: none;
+}
+
+.sp-content{
+    display: none;
+}
+
+/* レスポンシブ対応（スマホ用） */
+@media (max-width: 670px){
+
+    .sidemenu{
+        display: none;
+    }
+
+    header {
+        width:100%;
+        margin:0 auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background-color: #353A40;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .nav{
+        display: block;
+    }
+
+    /* チェックボックスを非表示にする */
+    .drawer_hidden {
+        display: none;
+    }
+
+    /* ハンバーガーアイコンの設置スペース */
+    .drawer_open {
+        display: flex;
+        height: 60px;
+        width: 60px;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 100;/* 重なり順を一番上にする */
+        cursor: pointer;
+    }
+
+    /* ハンバーガーメニューのアイコン */
+    .drawer_open span,
+    .drawer_open span:before,
+    .drawer_open span:after {
+        content: '';
+        display: block;
+        height: 3px;
+        width: 25px;
+        border-radius: 3px;
+        background: white;
+        transition: 0.5s;
+        position: absolute;
+    }
+
+    /* 三本線の一番上の棒の位置調整 */
+    .drawer_open span:before {
+        bottom: 8px;
+    }
+
+    /* 三本線の一番下の棒の位置調整 */
+    .drawer_open span:after {
+        top: 8px;
+    }
+
+    /* アイコンがクリックされたら真ん中の線を透明にする */
+    #drawer_input:checked ~ .drawer_open span {
+        background: rgba(255, 255, 255, 0);
+    }
+
+    /* アイコンがクリックされたらアイコンが×印になように上下の線を回転 */
+    #drawer_input:checked ~ .drawer_open span::before {
+        bottom: 0;
+        transform: rotate(45deg);
+    }
+
+    #drawer_input:checked ~ .drawer_open span::after {
+        top: 0;
+        transform: rotate(-45deg);
+    }
+
+    /* メニューのデザイン*/
+    .nav_content {
+        width: 60%;
+        height: 400px;
+        position: fixed;
+        top: 0;
+        left: 100%; /* メニューを画面の外に飛ばす */
+        z-index: 99;
+        background-color: #4A4E53;
+        border: 1px solid #CCCCCC;
+        transition: .5s;
+    }
+
+    .sp_menu_title{
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 50px;
+        background-color: #353A40;
+        color: white;
+        padding:5px;
+    }
+
+    .nav_item{
+        margin-bottom:10px ;
+    }
+
+    .nav_item a{
+        color: white;
+        font-size:16px;
+        font-weight: bold;
+    }
+
+    /* アイコンがクリックされたらメニューを表示 */
+    #drawer_input:checked ~ .nav_content {
+        left: 40%;/* メニューを画面に入れる */
+    }    
+
+    /* メニュー黒ポチを消す */
+    .nav_list {
+        list-style: none;
+    }
+
+    .content{
+        display: none;
+    }
+
+    .sp-content{
+        display: block;
+    }
+
+    .sp-main-content{
+        font-size: 20px;
+    }
+
+    .sp-home-user{
+        margin-top: 80px;
+        border-bottom: 2px #D3D3D3 solid;
+        border-image: linear-gradient(to right, gray 0%, #D3D3D3 100%) 1;
+        padding-bottom: 20px;
+    }
+
+    .sp-alert-box{
+        background-color: #FFB6C1;
+        border:1px solid red;
+        border-radius: 5px;
+        padding:5px;
+        font-size:16px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .sp-alert-box ul{
+        list-style: none;
+        padding: 0;
+    }
+
+    .sp-info-box{
+        background-color: #98FB98;
+        border:1px solid green;
+        border-radius: 5px;
+        padding:5px;
+        font-size:16px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    .sp-deadline {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .sp-table{
+        font-size: 14px;
+    }
+
+    .sp-main-title{
+        margin-top: 80px;
+        font-size: 20px;
+    }
+
+    .sp-btn-link{
+        background-color: #98FB98;
+        font-size: 14px;
+        padding:2px;
+    }
+
+}

@@ -3,21 +3,14 @@ from django import forms
 # 同じアプリ内（このファイルと同じ階層）にあるmodels.pyからKnowledgeモデルをインポートしています。
 from .models import Document
 
-
 # Documentモデルと連動するフォームクラスDocumentFormを定義する。
 class DocumentForm(forms.ModelForm):
     class Meta:
         # このフォームはDocumentモデルを元に作られることを指定する。
         model = Document
 
-        # フォームに含めるフィールドはnameとlinkのみ。作成者もではないの？
+        # フォームに含めるフィールドはnameとurlのみ。作成者もではないの？
         fields = ('name', 'url', )
-        # nameフィールドは1行入力のテキストボックスにし、Bootstrapのform-controlクラスをつける。
-        # urlフィールドは複数行入力できるテキストエリアにし、Bootstrapのform-controlクラスをつけ、表示行数は5行にする。
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'url': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
-        }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)  # 他フォームと同じインターフェースに合わせる

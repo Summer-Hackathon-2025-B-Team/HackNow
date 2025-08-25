@@ -34,3 +34,13 @@ class TaskForm(forms.ModelForm):
         # 共通クラス追加
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+
+    def clean(self):
+        cleaned = super().clean()
+        start = cleaned.get("start_date")
+        end = cleaned.get("end_date")
+
+        if start and end and end < start:
+            self.add_error("end_date", "終了予定日は開始予定日以降を設定してください。")
+
+        return cleaned

@@ -121,7 +121,7 @@ body {
 
 /* 詳細画面の区切り線 */
 .agenda-detail-line{
-    width:600px;
+    width:800px;
     margin: 0 auto;
     border-bottom: 2px #D3D3D3 solid;
 }
@@ -201,6 +201,23 @@ body {
     background-color: #87CEFA;
 }
 
+.btn-ovice{
+    width:350px;
+    background-color: #F5F5F5;
+    font-size:24px;
+    color:black;
+    font-weight: bold;
+    border:#A9A9A9 1px solid;
+}
+
+.btn-ovice:hover{
+    background-color: #C0C0C0;
+    color:white;
+}
+
+.btn-daily-report-modal-manual-open{
+    opacity: 0;
+}
 
 /* トグルボタン関連 */
 .switch-large .form-check-input {
@@ -267,12 +284,14 @@ th{
     border:2px #4A4E53 solid;
     padding:5px 10px;
     vertical-align:middle;
+    font-weight: bold;
 }
 
 td{
     border:2px #4A4E53 groove;
     padding:5px 10px;
     vertical-align:top;
+    font-weight: bold;
 }
 
 /* フッター */
@@ -283,13 +302,17 @@ footer a{
 
 /* タスク管理のガントチャート */
 #ganttModal .modal-dialog {
-    max-width: 1200px; /* 横幅も調整可能 */
-    height: 80vh;       /* モーダルの高さを画面の80%に */
+    max-width: 1000px; /* 横幅 */
+    height: 60vh;       /* モーダルの高さを画面の60%に */
 }
 
 #ganttModal .modal-body {
-    height: 80vh;
+    height: 60vh;
     overflow: visible; 
+}
+
+.bar-progress {
+    fill: #87CEFA !important;
 }
 
 /* モーダル */
@@ -463,7 +486,7 @@ footer a{
         background-color: #FFB6C1;
         border:1px solid red;
         border-radius: 5px;
-        padding:5px;
+        padding:10px;
         font-size:16px;
         font-weight: bold;
         margin-bottom: 20px;
@@ -478,7 +501,7 @@ footer a{
         background-color: #98FB98;
         border:1px solid green;
         border-radius: 5px;
-        padding:5px;
+        padding:10px;
         font-size:16px;
         font-weight: bold;
         margin-bottom: 30px;

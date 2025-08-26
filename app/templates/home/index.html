@@ -10,7 +10,7 @@
         <!-- 一般ユーザ -->
         {% if not user.is_staff %}
 
-            <div class="text-center mt-4 mb-4 home-user">
+            <div class="text-center mb-4 home-user">
                 <h1><strong>{{ user.team.course.name }} {{ user.team.name }}<br>{{ user.name }}さんの作業ルーム</strong></h1>
             </div>
 
@@ -64,15 +64,27 @@
                 
             </div>
 
+            <!-- oviceへのリンクボタン -->
+            <div class="text-center mt-5 mb-5">
+                <a href="https://app.ovice.com/ws/raretech/" class="btn btn-primary btn-layout btn-ovice" target="_blank">
+                    <img src="{% static 'images/ovice.png' %}" width="150" height="45"> に行く！ <i class="fa-solid fa-circle-chevron-right"></i>
+                </a>
+            </div>
+
+            <!-- 日報提出トレースモーダルを表示する隠しリンク -->
+            <div class="text-end btn-daily-report-modal-manual-open">
+                <button id="daily-report-modal-manual-open">日報提出トレースモーダル表示</button>
+            </div>
+
         <!-- 管理ユーザ -->
         {% else %}
 
-            <div class="text-center mt-4 mb-4 home-user">
+            <div class="text-center mb-4 home-user">
                 <h1><strong>{{ user.name }}さんの作業ルーム</strong></h1>
             </div>
 
             <div class="text-center mb-3">
-                <h2><strong>活動中チーム情報</strong></h2>
+                <h2><strong style="color: red;">活動中チーム情報</strong></h2>
             </div>
 
             <table class="mb-5 mx-auto" width="1000">
@@ -114,9 +126,44 @@
                 </tbody>
             </table>
 
+            <div class="text-center mt-5 mb-5">
+                <a href="https://app.ovice.com/ws/raretech/" class="btn btn-primary btn-layout btn-ovice" target="_blank">
+                    <img src="{% static 'images/ovice.png' %}" width="150" height="45"> に行く！ <i class="fa-solid fa-circle-chevron-right"></i>
+                </a>
+            </div>
+
         {% endif %}
     </div>
 
+    <script>
+
+        // 日報提出トレースモーダル・手動表示（ホーム画面のindex.html）
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const hiddenButton = document.getElementById('daily-report-modal-manual-open');
+            hiddenButton.addEventListener('click', () => showDailyReportTraceModal());
+
+            function showDailyReportTraceModal() {
+
+                // モーダルに表示するテキスト
+                const quote = "夜遅くまでおつかれさまです！\nハッカソンを頑張りつつ、日報の提出も忘れずにお願いします！\n（ハッカソンでの学びをぜひアウトプットしましょう！）";
+
+                // モーダルにテキストを表示する箇所を取得
+                const modalText = document.getElementById("daily-report-trace-modal-text");
+
+                // Bootstrapのモーダル機能をJSから使うためにインスタンス化
+                const dailyReportTraceModal = new bootstrap.Modal(document.getElementById('daily-report-trace-modal'));
+
+                modalText.innerHTML = quote
+                    .replace(/\n/g, "<br>")
+                    .replace(/日報の提出/g, '<span style="color: red;">日報の提出</span>');
+                dailyReportTraceModal.show();
+
+            }
+        });
+
+    </script>
+   
 {% endblock content %}
 
 

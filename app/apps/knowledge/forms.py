@@ -16,7 +16,7 @@ class KnowledgeForm(forms.ModelForm):
         # contentフィールドは複数行入力できるテキストエリアにし、Bootstrapのform-controlクラスをつけ、表示行数は6行にする。
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 8}),
         }
 
     def __init__(self, *args, **kwargs):

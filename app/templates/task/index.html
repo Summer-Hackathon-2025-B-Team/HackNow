@@ -141,13 +141,21 @@
     <div class="modal fade" id="ganttModal" tabindex="-1">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">タスク状況</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+                <!-- モーダルのヘッダー部分 -->
+                <div class="modal-header modal-header-modify">
+                    <h5 class="modal-title" style="color:white; font-weight: bold;">タスク状況</h5>
                 </div>
+
                 <div class="modal-body">
                     <div id="gantt"></div>
                 </div>
+
+                <!-- モーダルのフッター部分 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -155,7 +163,6 @@
     <!-- Frappe Gantt -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/frappe-gantt@1.0.3/dist/frappe-gantt.css">
     <script src="https://cdn.jsdelivr.net/npm/frappe-gantt@1.0.3/dist/frappe-gantt.umd.js"></script>     
-    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.30.0/locale/ja/index.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -167,46 +174,20 @@
                 .then(response => response.json())
                 .then(tasks => {
                     
-                    // ① 担当者ごとの色マップを作成（可変人数対応）
-                    const assignees = [...new Set(tasks.map(t => t.assignee_id))];
-                    const colors = [
-                        "#FF9999","#99CCFF","#99FF99","#FFCC99","#CC99FF","#FFCCFF","#FFFF99",
-                        "#66CCFF","#FF66CC","#CCFF66"
-                    ];
-                    const assigneeColorMap = {};
-                    assignees.forEach((a, i) => {
-                        assigneeColorMap[a] = colors[i % colors.length];
-                    });
-
                     const ganttTasks = tasks.map(t => {
-                        // const safeClass = "assignee-" + t.assignee_id.replace(/[^a-zA-Z0-9_-]/g,'_');
-                        const safeClass = "gantt-bar-color";
                         return {
                             id: t.id ?? t.name,
                             name: t.name + " (" + t.assignee + ")",
                             start: t.start,
                             end: t.end,
                             progress: 100,
-                            custom_class: safeClass,
                         };
                     });
 
-                    let styleTag = document.createElement("style");
-                    styleTag.type = "text/css";
-                    styleTag.innerHTML = assignees.map(a => {
-                        // const safeClass = "assignee-" + a.replace(/[^a-zA-Z0-9_-]/g,'_');
-                        const safeClass = "gantt-bar-color";
-                        // const color = assigneeColorMap[a];
-                        const color = "#FF66CC";
-                        // return `.gantt-task.${safeClass} .bar { fill: ${color} !important; }`;
-                        return `.gantt-task.${safeClass} .bar { fill: black !important; }`;
-                    }).join("\n");
-                    document.head.appendChild(styleTag);
-
-                    // ③ 描画前に中身クリア
+                    // 描画前に中身クリア
                     ganttEl.innerHTML = "";
 
-                    // ④ Gantt描画
+                    // ガントチャート描画
                     const gantt = new Gantt(ganttEl, ganttTasks, {
                         view_mode: 'Day',
                         date_format: 'YYYY-MM-DD',
@@ -214,15 +195,6 @@
                         bar_height: 30,  // バーの高さ
                         padding: 30      // バー間の間隔                            
                     });
-
-                    // ⑤ 今日を中央にスクロール（モーダル描画完了後に）
-                    setTimeout(() => {
-                        const today = new Date();
-                        const pos = gantt.get_date_x(today);
-                        const container = ganttEl.querySelector(".gantt-container");
-                        const halfWidth = container.clientWidth / 2;
-                        container.scrollLeft = pos - halfWidth;
-                    }, 100); // 100ms 待つ（モーダル描画完了を想定）
 
                 });
             });

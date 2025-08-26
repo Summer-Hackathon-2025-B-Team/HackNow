@@ -34,7 +34,7 @@
                         <td class="">{{ item.created_by.get_full_name|default:item.created_by }}</td>
                         <td class="text-center">
                             <a href="{% url 'knowledge:detail' item.id %}" >
-                                <button class="btn btn-layout-small btn-detail">詳細</button>
+                                <button class="btn btn-layout-small btn-detail"><i class="fa-solid fa-list"></i> 詳細</button>
                             </a>
                         </td>
                         <td class="text-center">

@@ -11,6 +11,7 @@ from apps.team.models import Team
 from .forms import MeetingForm, AgendaFormSet
 import requests
 from django.contrib import messages
+from django.utils import timezone
 
 
 class ListMeetingView(ListView):
@@ -131,7 +132,9 @@ def notification_view(request,pk):
     # ユーザが属するチームにMattermostのWebhookURLが設定されている場合
     if webhook_url := request.user.team.webhook_url: 
 
-        datetime = meeting.datetime.strftime('%Y/%m/%d %H:%M')
+        # 日本時間に変換
+        jst_datetime = timezone.localtime(meeting.datetime) 
+        datetime = jst_datetime.strftime('%Y/%m/%d %H:%M')        
         message = "@all\n" + datetime + "実施分のミーティングについて議事内容を更新しました。\nご確認ください。"
 
         # Mattermostに送信

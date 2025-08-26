@@ -13,80 +13,80 @@
         <div class="mb-5">
 
             <div class="row mb-4">
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
                 <div class="col-md-2">
                     実施日時
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="d-flex gap-2">
                         {{ object.datetime|date:"Y年n月j日(D) G:i"  }}
                     </div>
                 </div>
 
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
                 <div class="col-md-2">
                     ミーティング名
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     {{ object.name }}
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
 
             {% for agenda in agendas %}
                 <div class="agenda-form">
                     <div class="agenda-detail-line mb-4"></div>
                     <div class="row mb-4">
-                        <div class="col-md-3"></div>
+                        <div class="col-md-2"></div>
                         <div class="col-md-2">
                             議題{{ forloop.counter }}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             {{ agenda.name }}
                         </div>
-                        <div class="col-md-3"></div>
+                        <div class="col-md-2"></div>
                     </div>
 
                     <div class="row mb-4">
-                        <div class="col-md-3"></div>
+                        <div class="col-md-2"></div>
                         <div class="col-md-2">
                             議事内容{{ forloop.counter }}
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             {{ agenda.content|linebreaks }}
                         </div>
-                        <div class="col-md-3"></div>
+                        <div class="col-md-2"></div>
                     </div>
                 </div>
             {% endfor %}
             <div class="agenda-detail-line mb-4"></div>
 
             <div class="row mb-4">
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
                 <div class="col-md-2">
                     持ち帰り事項
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     {{ object.homework|linebreaks }}
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
                 <div class="col-md-2">
                     次回ミーティング
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="d-flex gap-2">
                         {{ object.next_datetime|date:"Y年n月j日(D) G:i"  }}
                     </div>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
         </div>
 

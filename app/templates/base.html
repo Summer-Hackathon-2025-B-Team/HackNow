@@ -154,7 +154,7 @@
 
                                 <!-- 一般ユーザ用メニュー -->
                                 <nav class="nav_content">
-                                    <p class="sp_menu_title">～メニュー～</p>
+                                    <p class="sp_menu_title">～ メニュー ～</p>
                                     <ul class="nav_list">
                                         <li class="nav_item mt-1">
                                             <a href="{% url 'user:account' %}">ユーザ情報</a>
@@ -195,7 +195,7 @@
 
                                 <!-- 管理ユーザ用メニュー -->
                                 <nav class="nav_content">
-                                    <p class="sp_menu_title">～メニュー～</p>
+                                    <p class="sp_menu_title">～ メニュー ～</p>
                                     <ul class="nav_list">
                                         <li class="nav_item mt-1">
                                             <a href="{% url 'user:account' %}">ユーザ情報</a>
@@ -275,14 +275,14 @@
             </div>
         </div>
 
-        <!-- モーダル -->
+        <!-- ハックマン一言モーダルの定義 -->
         <div class="modal fade" id="motivationModal" tabindex="-1" aria-labelledby="motivationModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
                 <div class="modal-content">
                     <div class="modal-header modal-header-modify">
                         <h5 class="modal-title" id="motivationModalLabel">ハックマンの「<span style="font-weight: bold;">向上心を刺激する一言</span>」</h5>
                     </div>
-                    <div class="modal-body" id="modal-text" style="font-size:1.2rem; line-height:1.5; color: red;"></div>
+                    <div class="modal-body" id="modal-text" style="font-size:1.2rem; line-height:1.5; font-weight: bold;"></div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                     </div>
@@ -298,11 +298,8 @@
                 <div class="modal-content">
 
                     <!-- モーダルのヘッダー部分 -->
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="daily-report-trace-ModalLabel" style="color:red; font-weight: bold;">日報を提出しましょう！</h5>
-
-                        <!-- 右上の閉じるボタン（data-bs-dismiss="modal" が付いたボタンを押すと、Bootstrap が自動でモーダルを閉じる） -->
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+                    <div class="modal-header modal-header-modify">
+                        <h5 class="modal-title" id="daily-report-trace-ModalLabel" style="color:white; font-weight: bold;">日報を提出しましょう！</h5>
                     </div>
 
                     <!-- モーダルの本文部分（ここにJSでテキストを入れる） -->

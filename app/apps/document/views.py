@@ -22,6 +22,13 @@ class DocumentListView(ListView):
         """ログインユーザのチームの資料リンクのみ取得"""
         return Document.objects.filter(team=self.request.user.team).order_by('updated_at')
 
+    def dispatch(self, request, *args, **kwargs):
+        # ログインユーザがチーム未所属ならエラー画面にリダイレクト
+        if request.user.team is None:
+            return redirect('home:error') 
+        return super().dispatch(request, *args, **kwargs)
+
+
 class DocumentCreateView(CreateView):
     model = Document
     form_class = DocumentForm

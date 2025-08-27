@@ -29,7 +29,7 @@ class Task(models.Model):
 
     # 担当者ID（ユーザテーブルの外部キー）
     assignee = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
-    name = models.CharField(max_length=20,null=False, blank=False,)
+    name = models.CharField(max_length=100,null=False, blank=False,)
     priority = models.IntegerField(choices=PRIORITY_CHOICES, null=False, blank=False,)
     start_date = models.DateField(null=False, blank=False,)
     end_date = models.DateField(null=False, blank=False,)

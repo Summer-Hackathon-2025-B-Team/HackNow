@@ -33,7 +33,7 @@
                 {% for item in object_list %}
                     <tr>
                         <td class="">{{ item.name }}</td>
-                        <td class="">{{ item.created_by.get_full_name|default:item.created_by }}</td>
+                        <td class="">{{ item.created_by }}</td>
                         <td class="text-center">
                             <a href="{{ item.url }}" target="_blank">
                                 <button class="btn btn-layout-small btn-link"><i class="fa-solid fa-link"></i> リンク</button>
@@ -56,12 +56,11 @@
             </tbody>
         </table>
 
-        <div class="text-center">
+        <div class="text-center mb-5">
             <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
                 ホーム画面に戻る <i class="fa-solid fa-circle-chevron-right"></i>
             </a>
         </div>
-        <br><br>
 
     </div>
 

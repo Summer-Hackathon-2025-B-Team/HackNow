@@ -41,6 +41,6 @@ class TaskForm(forms.ModelForm):
         end = cleaned.get("end_date")
 
         if start and end and end < start:
-            self.add_error("end_date", "終了予定日は開始予定日以降を設定してください。")
+            self.add_error("end_date", "終了予定日は開始予定日以降を設定してください")
 
         return cleaned

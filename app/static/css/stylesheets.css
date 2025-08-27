@@ -97,6 +97,7 @@ body {
     font-size:24px;
     font-weight: bold;
     margin-bottom: 20px;
+    word-break: break-all;
 }
 
 .alert-box ul{
@@ -291,6 +292,7 @@ td{
     border:2px #4A4E53 groove;
     padding:5px 10px;
     vertical-align:top;
+    word-break: break-all;
     font-weight: bold;
 }
 
@@ -313,6 +315,33 @@ footer a{
 
 .bar-progress {
     fill: #87CEFA !important;
+    stroke: #4689FF;
+    stroke-width: 1px;
+}
+
+.current-ball-highlight{
+    background-color: red !important;
+    color:red !important;
+    margin-left: 1px !important;
+}
+
+.current-highlight{
+    background-color: red !important;
+    color:red !important;
+    width: 2px !important;
+}
+
+.bar-label {
+    font-size: 12px !important;
+    font-weight: bold !important;
+}
+
+.grid-row {
+    fill: #EEFFFF !important;
+}
+
+.grid-row:nth-child(even) {
+    fill: #DDFFFF !important;
 }
 
 /* モーダル */
@@ -490,6 +519,7 @@ footer a{
         font-size:16px;
         font-weight: bold;
         margin-bottom: 20px;
+        word-break: break-all;
     }
 
     .sp-alert-box ul{

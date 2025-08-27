@@ -33,7 +33,7 @@
                     作成者
                 </div>
                 <div class="col-md-7">
-                    {{ object.created_by.get_full_name|default:object.created_by }}
+                    {{ object.created_by }}
                 </div>
                 <div class="col-md-2"></div>
             </div>
@@ -52,11 +52,10 @@
         </div>
     </div>
 
-    <div class="text-center">
+    <div class="text-center mb-5">
         <a href="{% url 'knowledge:index' %}" class="btn btn-secondary btn-layout">
             ナレッジ管理に戻る <i class="fa-solid fa-circle-chevron-right"></i>
         </a>
     </div>
-    <br><br>
     
 {% endblock content %}

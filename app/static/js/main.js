@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener('DOMContentLoaded', function() {
 
     // モーダルを表示する時間（24時間表記）
-    const targetHour = 0;
-    const targetMinute = 12;
+    const targetHour = 23;
+    const targetMinute = 0;
 
     // 今日の日付 (例: "2025-08-22")
     const today = new Date().toISOString().split("T")[0];
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const lastShownDate = localStorage.getItem("modalShownDate");
 
     // 今日、表示していなければ監視を開始（表示していれば監視しない=当日中は表示されない）
-    // if (lastShownDate !== today) {
+    if (lastShownDate !== today) {
         const timer = setInterval(() => {
             const now = new Date();
             if (now.getHours() === targetHour && now.getMinutes() === targetMinute) {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 clearInterval(timer);
             }
         }, 1000);
-    // }
+    }
 
     function showDailyReportTraceModal() {
 

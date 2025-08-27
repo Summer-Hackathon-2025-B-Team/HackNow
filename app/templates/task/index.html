@@ -55,7 +55,15 @@
                     <tr class="task-row" data-status="{{ item.status }}">
                         <td class="">{{ item.name }}</td>
                         <td class="">{{ item.assignee }}</td>
-                        <td class="">{{ item.get_priority_display }}</td>
+                        <td class="" style="text-align: center;">
+                            {% if item.priority == 1 %}
+                                <span style="background-color: #FFCCCC; border-radius: 5px; padding:2px; border:1px solid #EEEEEE;">{{ item.get_priority_display }}</span>
+                            {% elif item.priority == 2 %}
+                                <span style="background-color: #FFFFAA; border-radius: 5px; padding:2px; border:1px solid #EEEEEE;">{{ item.get_priority_display }}</span>
+                            {% elif item.priority == 3 %}
+                                <span style="background-color: #BAD3FF; border-radius: 5px; padding:2px; border:1px solid #EEEEEE;">{{ item.get_priority_display }}</span>
+                            {% endif %}
+                        </td>                            
                         <td class="">{{ item.start_date }}</td>
                         <td class="">{{ item.end_date }}</td>
                         <td class="">
@@ -92,12 +100,11 @@
             </button>
         </div>
 
-        <div class="text-center">
+        <div class="text-center mb-5">
             <a href="{% url 'home:index' %}" class="btn btn-secondary btn-layout">
                 ホーム画面に戻る <i class="fa-solid fa-circle-chevron-right"></i>
             </a>
         </div>
-        <br><br>
 
     </div>
 
@@ -145,6 +152,7 @@
                 <!-- モーダルのヘッダー部分 -->
                 <div class="modal-header modal-header-modify">
                     <h5 class="modal-title" style="color:white; font-weight: bold;">タスク状況</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">

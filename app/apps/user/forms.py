@@ -105,6 +105,11 @@ class AccountForm(forms.ModelForm):
      
         self.fields['password'].initial = ''
 
+        self.fields['password'].widget.attrs.update({
+            'placeholder': '変更したい場合に入力',
+        })
+
+
     # チームIDチェック
     def clean_team_id_input(self):
         team_id = self.cleaned_data.get('team_id_input')

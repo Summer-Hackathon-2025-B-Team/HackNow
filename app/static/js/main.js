@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function() {
         "努力した者が全て報われるとは限らん。しかし！成功した者は皆すべからく努力しておる！！\n（by はじめの一歩/漫画）",
         "Stay hungry, stay foolish（貪欲であれ、愚か者であれ）\n（by スティーブ・ジョブズ）",
         "常に新しいことを学び、謙虚であれ。\n（by ウォーレン・バフェット）",
-        "悔しいなぁ 何か一つできるようになっても、またすぐ目の前に分厚い壁があるんだ。\n(by 竈門 炭治郎)",
     ];
 
     const img = document.getElementById("motivation-img");
@@ -26,12 +25,12 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-// 日報提出トレースモーダル（base.html）
+// 日報提出トレースモーダル・定時自動表示（base.html）
 document.addEventListener('DOMContentLoaded', function() {
 
     // モーダルを表示する時間（24時間表記）
-    const targetHour = 12;
-    const targetMinute = 40;
+    const targetHour = 23;
+    const targetMinute = 0;
 
     // 今日の日付 (例: "2025-08-22")
     const today = new Date().toISOString().split("T")[0];
@@ -40,20 +39,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const lastShownDate = localStorage.getItem("modalShownDate");
 
     // 今日、表示していなければ監視を開始（表示していれば監視しない=当日中は表示されない）
-    // if (lastShownDate !== today) {
-    const timer = setInterval(() => {
-        const now = new Date();
-        if (now.getHours() === targetHour && now.getMinutes() === targetMinute) {
-            showDailyReportTraceModal();
+    if (lastShownDate !== today) {
+        const timer = setInterval(() => {
+            const now = new Date();
+            if (now.getHours() === targetHour && now.getMinutes() === targetMinute) {
+                showDailyReportTraceModal();
 
-            // 今日表示したことを記録
-            localStorage.setItem("modalShownDate", today);
+                // 今日表示したことを記録
+                localStorage.setItem("modalShownDate", today);
 
-            // 一度表示したら監視停止
-            clearInterval(timer);
-        }
-    }, 1000);
-    // }
+                // 一度表示したら監視停止
+                clearInterval(timer);
+            }
+        }, 1000);
+    }
 
     function showDailyReportTraceModal() {
 
@@ -66,7 +65,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Bootstrapのモーダル機能をJSから使うためにインスタンス化
         const dailyReportTraceModal = new bootstrap.Modal(document.getElementById('daily-report-trace-modal'));
 
-        modalText.innerHTML = quote.replace(/\n/g, "<br>");
+        modalText.innerHTML = quote
+            .replace(/\n/g, "<br>")
+            .replace(/日報の提出/g, '<span style="color: red;">日報の提出</span>');
+
         dailyReportTraceModal.show();
 
     }

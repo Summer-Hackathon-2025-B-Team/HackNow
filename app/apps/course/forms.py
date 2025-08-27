@@ -34,3 +34,13 @@ class CourseForm(forms.ModelForm):
         for name, field in self.fields.items():
             if name != 'activity_status':
                 field.widget.attrs.update({'class': 'form-control'})
+
+    def clean(self):
+        cleaned = super().clean()
+        interim = cleaned.get("interim_report_date")
+        last = cleaned.get("last_report_date")
+
+        if interim and last and last <= interim:
+            self.add_error("last_report_date", "中間発表日は最終発表日より後の日付を設定してください")
+
+        return cleaned

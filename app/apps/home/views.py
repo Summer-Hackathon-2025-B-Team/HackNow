@@ -93,3 +93,8 @@ def error_view(request):
 def bonus_view(request):
 
     return render(request, 'home/bonus.html')
+
+# オープニング画面
+def opening_view(request):
+
+    return render(request, 'home/opening.html')

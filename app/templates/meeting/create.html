@@ -44,11 +44,11 @@
             <div class="mb-5">
 
                 <div class="row mb-4">
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
                     <div class="col-md-2">
                         実施日時
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="d-flex gap-2">
                             <div class="flex-fill">
                                 {{ form.date }}
@@ -59,18 +59,18 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
                 </div>
 
                 <div class="row mb-4">
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
                     <div class="col-md-2">
                         ミーティング名
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         {{ form.name }}
                     </div>
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
                 </div>
 
                 <div id="formset-area">
@@ -80,24 +80,24 @@
                         <div class="agenda-form">
                             <div class="row mb-4">
                                 <div class="col-md-2"></div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     議題
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     {{ agenda.name }}
                                 </div>
-                                <div class="col-md-3"></div>
+                                <div class="col-md-2"></div>
                             </div>
 
                             <div class="row mb-4">
                                 <div class="col-md-2"></div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     議事内容
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     {{ agenda.content }}
                                 </div>
-                                <div class="col-md-3"></div>
+                                <div class="col-md-2"></div>
                             </div>
                         </div>
                     {% endfor %}
@@ -107,16 +107,16 @@
                 <div id="empty-form" style="display: none;">
                     <div class="agenda-form">
                         <div class="row mb-4">
-                            <div class="col-md-3"></div>
+                            <div class="col-md-2"></div>
                             <div class="col-md-2">議題</div>
-                            <div class="col-md-4">{{ formset.empty_form.name }}</div>
-                            <div class="col-md-3"></div>
+                            <div class="col-md-6">{{ formset.empty_form.name }}</div>
+                            <div class="col-md-2"></div>
                         </div>
                         <div class="row mb-4">
-                            <div class="col-md-3"></div>
+                            <div class="col-md-2"></div>
                             <div class="col-md-2">議事内容</div>
-                            <div class="col-md-4">{{ formset.empty_form.content }}</div>
-                            <div class="col-md-3"></div>
+                            <div class="col-md-6">{{ formset.empty_form.content }}</div>
+                            <div class="col-md-2"></div>
                         </div>
                     </div>
                 </div> 
@@ -127,22 +127,22 @@
                 </div>
 
                 <div class="row mb-4">
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
                     <div class="col-md-2">
                         持ち帰り事項
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         {{ form.homework }}
                     </div>
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
                 </div>
 
                 <div class="row mb-4">
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
                     <div class="col-md-2">
                         次回ミーティング
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="d-flex gap-2">
                             <div class="flex-fill">
                                 {{ form.next_date }}
@@ -152,7 +152,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3"></div>
+                    <div class="col-md-2"></div>
                 </div>
 
             </div>
@@ -167,12 +167,11 @@
 
     </form>
 
-    <div class="text-center">
+    <div class="text-center mb-5">
         <a href="{% url 'meeting:index' %}" class="btn btn-secondary btn-layout">
             ミーティング管理に戻る <i class="fa-solid fa-circle-chevron-right"></i>
         </a>
     </div>
-    <br><br>
 
     <script>
         document.getElementById("add-form").addEventListener("click", function() {

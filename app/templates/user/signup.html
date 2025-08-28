@@ -28,13 +28,15 @@
                             {{ field }}
                         </div>
                         <div class="col-md-3"></div>
-                    </div>
 
-                    {% if field.errors %}
-                        <div class="" style="color:red;">
-                            {{ field.errors }}
-                        </div>
-                    {% endif %}
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <div class="text-center mt-1" style="color:red;">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
 
                 {% endfor %}
             </div>
@@ -84,18 +86,20 @@
                             {{ field }}
                         </div>
                         <div class=""></div>
-                    </div>
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <div class="text-center mt-1" style="color:red;">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
 
-                    {% if field.errors %}
-                        <div class="" style="color:red;">
-                            {{ field.errors }}
-                        </div>
-                    {% endif %}
+                    </div>
 
                 {% endfor %}
             </div>
 
-            <div class="text-center mt-3 mb-3">
+            <div class="text-center mt-4 mb-4">
                 <button type="submit" class="btn btn-primary btn-layout">
                     登録
                 </button>

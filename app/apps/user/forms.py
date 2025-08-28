@@ -37,6 +37,31 @@ class SignUpForm(UserCreationForm):
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
+    # ユーザ名重複チェック
+    def clean_name(self):
+        username = self.cleaned_data.get('name')
+    
+        # すでに同じユーザ名を持つユーザが存在するかチェック
+        same_name = User.objects.filter(name=username)
+
+        if same_name.exists():
+            raise forms.ValidationError("既に登録されているユーザ名です。")
+
+        return username
+
+    # メールアドレス重複チェック
+    def clean_email(self):
+        input_email = self.cleaned_data.get('email')
+    
+        # すでに同じメールアドレスを持つユーザが存在するかチェック
+        same_email = User.objects.filter(email=input_email)
+
+        if same_email.exists():
+            raise forms.ValidationError("既に登録されているメールアドレスです。")
+
+        return input_email
+
+
 # ログインフォーム
 class LoginForm(AuthenticationForm):
 

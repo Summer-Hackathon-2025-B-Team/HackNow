@@ -1,6 +1,9 @@
 # HackNow
 Collaborative task management for hackathon teams.
 
+### 起動イメージ
+<img width="1723" height="901" alt="image" src="https://github.com/user-attachments/assets/779706b7-eea3-40e7-b11f-9ef3044a60d9" />
+
 ### 開発環境
 - Python 3.10
 - Django 5.2

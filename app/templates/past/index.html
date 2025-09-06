@@ -25,35 +25,47 @@
             <table class="mb-5 mx-auto" style="width: 100%;">
                 <thead class="">
                     <tr>
-                        <th width="130">カテゴリ</th>
+                        <th width="100">カテゴリ</th>
                         <th width="200">アプリ名</th>
-                        <th width="500">アプリ概要</th>
+                        <th width="450">アプリ概要</th>
                         <th width="90">発表動画</th>
-                        <th width="100">発表開始時間</th>
+                        <th width="90">発表開始時間</th>
+                        <th width="90">Github</th>
                         <th width="90">編集</th>
                         <th width="90">削除</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in object_list %}
-                        <tr>
+                        <tr style="font-size: 14px;" id="row-{{ item.id }}">
                             <td class="">{{ item.category }}</td>
                             <td class="">{{ item.name }}</td>
-                            <td class="" style="font-size: 14px;">{{ item.description|linebreaksbr }}</td>
+                            <td class="">{{ item.description|linebreaksbr }}</td>
                             <td class="text-center">
-                                <a href="{{ item.url }}" target="_blank">
-                                    <button class="btn btn-layout-small btn-link"><i class="fa-solid fa-link"></i> リンク</button>
-                                </a>
+                                {% if item.presentation_url %}
+                                    <a href="{{ item.presentation_url }}" target="_blank">
+                                        <button class="btn btn-layout-small btn-link"><i class="fa-solid fa-link"></i> リンク</button>
+                                    </a>
+                                {% endif %}
                             </td>
                             <td class="">{{ item.start_time }}</td>
+                            <td class="text-center">
+                                {% if item.github_url %}
+                                    <a href="{{ item.github_url }}" target="_blank">
+                                        <button class="btn btn-layout-small btn-link-github"><i class="fa-brands fa-github"></i> リンク</button>
+                                    </a>
+                                {% endif %}
+                            </td>
+
                             <td class="text-center">
                                 <a href="{% url 'past:edit' item.id %}" >
                                     <button class="btn btn-layout-small btn-edit"><i class="fa-solid fa-pen"></i> 編集</button>
                                 </a>
                             </td>
+
                             <td class="text-center">
                                 <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url, '{{ item.name }}'); return false;" 
-                                    data-url="/past/{{ item.id }}/delete/">
+                                    data-url="{% url 'past:delete' item.id %}">
                                     <button class="btn btn-layout-small btn-delete"><i class="fa-solid fa-trash"></i> 削除</button>
                                 </a>
                             </td>
@@ -87,11 +99,12 @@
             <table class="mb-5 mx-auto" style="width: 100%;">
                 <thead class="">
                     <tr>
-                        <th width="120">カテゴリ</th>
-                        <th width="200">アプリ名</th>
-                        <th width="560">アプリ概要</th>
+                        <th width="140">カテゴリ</th>
+                        <th width="180">アプリ名</th>
+                        <th width="550">アプリ概要</th>
                         <th width="100">発表動画</th>
-                        <th width="120">発表開始時間</th>
+                        <th width="130">発表開始時間</th>
+                        <th width="100">Github</th>
                     </tr>
                 </thead>
                 <tbody id="itemTableBody">
@@ -143,7 +156,7 @@
 
                         // フィルタした結果、対象なしの場合
                         if (data.items.length === 0) {
-                            tableBody.innerHTML = '<tr><td colspan="5">該当するアイテムはありません。</td></tr>';
+                            tableBody.innerHTML = '<tr><td colspan="5">登録されている過去ハッカソン情報はありません。</td></tr>';
 
                         // 対象ありの場合
                         } else {
@@ -158,8 +171,9 @@
                                     <td>${item.category}</td>
                                     <td>${item.name}</td>
                                     <td>${descriptionHtml}</td>
-                                    <td>${item.url ? `<a href="${item.url}" target="_blank"><button class="btn btn-layout-small btn-link"><i class="fa-solid fa-link"></i> リンク</button></a>` : ''}</td>
+                                    <td>${item.presentation_url ? `<a href="${item.presentation_url}" target="_blank"><button class="btn btn-layout-small btn-link"><i class="fa-solid fa-link"></i> リンク</button></a>` : ''}</td>
                                     <td>${item.start_time}</td>
+                                    <td>${item.github_url ? `<a href="${item.github_url}" target="_blank"><button class="btn btn-layout-small btn-link-github"><i class="fa-brands fa-github"></i> リンク</button></a>` : ''}</td>
                                 `;
 
                                 // tableBodyの子要素（DOM要素）としてrowを追加

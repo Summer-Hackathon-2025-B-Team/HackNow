@@ -75,10 +75,10 @@ docker compose up --build
 
 
 ### 初回セットアップ
-1.データベースマイグレーション：
+1.データベースマイグレーション & 初期データ投入（過去ハッカソン情報）：
 ```
 #bash
-docker compose exec web python manage.py migrate
+make run
 ```
 2.管理者ユーザー作成：
 ```

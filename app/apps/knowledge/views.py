@@ -8,6 +8,8 @@ from django.views.generic import (
     CreateView,
     UpdateView,
 )
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
 
 # 同じアプリ内の models.py から Knowledge モデルを読み込む。
 from .models import Knowledge
@@ -58,6 +60,8 @@ class KnowledgeDetailView(DetailView):
     
 
 # タスク削除
+@require_POST # 削除処理を POST 以外で叩けなくする
+@csrf_protect # CSRF トークン必須にして外部からの POST を防ぐ
 def delete_view(request,pk):
     # 該当レコードがなければ404エラーを返す
     knowledge = get_object_or_404(Knowledge, pk=pk)

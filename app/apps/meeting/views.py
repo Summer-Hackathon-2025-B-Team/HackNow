@@ -12,6 +12,8 @@ from .forms import MeetingForm, AgendaFormSet
 import requests
 from django.contrib import messages
 from django.utils import timezone
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
 
 
 class ListMeetingView(ListView):
@@ -117,6 +119,8 @@ class DetailMeetingView(DetailView):
 
 
 # ミーティング削除
+@require_POST # 削除処理を POST 以外で叩けなくする
+@csrf_protect # CSRF トークン必須にして外部からの POST を防ぐ
 def delete_meeting_view(request,pk):
     # 該当レコードがなければ404エラーを返す
     meeting = get_object_or_404(Meeting, pk=pk)

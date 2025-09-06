@@ -93,7 +93,8 @@
                                     <i class="fas fa-bars"></i> アカウント管理
                                 </div>
                                 <div class="collapse submenu" id="submenu1">
-                                    <a href="{% url 'user:account' %}"><i class="fas fa-id-card"></i> ユーザ情報</a>
+                                    <a href="{% url 'user:index' %}"><i class="fa-solid fa-list"></i> ユーザ一覧</a>
+                                    <a href="{% url 'user:account' %}"><i class="fas fa-id-card"></i> マイアカウント</a>
                                 </div>
                             </div>
 
@@ -107,6 +108,7 @@
                                     <a href="{% url 'team:index' %}"><i class="fas fa-user-group"></i> チーム情報</a>
                                     <a href="{% url 'reference:index' %}"><i class="fas fa-info-circle"></i> ハッカソン参考情報</a>
                                     <a href="{% url 'past:index' %}"><i class="fas fa-play-circle"></i> 過去ハッカソン情報</a>
+                                    <a href="{% url 'event:index' %}"><i class="fa-solid fa-calendar"></i> イベント情報</a>
                                 </div>
                             </div>
 

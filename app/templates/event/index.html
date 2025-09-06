@@ -1,17 +1,20 @@
 {% extends 'base.html' %}
-{% block title %}ミーティング管理{% endblock %}
+{% load static %}
+{% block title %}イベント情報管理{% endblock %}
 
 {% block content %}
 
     <!-- 中央寄せ用ラッパー -->
-    <div style="max-width: 1000px; margin: 0 auto;">
+    <div style="max-width: 1100px; margin: 0 auto;">
 
         <div class="text-center mb-5">
-            <h2><strong>ミーティング管理</strong></h2>
+            <h2>
+                <strong>イベント情報管理</strong>
+            </h2>
         </div>
 
-        <div style="max-width: 1000px; margin: 0 auto;" class="mb-4 text-end">
-            <a href="{% url 'meeting:create' %}" class="btn btn-layout btn-create">
+        <div class="mb-4 text-end">
+            <a href="{% url 'event:create' %}" class="btn btn-layout btn-create">
                 <i class="fas fa-plus-circle"></i> 新規登録
             </a>
         </div>
@@ -19,40 +22,56 @@
         <table class="mb-5 mx-auto" style="width: 100%;">
             <thead class="">
                 <tr>
-                    <th width="260">実施日時</th>
-                    <th width="320">ミーティング名</th>
-                    <th width="100">詳細</th>
+                    <th width="250">実施日時</th>
+                    <th width="300">タイトル</th>
+                    <th width="150">公開ステータス</th>
+                    <th width="100">詳細ページ</th>
+                    <th width="100">Zoom</th>
                     <th width="100">編集</th>
                     <th width="100">削除</th>
-                    <th width="120">議事更新通知</th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in object_list %}
-                    <tr class="task-row" data-status="{{ item.status }}" id="row-{{ item.id }}">
-                        <td class="">{{ item.datetime|date:"Y年n月j日(D) G:i" }}～</td>
-                        <td class="">{{ item.name }}</td>
+                    <tr id="row-{{ item.id }}">
+                        <td class="">{{ item.datetime|date:"Y年n月j日(D) G:i" }}</td>
+                        <td class="">{{ item.title }}</td>
+                        <td>
+                            {% if item.publish_status %}
+                                <span class="status-progress">公開中</span>
+                            {% else %}
+                                <span class="status-end">非公開</span>
+                            {% endif %}
+                        </td>
+
                         <td class="text-center">
-                            <a href="{% url 'meeting:detail' item.id %}">
-                                <button class="btn btn-layout-small btn-detail"><i class="fa-solid fa-list"></i> 詳細</button>
-                            </a>
+                            {% if item.detail_url %}
+                                <a href="{{ item.detail_url }}" target="_blank">
+                                    <button class="btn btn-layout-small btn-link-github"><i class="fa-solid fa-link"></i> リンク</button>
+                                </a>
+                            {% endif %}
                         </td>
                         <td class="text-center">
-                            <a href="{% url 'meeting:edit' item.id %}">
+                            {% if item.zoom_url %}
+                                <a href="{{ item.zoom_url }}" target="_blank">
+                                    <button class="btn btn-layout-small btn-link-zoom" style="color: white;"><i class="fa-solid fa-video"></i> リンク</button>
+                                </a>
+                            {% endif %}
+                        </td>
+
+                        <td class="text-center">
+                            <a href="{% url 'event:edit' item.id %}" >
                                 <button class="btn btn-layout-small btn-edit"><i class="fa-solid fa-pen"></i> 編集</button>
                             </a>
                         </td>
+
                         <td class="text-center">
-                            <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url, '{{ item.name }}'); return false;" 
-                                data-url="{% url 'meeting:delete' item.id %}">
+                            <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url, '{{ item.title }}'); return false;" 
+                                data-url="{% url 'event:delete' item.id %}">
                                 <button class="btn btn-layout-small btn-delete"><i class="fa-solid fa-trash"></i> 削除</button>
                             </a>
-                        </td>        
-                        <td class="text-center">
-                            <a href="{% url 'meeting:notification' item.id %}">
-                                <button class="btn btn-layout-small btn-notification"><i class="fa-solid fa-paper-plane"></i> 送信</button>
-                            </a>
                         </td>
+            
                     </tr>
                 {% endfor %}
             </tbody>
@@ -69,7 +88,7 @@
     <!-- 削除確認モーダル -->
     <div id="confirm-dialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
         background: #fff; border: 1px solid #ccc; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3); z-index: 1000; width: 700px; font-size: 24px; margin:0px auto; text-align: center;">
-        <p id="confirm-message">ミーティングを削除しますか？</p>
+        <p id="confirm-message">イベント情報を削除しますか？</p>
         <button class="btn btn-primary btn-layout" style="width: 100px; font-size:20px;" onclick="proceedDelete()">Yes</button>
         <button class="btn btn-danger btn-layout" style="width: 100px; font-size:20px; margin-left:20px;" onclick="cancelDelete()">No</button>
     </div>
@@ -80,4 +99,3 @@
     </div>
 
 {% endblock content %}
-

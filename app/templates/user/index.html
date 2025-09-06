@@ -1,54 +1,57 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}ナレッジ管理{% endblock %}
+{% block title %}ユーザ一覧{% endblock %}
 
 {% block content %}
 
     <!-- 中央寄せ用ラッパー -->
-    <div style="max-width: 800px; margin: 0 auto;">
+    <div style="max-width: 900px; margin: 0 auto;">
 
         <div class="text-center mb-5">
-            <h2><strong>ナレッジ管理</strong></h2>
-        </div>
-
-        <div class="mb-4 text-end">
-            <a href="{% url 'knowledge:create' %}" class="btn btn-layout btn-create">
-                <i class="fas fa-plus-circle"></i> 新規登録
-            </a>
+            <h2><strong>ユーザ一覧</strong></h2>
         </div>
 
         <table class="mb-5 mx-auto" style="width: 100%;">
             <thead class="">
                 <tr>
-                    <th width="300">タイトル</th>
-                    <th width="200">作成者</th>
-                    <th width="100">詳細</th>
-                    <th width="100">編集</th>
+                    <th width="250">参加コース名</th>
+                    <th width="150">参加チーム名</th>
+                    <th width="300">ユーザ名</th>
+                    <th width="100">管理者</th>
                     <th width="100">削除</th>
                 </tr>
             </thead>
             <tbody>
-                {% for item in object_list %}
-                    <tr id="row-{{ item.id }}">
-                        <td class="">{{ item.title }}</td>
-                        <td class="">{{ item.created_by }}</td>
+                {% for user in users %}
+                    <tr id="row-{{ user.id }}">
+                        <td class="">
+                            {% if user.team.course.name %}
+                                {{ user.team.course.name }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td class="">
+                            {% if user.team.name %}
+                                {{ user.team.name }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td class="">{{ user.name }}</td>
                         <td class="text-center">
-                            <a href="{% url 'knowledge:detail' item.id %}" >
-                                <button class="btn btn-layout-small btn-detail"><i class="fa-solid fa-list"></i> 詳細</button>
-                            </a>
+                            {% if user.is_staff %}
+                                ●
+                            {% else %}
+                                -
+                            {% endif %}
                         </td>
                         <td class="text-center">
-                            <a href="{% url 'knowledge:edit' item.id %}" >
-                                <button class="btn btn-layout-small btn-edit"><i class="fa-solid fa-pen"></i> 編集</button>
-                            </a>
-                        </td>
-                        <td class="text-center">
-                            <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url, '{{ item.title }}'); return false;" 
-                                data-url="{% url 'knowledge:delete' item.id %}">
+                            <a href="#" onclick="confirmDelete('{{ user.id }}', this.dataset.url, '{{ user.name }}'); return false;" 
+                                data-url="{% url 'user:delete' user.id %}">
                                 <button class="btn btn-layout-small btn-delete"><i class="fa-solid fa-trash"></i> 削除</button>
                             </a>
-                        </td>
-            
+                        </td>            
                     </tr>
                 {% endfor %}
             </tbody>
@@ -64,7 +67,7 @@
     <!-- 削除確認モーダル -->
     <div id="confirm-dialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
         background: #fff; border: 1px solid #ccc; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3); z-index: 1000; width: 700px; font-size: 24px; margin:0px auto; text-align: center;">
-        <p id="confirm-message">ナレッジを削除しますか？</p>
+        <p id="confirm-message">ユーザを削除しますか？</p>
         <button class="btn btn-primary btn-layout" style="width: 100px; font-size:20px;" onclick="proceedDelete()">Yes</button>
         <button class="btn btn-danger btn-layout" style="width: 100px; font-size:20px; margin-left:20px;" onclick="cancelDelete()">No</button>
     </div>

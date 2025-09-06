@@ -3,11 +3,20 @@ from datetime import date
 from django.utils import timezone
 from apps.task.models import Task
 from apps.team.models import Team
+from apps.event.models import Event
 from apps.meeting.models import Meeting
 
 def index_view(request):
 
     user = request.user
+
+    # イベント情報を取得
+    events = (
+        Event.objects
+        # 公開ステータスがTrueのものを、実施日時の昇順（日付が近いものが上）で取得
+        .filter(publish_status=True)
+        .order_by('datetime')
+    )
 
     # 一般ユーザの場合
     if not user.is_staff:
@@ -66,6 +75,7 @@ def index_view(request):
             'due_today_tasks': due_today_tasks,
             'overdue_tasks': overdue_tasks,            
             'next_meeting': next_meeting,
+            'events': events,
         })
     
     # 管理ユーザの場合
@@ -82,6 +92,7 @@ def index_view(request):
 
         return render(request, 'home/index.html', {
             'active_teams': active_teams,
+            'events': events,
         })
 
 # チームIDを紐づけていないユーザが各種管理メニューの機能にアクセスしたときのビュー

@@ -78,25 +78,63 @@ document.addEventListener('DOMContentLoaded', function() {
 // 削除ボタン押下時の処理（各種メニュー）
 
 let deleteUrl = null;
+let deleteRowId = null;
 
 // 削除確認モーダルの表示
 function confirmDelete(itemId, url, name) {
     deleteUrl = url;
+    deleteRowId = itemId;
     document.getElementById('confirm-message').innerText = `「${name}」を削除しますか？`;
     document.getElementById('confirm-dialog').style.display = 'block';
     document.getElementById('overlay').style.display = 'block';
 }
 
-// 削除確認モーダルで「No」を押下したときの処理（モーダルを非表示に）
+// 「No」ボタン処理
 function cancelDelete() {
     deleteUrl = null;
+    deleteRowId = null;
     document.getElementById('confirm-dialog').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
 }
 
-// 削除確認モーダルで「Yes」を押下したときの処理（削除処理にルーティング）
+// 「Yes」ボタン処理 → Ajaxで削除
 function proceedDelete() {
     if (deleteUrl) {
-        window.location.href = deleteUrl;
+        fetch(deleteUrl, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+                "Content-Type": "application/json",
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // DOMから行を削除
+                document.getElementById(`row-${deleteRowId}`).remove();
+                cancelDelete(); // モーダル閉じる
+            } else {
+                alert("削除に失敗しました。");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("エラーが発生しました。");
+        });
     }
+}
+
+// DjangoのCSRFトークン取得
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + "=")) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }

@@ -1,3 +1,4 @@
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
@@ -7,6 +8,16 @@ from django.views.generic import UpdateView
 from apps.user.models import User
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
+
+# ユーザ一覧
+def index_view(request):
+
+    # ユーザテーブルから全ユーザ取得(作成日時の降順)
+    users = User.objects.all().order_by('-created_at')
+    return render(request, 'user/index.html', {'users': users})
+
 
 # ユーザ登録
 class SignupView(CreateView):
@@ -54,3 +65,12 @@ class UserEditView(UpdateView):
         update_session_auth_hash(self.request, self.object) 
         messages.success(self.request, "ユーザ情報を更新しました")
         return response
+
+# ユーザ削除
+@require_POST # 削除処理を POST 以外で叩けなくする
+@csrf_protect # CSRF トークン必須にして外部からの POST を防ぐ
+def delete_view(request,pk):
+    # 該当レコードがなければ404エラーを返す
+    user = get_object_or_404(User, pk=pk)
+    user.delete()
+    return redirect('user:index') 

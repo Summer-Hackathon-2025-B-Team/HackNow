@@ -15,6 +15,7 @@ urlpatterns = [
     path('knowledge/', include('apps.knowledge.urls')),
     path('document/', include('apps.document.urls')),
     path('reference/', include('apps.reference.urls')),
+    path('event/', include('apps.event.urls')),
 ]
 
 # staticディレクトリを参照するための定義

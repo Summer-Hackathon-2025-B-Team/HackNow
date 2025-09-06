@@ -8,6 +8,8 @@ from django.views.generic import (
     CreateView,
     UpdateView,
 )
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
 
 # 同じアプリ内の models.py から Document モデルを読み込む。
 from .models import Document
@@ -53,6 +55,8 @@ class DocumentUpdateView(UpdateView):
 
 
 # 資料リンク削除
+@require_POST # 削除処理を POST 以外で叩けなくする
+@csrf_protect # CSRF トークン必須にして外部からの POST を防ぐ
 def delete_view(request, pk):
     # 該当レコードがなければ404エラーを返す
     document = get_object_or_404(Document, pk=pk)

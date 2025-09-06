@@ -7,8 +7,9 @@ class Past(models.Model):
     category = models.CharField(max_length=20, null=False, blank=False)
     name = models.CharField(max_length=30, null=False, blank=False)
     description = models.TextField(max_length=100, null=False, blank=False)
-    url = models.URLField(max_length=255, null=False, blank=False)
+    presentation_url = models.URLField(max_length=255, null=False, blank=False)
     start_time = models.CharField(max_length=20, null=False, blank=False)
+    github_url = models.URLField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

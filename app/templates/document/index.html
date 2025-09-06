@@ -31,7 +31,7 @@
             </thead>
             <tbody>
                 {% for item in object_list %}
-                    <tr>
+                    <tr id="row-{{ item.id }}">
                         <td class="">{{ item.name }}</td>
                         <td class="">{{ item.created_by }}</td>
                         <td class="text-center">
@@ -46,7 +46,7 @@
                         </td>
                         <td class="text-center">
                             <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url, '{{ item.name }}'); return false;" 
-                                data-url="/document/{{ item.id }}/delete/">
+                                data-url="{% url 'document:delete' item.id %}">
                                 <button class="btn btn-layout-small btn-delete"><i class="fa-solid fa-circle-xmark"></i> 削除</button>
                             </a>
                         </td>

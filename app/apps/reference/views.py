@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from .models import Reference
 from .forms import ReferenceForm
 from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
 
 class ReferenceListView(ListView):
     template_name = 'reference/index.html'
@@ -34,11 +36,14 @@ class ReferenceEditView(UpdateView):
     success_url = reverse_lazy("reference:index")
 
 # 参考情報の削除
+@require_POST # 削除処理を POST 以外で叩けなくする
+@csrf_protect # CSRF トークン必須にして外部からの POST を防ぐ
 def delete_view(request,pk):
     # 該当レコードがなければ404エラーを返す
     reference = get_object_or_404(Reference, pk=pk)
     reference.delete()
     return redirect('reference:index') 
+
 
 
 def target_filter_api(request):

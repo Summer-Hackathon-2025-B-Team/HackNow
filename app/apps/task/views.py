@@ -11,6 +11,8 @@ from django.utils import timezone
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
 import requests
 
 
@@ -72,6 +74,8 @@ class EditTaskView(UpdateView):
 
 
 # タスク削除
+@require_POST # 削除処理を POST 以外で叩けなくする
+@csrf_protect # CSRF トークン必須にして外部からの POST を防ぐ
 def delete_view(request,pk):
     # 該当レコードがなければ404エラーを返す
     task = get_object_or_404(Task, pk=pk)
@@ -96,54 +100,3 @@ def gantt_view(request):
             "end": t.end_date.strftime("%Y-%m-%d"),
         })
     return JsonResponse(data, safe=False)
-
-
-# 当日期限・期限切れタスク通知（Lambdaからの呼び出しを想定）
-@csrf_exempt
-@require_POST
-def notify_expired_tasks_view(request):
-
-    today = timezone.localdate()  
-
-    # 当日期限タスク
-    due_today_tasks = Task.objects.filter(
-        end_date=today,
-        status__in=[1, 2]
-    ).select_related("team")
-
-    # 期限切れタスク（今日より前のタスク）　※__lt は "less than"（より小さい） という意味
-    overdue_tasks = Task.objects.filter(
-        end_date__lt=today,
-        status__in=[1, 2]
-    ).select_related("team")
-
-    results = []
-    for task in due_today_tasks:
-        webhook_url = ""
-        webhook_url = task.team.webhook_url
-        if webhook_url:
-            payload = {
-                "text": f"@all\n"
-                        f"**＜テスト送信：本日期限のタスク＞**\n"
-                        f"- タスク名: {task.name}\n"
-                        f"- 担当者: {task.assignee}\n"
-                        f"- 終了予定日: {task.end_date}\n"
-            }
-            r = requests.post(webhook_url, json=payload)
-            results.append({"task": task.name, "status": r.status_code})
-
-    for task in overdue_tasks:
-        webhook_url = ""
-        webhook_url = task.team.webhook_url
-        if webhook_url:
-            payload = {
-                "text": f"@all\n"
-                        f"**＜テスト送信：期限切れタスク＞**\n"
-                        f"- タスク名: {task.name}\n"
-                        f"- 担当者: {task.assignee}\n"
-                        f"- 終了予定日: {task.end_date}\n"
-            }
-            r = requests.post(webhook_url, json=payload)
-            results.append({"task": task.name, "status": r.status_code})
-
-    return JsonResponse({"count": len(results), "results": results})

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'apps.meeting.apps.MeetingConfig',
     'apps.document.apps.DocumentConfig',
     'apps.reference.apps.ReferenceConfig',
+    'apps.event.apps.EventConfig',
 ]
 
 MIDDLEWARE = [

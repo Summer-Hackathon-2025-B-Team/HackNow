@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}イベント編集{% endblock %}
+
+{% block content %}
+
+    <div class="text-center mb-5">
+        <h2><strong>イベント編集</strong></h2>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="container-fluid content-area">
+
+            <div class="mb-5">
+
+                <div class="row mb-4">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        実施日時
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex gap-2">
+                            <div class="flex-fill">
+                                {{ form.date }}
+                            </div>
+                            <div class="flex-fill">
+                                {{ form.time }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        イベント名
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.title }}
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        公開ステータス
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check form-switch switch-large">
+                            {{ form.publish_status }}
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        詳細ページリンク先URL
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.detail_url }}
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        Zoomリンク先URL
+                    </div>
+                    <div class="col-md-6">
+                        {{ form.zoom_url }}
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+            </div>
+
+            <div class="text-center mb-5">
+                <button type="submit" class="btn btn-primary btn-layout">
+                    登録
+                </button>
+            </div>
+
+        </div>
+
+    </form>
+
+    <div class="text-center mb-5">
+        <a href="{% url 'event:index' %}" class="btn btn-secondary btn-layout">
+            イベント管理に戻る <i class="fa-solid fa-circle-chevron-right"></i>
+        </a>
+    </div>
+    
+{% endblock content %}

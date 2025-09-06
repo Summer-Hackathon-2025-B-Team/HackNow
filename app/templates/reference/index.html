@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                     {% for item in object_list %}
-                        <tr>
+                        <tr id="row-{{ item.id }}">
                             <td class="">{{ item.target }}</td>
                             <td class="">{{ item.content|linebreaksbr }}</td>
                             <td class="text-center">
@@ -49,7 +49,7 @@
                             </td>
                             <td class="text-center">
                                 <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url, '{{ item.content }}'); return false;" 
-                                    data-url="/reference/{{ item.id }}/delete/">
+                                    data-url="{% url 'reference:delete' item.id %}">
                                     <button class="btn btn-layout-small btn-delete"><i class="fa-solid fa-circle-xmark"></i> 削除</button>
                                 </a>
                             </td>
@@ -126,8 +126,9 @@
                     url.searchParams.append('target', target);
                 }
 
-                // API呼び出し
+                // API呼び出し(JavaScript の fetch() は Promise ベースの 非同期処理)
                 fetch(url)
+                    // API 呼出を待たず他の処理が進み、結果返答タイミングで「.then(...)」内の処理を実行
                     // レスポンスをjson形式に変換（レスポンス：JsonResponse({'items': data})）
                     .then(response => response.json())
                     .then(data => {
@@ -135,7 +136,7 @@
 
                         // フィルタした結果、対象なしの場合
                         if (data.items.length === 0) {
-                            tableBody.innerHTML = '<tr><td colspan="5">該当するアイテムはありません。</td></tr>';
+                            tableBody.innerHTML = '<tr><td colspan="5">登録されているハッカソン参考情報はありません。</td></tr>';
 
                         // 対象ありの場合
                         } else {

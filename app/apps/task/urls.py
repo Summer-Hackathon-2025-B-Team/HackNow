@@ -14,5 +14,4 @@ urlpatterns = [
   path('<int:pk>/edit/', views.EditTaskView.as_view(), name='edit'),
   path('<int:pk>/delete/', views.delete_view, name='delete'),
   path("gantt/", views.gantt_view, name="gantt_view"),
-  path('api/notify-expired-tasks/', views.notify_expired_tasks_view, name='notify-expired-tasks'),
 ]

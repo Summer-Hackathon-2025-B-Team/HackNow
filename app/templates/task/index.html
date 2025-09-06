@@ -52,7 +52,7 @@
             </thead>
             <tbody>
                 {% for item in object_list %}
-                    <tr class="task-row" data-status="{{ item.status }}">
+                    <tr class="task-row" data-status="{{ item.status }}" id="row-{{ item.id }}">
                         <td class="">{{ item.name }}</td>
                         <td class="">{{ item.assignee }}</td>
                         <td class="" style="text-align: center;">
@@ -84,7 +84,7 @@
                         <td class="text-center">
                             <!-- this.dataset.urlは「data-url="/task/{{ item.id }}/delete/"」を指す -->
                             <a href="#" onclick="confirmDelete('{{ item.id }}', this.dataset.url, '{{ item.name }}'); return false;" 
-                                data-url="/task/{{ item.id }}/delete/">
+                                data-url="{% url 'task:delete' item.id %}">
                                 <button class="btn btn-layout-small btn-delete"><i class="fa-solid fa-trash"></i> 削除</button>
                             </a>
                         </td>        
